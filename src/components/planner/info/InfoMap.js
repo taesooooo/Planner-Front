@@ -1,29 +1,34 @@
+import { useRef } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MapBlock = styled.div`
   border: 1px solid blue;
-  width: 40rem;
+  width: 50rem;
   height: 40rem;
-  div {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
 `;
 
-const Title = styled.p`
-  font-size: 1.2rem;
+const Map = styled.div`
+  width: 50rem;
+  /* min-width: 200px; */
+  height: 40rem;
 `;
 
 const InfoMap = () => {
+  const { kakao } = window;
+  const container = useRef(null);
+  const options = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    level: 3,
+  };
+  useEffect(() => {
+    new kakao.maps.Map(container.current, options);
+    return () => {};
+  }, []);
+
   return (
     <MapBlock>
-      <div>
-        <Title>천안문 일대기</Title>
-        <p>참여 인원: 4명</p>
-        <p>여행 자금: 100만원</p>
-      </div>
-      <div />
+      <Map id="map" ref={container} />
     </MapBlock>
   );
 };
