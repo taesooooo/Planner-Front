@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-import InfoItinerary from './InfoItinerary';
-import InfoMap from './InfoMap';
-import InfoPostList from './InfoPostList';
 
 const PlannerInfoBlock = styled.div`
   margin: 75px auto;
@@ -12,14 +9,8 @@ const PlannerInfoBlock = styled.div`
   border: 1px solid red;
 `;
 
-const PlannerInfo = () => {
-  return (
-    <PlannerInfoBlock>
-      <InfoMap />
-      <InfoItinerary />
-      <InfoPostList />
-    </PlannerInfoBlock>
-  );
+const PlannerInfo = ({ children }) => {
+  return <PlannerInfoBlock>{children}</PlannerInfoBlock>;
 };
 
 export default PlannerInfo;
