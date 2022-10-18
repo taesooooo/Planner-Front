@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import InfoEditItem from './InfoEditItem';
 import InfoPostItem from './InfoPostItem';
 
 const InfoPostListBlock = styled.div`
@@ -79,8 +80,8 @@ const InfoPostList = () => {
           <Button>ADD</Button>
         </PostListBlockTitle>
         <PostList>
-          <InfoPostItem type="post" />
-          <InfoPostItem type="edit" />
+          <InfoEditItem />
+          <InfoPostItem />
         </PostList>
       </PostListBlock>
     </InfoPostListBlock>

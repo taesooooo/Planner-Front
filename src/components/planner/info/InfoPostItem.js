@@ -45,50 +45,23 @@ const Button = styled.button`
   }
 `;
 
-const StyledInput = styled.input`
-  border: none;
-  outline: none;
-  width: 18rem;
-  height: 2rem;
-  text-indent: 10px;
-  border-radius: 5px;
-  background-color: ivory;
-  &::placeholder {
-    color: lightgray;
-  }
-  &:focus {
-    color: lightblue;
-  }
-`;
-
-const InfoPostItem = ({ type }) => {
+const InfoPostItem = () => {
   return (
     <InfoPostItemBlock>
-      {type === 'post' && (
-        <PostItem>
-          <PostItemTitleBox>
-            <Number>1</Number>
-            <div>
-              <Title>공지사항</Title>
-              <Date>2022. 08. 19. PM 13:24:31</Date>
-            </div>
-          </PostItemTitleBox>
+      <PostItem>
+        <PostItemTitleBox>
+          <Number>1</Number>
           <div>
-            <Button>Max</Button>
-            <Button>Edit</Button>
-            <Button>Delete</Button>
+            <Title>공지사항</Title>
+            <Date>2022. 08. 19. PM 13:24:31</Date>
           </div>
-        </PostItem>
-      )}
-      {type === 'edit' && (
-        <PostItem>
-          <PostItemTitleBox>
-            <Number>2</Number>
-            <StyledInput name="title" placeholder="Title" type="text" />
-          </PostItemTitleBox>
-          <Button>Complete</Button>
-        </PostItem>
-      )}
+        </PostItemTitleBox>
+        <div>
+          <Button>Max</Button>
+          <Button>Edit</Button>
+          <Button>Delete</Button>
+        </div>
+      </PostItem>
     </InfoPostItemBlock>
   );
 };
