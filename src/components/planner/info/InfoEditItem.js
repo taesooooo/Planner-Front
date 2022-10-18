@@ -72,12 +72,7 @@ const InfoEditItem = () => {
       ['clean'],
     ],
   };
-  const formats = ['header', 'bold', 'list'];
 
-  const [text, setText] = useState();
-  const handleText = (value) => {
-    setText(value);
-  };
   return (
     <InfoEditItemBlock>
       <EditItem>
@@ -89,8 +84,8 @@ const InfoEditItem = () => {
           placeholder="내용을 입력해주세요."
           theme="snow"
           modules={modules}
-          value={text}
-          onChange={handleText}
+          // value={text}
+          // onChange={}
         />
         <ButtonBox>
           <Button>Complete</Button>

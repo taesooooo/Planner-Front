@@ -62,7 +62,12 @@ const EditPlannerButton = styled(Button)`
   height: 3rem;
   font-size: 1.1rem;
 `;
-
+/**
+ * 1. 메모 생성 버튼 => editItem이 생성됨.
+ * 2. editItem 입력 후 확인 버튼 => editItem 자리에 postItem이 생성됨.
+ * 3. postItem의 edit버튼 => postItem 자리에 editItem이 생성되고 나머진 2와 동일.
+ * 4. postItem의 max버튼 => postItem의 text만큼 높이가 변경됨.
+ */
 const InfoPostList = () => {
   return (
     <InfoPostListBlock>

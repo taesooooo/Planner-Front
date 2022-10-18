@@ -4,6 +4,7 @@ import Footer from '../../components/common/Footer';
 import InfoMap from '../../components/planner/info/InfoMap';
 import InfoItinerary from '../../components/planner/info/InfoItinerary';
 import InfoPostListContainer from '../../containers/planner/info/InfoPostListContainer';
+import InfoPostList from '../../components/planner/info/InfoPostList';
 
 const PlannerInfoPage = () => {
   return (
@@ -12,7 +13,8 @@ const PlannerInfoPage = () => {
       <PlannerInfo>
         <InfoMap />
         <InfoItinerary />
-        <InfoPostListContainer />
+        <InfoPostList />
+        {/* <InfoPostListContainer /> */}
       </PlannerInfo>
       <Footer />
     </>
