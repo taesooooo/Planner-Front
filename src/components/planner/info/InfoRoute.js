@@ -9,18 +9,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCar } from '@fortawesome/free-solid-svg-icons'; // 자가용 or 렌터카
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'; // 여행지
 import { faBed } from '@fortawesome/free-solid-svg-icons'; // 숙소
+import InfoDatination from './InfoDatination';
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
 
-const ItineraryBlock = styled.div`
+const InfoRouteBlock = styled.div`
   border: 1px solid green;
   width: 20rem;
-  height: 40rem;
+  height: 38rem;
   text-align: center;
   padding: 1rem;
 `;
 
 const Route = styled.div`
-  border: 1px solid blue;
+  border: 1px solid lightblue;
+  border-radius: 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -77,9 +79,10 @@ const RouteLine = styled.div`
   position: absolute;
 `;
 
-const InfoItinerary = () => {
+const InfoRoute = () => {
   return (
-    <ItineraryBlock>
+    <InfoRouteBlock>
+      <InfoDatination />
       <Route>
         <RouteLine />
         <RouteSpotBox>
@@ -96,8 +99,8 @@ const InfoItinerary = () => {
           <RouteSpotName>한라산</RouteSpotName>
         </RouteSpotBox>
       </Route>
-    </ItineraryBlock>
+    </InfoRouteBlock>
   );
 };
 
-export default InfoItinerary;
+export default InfoRoute;
