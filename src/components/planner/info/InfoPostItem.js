@@ -37,9 +37,9 @@ const Date = styled.p`
 `;
 
 const Text = styled.div`
-  /* display: none; */
-  border: 1px solid lightgray;
-  border-radius: 1rem;
+  display: none;
+  /* border: 1px solid lightgray;
+  border-radius: 1rem; */
   padding: 1rem;
 `;
 
@@ -54,6 +54,7 @@ const Button = styled.button`
   font-weight: bold;
   &:hover {
     cursor: pointer;
+    background-color: blueviolet;
   }
 `;
 
