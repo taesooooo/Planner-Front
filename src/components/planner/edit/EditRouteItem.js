@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
-const RouteSpotBlock = styled.div`
-  border: 1px solid lightblue;
-  /* border-radius: 10%; */
+const EditRouteSpotBlock = styled.div`
+  border: 0.2rem solid lightblue;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
   width: 300px;
   height: 90px;
   margin: 0.5rem 0;
+  background-color: white;
+  z-index: 99;
 `;
 
 const Img = styled.div`
@@ -21,6 +23,7 @@ const Img = styled.div`
 const SpotName = styled.div`
   width: 120px;
   height: 2.4em;
+  font-weight: bold;
   overflow-y: auto;
   white-space: wrap;
   line-height: 1.2;
@@ -48,11 +51,11 @@ const Button = styled.button`
 
 const EditRouteItem = ({ type }) => {
   return (
-    <RouteSpotBlock>
+    <EditRouteSpotBlock>
       <Img />
       <SpotName>천안 사거리</SpotName>
       {type === 'delete' ? <Button>삭제</Button> : <Button>추가</Button>}
-    </RouteSpotBlock>
+    </EditRouteSpotBlock>
   );
 };
 

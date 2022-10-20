@@ -30,7 +30,7 @@ const Route = styled.div`
 `;
 
 const RouteSpotBox = styled.div`
-  border: 1px solid lightblue;
+  border: 0.2rem solid lightblue;
   width: 15rem;
   align-items: center;
   display: flex;
@@ -42,7 +42,7 @@ const RouteSpotBox = styled.div`
 
 const RouteTransportBox = styled.div`
   display: flex;
-  border: 1px solid lightblue;
+  border: 0.2rem solid lightblue;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   font-weight: bold;

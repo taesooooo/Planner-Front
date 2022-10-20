@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
-const RouteTransportBlock = styled.div`
+const EditTransportBlock = styled.div`
   width: 80px;
+  z-index: 99;
 `;
 
 const StyledSelect = styled.select`
-  border-radius: 5%;
-  border: 1px solid lightblue;
+  border-radius: 0.5rem;
+  border: 0.2rem solid lightblue;
   width: 80px;
   height: 40px;
 `;
@@ -22,7 +23,7 @@ const OPTIONS = [
 
 const EditTransportOption = () => {
   return (
-    <RouteTransportBlock>
+    <EditTransportBlock>
       <StyledSelect>
         {OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
@@ -30,7 +31,7 @@ const EditTransportOption = () => {
           </option>
         ))}
       </StyledSelect>
-    </RouteTransportBlock>
+    </EditTransportBlock>
   );
 };
 

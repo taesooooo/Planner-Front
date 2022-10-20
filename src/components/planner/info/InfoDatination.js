@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 const InfoDatinationBlock = styled.div`
   /* justify-content: center; */
@@ -51,7 +54,6 @@ const SwipeButton = styled.div`
   width: 3rem;
   height: 3rem;
   background-color: lightgray;
-  font-weight: bold;
   font-size: 1.5rem;
   text-align: center;
   line-height: 3rem;
@@ -87,7 +89,9 @@ const InfoDatination = () => {
 
   return (
     <InfoDatinationBlock>
-      <SwipeButton onClick={handlePrev}>&lt;</SwipeButton>
+      <SwipeButton onClick={handlePrev}>
+        <FontAwesomeIcon icon={faCaretLeft} />
+      </SwipeButton>
       <DateBlock>
         <DateButtons ref={dateRef}>
           {date.map((item, i) => (
@@ -95,7 +99,9 @@ const InfoDatination = () => {
           ))}
         </DateButtons>
       </DateBlock>
-      <SwipeButton onClick={handleNext}>&gt;</SwipeButton>
+      <SwipeButton onClick={handleNext}>
+        <FontAwesomeIcon icon={faCaretRight} />
+      </SwipeButton>
     </InfoDatinationBlock>
   );
 };

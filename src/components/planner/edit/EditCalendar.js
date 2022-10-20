@@ -3,14 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const EditCalendarBlock = styled.div`
-  margin: 0.5rem 0.5rem 0 0;
+  /* margin-top: 0.5rem; */
 `;
 
 const Calendar = styled.div`
-  border: 1px solid lightblue;
+  background-color: lightblue;
+  border-width: 0.2rem 0 0.2rem 0.2rem;
+  border-color: lightblue;
+  border-style: solid;
+  border-radius: 0.2rem;
   width: 50px;
   height: 50px;
-  border-radius: 0.1rem;
   text-align: center;
   line-height: 50px;
   & + & {
@@ -18,25 +21,29 @@ const Calendar = styled.div`
   }
   &:hover {
     cursor: pointer;
-    border-width: 1px 0 1px 1px;
+  }
+  &[aria-current] {
+    background-color: beige;
+    border-color: beige;
   }
 `;
 
 const PlusButton = styled.div`
   cursor: pointer;
-  border: 1px solid lightblue;
-  width: 50px;
-  height: 50px;
-  border-radius: 0.1rem;
+  border: 0.2rem solid lightblue;
+  width: 48px;
+  height: 48px;
   text-align: center;
+  border-radius: 0.2rem;
   line-height: 50px;
+  background-color: white;
 `;
 
 const EditCalendar = () => {
   return (
     <EditCalendarBlock>
       <Calendar>11/11</Calendar>
-      <Calendar>11/12</Calendar>
+      <Calendar aria-current={true ? 'date' : null}>11/12</Calendar>
       <Calendar>11/13</Calendar>
       <PlusButton>
         <FontAwesomeIcon icon={faPlus} />
