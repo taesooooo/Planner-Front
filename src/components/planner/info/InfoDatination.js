@@ -2,38 +2,38 @@ import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const InfoDatinationBlock = styled.div`
-  margin: auto;
-  width: 85%;
-  height: 4rem;
-  display: flex;
   /* justify-content: center; */
-  overflow-x: hidden;
-  border-radius: 0.5rem;
   /* box-shadow: inset 1rem 0 3rem 0.5rem rgba(256, 256, 256, 0.7); */
+  width: 20.8rem;
+  display: flex;
+  margin: auto;
 `;
 // 양사이드만 뿌옇게 안되나?
+const DateBlock = styled.div`
+  overflow: hidden;
+  border-radius: 0.5rem;
+  width: 80%;
+  height: 3rem;
+`;
 
 const DateButtons = styled.div`
   display: flex;
-  width: calc(16 * 4rem);
-  transform: translateX(6.5rem);
+  width: calc(16 * 3rem);
+  /* transform: translateX(16rem); */
 `;
 
 const DateButton = styled.div`
-  border-radius: 1rem;
-  width: 4rem;
-  height: 4rem;
+  border-radius: 0.5rem;
+  width: 3rem;
+  height: 3rem;
   text-align: center;
-  line-height: 4rem;
+  line-height: 3rem;
   font-weight: bold;
   color: gray;
   background-color: lightblue;
   float: left;
   & + & {
     margin-left: 0.1rem;
-  }
-  &:hover {
-    cursor: pointer;
   }
   ${(props) =>
     props.blur &&
@@ -46,34 +46,56 @@ const DateButton = styled.div`
     `};
 `;
 
+const SwipeButton = styled.div`
+  border-radius: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: lightgray;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 3rem;
+  margin: 0 0.1rem;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const InfoDatination = () => {
-  const TOTAL_SLIDES = 5;
-  const [currentIndex, setCurrentIndex] = useState(3);
+  const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const TOTAL_SLIDES = date.length;
   const dateRef = useRef();
 
-  const handleSwipe = (direction) => {
-    setCurrentIndex(currentIndex + direction);
+  const handlePrev = () => {
+    if (currentIndex === 0) {
+      return;
+    }
+    setCurrentIndex(currentIndex - 1);
+  };
+  const handleNext = () => {
+    if (currentIndex === TOTAL_SLIDES - 5) {
+      return;
+    }
+    setCurrentIndex(currentIndex + 1);
   };
 
-  const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
-  // const [dateBlock, setDateBlock] = useState(x);
-  // const [dateItem, setDateItem] = useState();
   useEffect(() => {
-    // dateRef.current.style = 'transform: translateX(-' + 4 * (currentIndex - 1) + 'rem)';
-  });
+    dateRef.current.style = 'transform: translateX(-' + 3 * currentIndex + 'rem)';
+    dateRef.current.style.transition = 'all 0.5s ease-in-out';
+  }, [currentIndex]);
 
   return (
     <InfoDatinationBlock>
-      <DateButtons ref={dateRef}>
-        {date.map((item, i) => (
-          <DateButton key={i}>11/{item}</DateButton>
-        ))}
-        {/* <DateButton blur={true}>11/10</DateButton>
-        <DateButton>11/11</DateButton>
-        <DateButton>11/12</DateButton>
-        <DateButton>11/13</DateButton>
-        <DateButton blur={true}>11/14</DateButton> */}
-      </DateButtons>
+      <SwipeButton onClick={handlePrev}>&lt;</SwipeButton>
+      <DateBlock>
+        <DateButtons ref={dateRef}>
+          {date.map((item, i) => (
+            <DateButton key={i}>11/{item}</DateButton>
+          ))}
+        </DateButtons>
+      </DateBlock>
+      <SwipeButton onClick={handleNext}>&gt;</SwipeButton>
     </InfoDatinationBlock>
   );
 };

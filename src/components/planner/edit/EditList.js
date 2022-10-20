@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import RouteSpot from './RouteSpot';
+import EditRouteItem from './EditRouteItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faBed } from '@fortawesome/free-solid-svg-icons';
@@ -7,8 +7,8 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
-  border: 1px solid red;
   width: 320px;
+  padding: 0.5rem;
 `;
 
 const MenuList = styled.div`
@@ -37,7 +37,7 @@ const MenuItem = styled.div`
   }
 `;
 
-const SpotList = styled.div`
+const RouteList = styled.div`
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -48,6 +48,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   width: 2rem;
   height: 2rem;
 `;
+
 const EditList = () => {
   return (
     <EditListBlock>
@@ -69,9 +70,11 @@ const EditList = () => {
           <p>좋아요</p>
         </MenuItem>
       </MenuList>
-      <SpotList>
-        <RouteSpot type="add" />
-      </SpotList>
+      <RouteList>
+        <EditRouteItem />
+        <EditRouteItem />
+        <EditRouteItem />
+      </RouteList>
     </EditListBlock>
   );
 };

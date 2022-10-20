@@ -14,7 +14,7 @@ import InfoDatination from './InfoDatination';
 
 const InfoRouteBlock = styled.div`
   border: 1px solid green;
-  width: 20rem;
+  width: 21rem;
   height: 38rem;
   text-align: center;
   padding: 1rem;

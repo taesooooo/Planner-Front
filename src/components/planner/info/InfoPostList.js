@@ -21,7 +21,7 @@ const Info = styled.div`
   p {
     margin-left: 1rem;
     border: 1px solid lightblue;
-    border-radius: 5rem;
+    border-radius: 1rem;
     padding: 1rem;
   }
 `;

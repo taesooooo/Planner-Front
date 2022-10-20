@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import Button from '../../common/Button';
 
 const EditMapBlock = styled.div`
   width: 1000px;
@@ -8,7 +7,7 @@ const EditMapBlock = styled.div`
   height: 750px;
 `;
 
-const FunctionBox = styled.div`
+const ButtonBox = styled.div`
   position: absolute;
   left: 2%;
   top: 1%;
@@ -18,6 +17,16 @@ const FunctionBox = styled.div`
   button {
     margin-bottom: 10px;
   }
+`;
+
+const Button = styled.button`
+  border: none;
+  border-radius: 1rem;
+  width: 8rem;
+  height: 3rem;
+  background-color: lightblue;
+  color: white;
+  font-weight: bold;
 `;
 
 const EditMap = () => {
@@ -34,10 +43,10 @@ const EditMap = () => {
 
   return (
     <EditMapBlock id="map" ref={container}>
-      <FunctionBox>
-        <Button big>사용 방법</Button>
-        <Button big>장소 등록</Button>
-      </FunctionBox>
+      <ButtonBox>
+        <Button>사용 방법</Button>
+        <Button>장소 등록</Button>
+      </ButtonBox>
     </EditMapBlock>
   );
 };

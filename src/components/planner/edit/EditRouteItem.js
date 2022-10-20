@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Button from '../../common/Button';
 
 const RouteSpotBlock = styled.div`
   border: 1px solid lightblue;
@@ -9,6 +8,7 @@ const RouteSpotBlock = styled.div`
   justify-content: space-around;
   width: 300px;
   height: 90px;
+  margin: 0.5rem 0;
 `;
 
 const Img = styled.div`
@@ -36,14 +36,24 @@ const SpotName = styled.div`
   }
 `;
 
-const RouteSpot = ({ type }) => {
+const Button = styled.button`
+  border: none;
+  border-radius: 0.5rem;
+  background-color: lightblue;
+  color: white;
+  font-weight: bold;
+  width: 4rem;
+  height: 2rem;
+`;
+
+const EditRouteItem = ({ type }) => {
   return (
     <RouteSpotBlock>
       <Img />
       <SpotName>천안 사거리</SpotName>
-      {type === 'add' ? <Button>추가</Button> : <Button>삭제</Button>}
+      {type === 'delete' ? <Button>삭제</Button> : <Button>추가</Button>}
     </RouteSpotBlock>
   );
 };
 
-export default RouteSpot;
+export default EditRouteItem;

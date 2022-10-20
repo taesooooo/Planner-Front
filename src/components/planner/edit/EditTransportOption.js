@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const RouteTransportBlock = styled.div`
   width: 80px;
-  margin: 10px auto;
 `;
 
 const StyledSelect = styled.select`
@@ -10,9 +9,6 @@ const StyledSelect = styled.select`
   border: 1px solid lightblue;
   width: 80px;
   height: 40px;
-  &:focus {
-    border: 2px solid red;
-  }
 `;
 
 const OPTIONS = [
@@ -24,7 +20,7 @@ const OPTIONS = [
   { value: 'personwalking', name: '걷기' },
 ];
 
-const RouteTransport = () => {
+const EditTransportOption = () => {
   return (
     <RouteTransportBlock>
       <StyledSelect>
@@ -38,4 +34,4 @@ const RouteTransport = () => {
   );
 };
 
-export default RouteTransport;
+export default EditTransportOption;

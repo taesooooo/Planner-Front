@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import EditItinerary from './EditItinerary';
+import EditRoute from './EditRoute';
 import EditList from './EditList';
 import EditMap from './EditMap';
 
@@ -10,7 +10,7 @@ const PlannerEditBlock = styled.div`
 const PlannerEdit = () => {
   return (
     <PlannerEditBlock>
-      <EditItinerary />
+      <EditRoute />
       <EditMap />
       <EditList />
     </PlannerEditBlock>
