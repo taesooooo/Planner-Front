@@ -7,8 +7,6 @@ import PlannerEditPage from './pages/planner/PlannerEditPage';
 import ReviewInfoPage from './pages/review/ReviewInfoPage';
 import ReviewListPage from './pages/review/ReviewListPage';
 import ReviewWritePage from './pages/review/ReviewWritePage';
-import ShareInfoPage from './pages/share/ShareInfoPage';
-import ShareListPage from './pages/share/ShareListPage';
 import SpotPage from './pages/SpotPage';
 import LoginPage from './pages/account/LoginPage';
 import RegisterPage from './pages/account/RegisterPage';
@@ -25,8 +23,6 @@ const App = () => {
       <Route path="/ReviewInfo" component={ReviewInfoPage} />
       <Route path="/ReviewList" component={ReviewListPage} />
       <Route path="/ReviewWrite" component={ReviewWritePage} />
-      <Route path="/ShareInfo" component={ShareInfoPage} />
-      <Route path="/ShareList" component={ShareListPage} />
       <Route path="/Spot" component={SpotPage} />
       <Route path="/Login" component={LoginPage} />
       <Route path="/Register" component={RegisterPage} />

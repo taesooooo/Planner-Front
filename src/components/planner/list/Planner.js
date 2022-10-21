@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PlannerList from './PlannerList';
 
 const PlannerBlock = styled.div`
   margin: 100px auto;
@@ -9,12 +8,8 @@ const PlannerBlock = styled.div`
   padding-bottom: 170px;
 `;
 
-const Planner = () => {
-  return (
-    <PlannerBlock>
-      <PlannerList type="planner" />
-    </PlannerBlock>
-  );
+const Planner = ({ children }) => {
+  return <PlannerBlock>{children}</PlannerBlock>;
 };
 
 export default Planner;

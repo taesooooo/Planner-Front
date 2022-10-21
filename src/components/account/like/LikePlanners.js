@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import PlannerItem from '../../planner/PlannerItem';
+import PlannerItem from '../../planner/list/PlannerItem';
 
 const Planners = styled.div`
   display: flex;

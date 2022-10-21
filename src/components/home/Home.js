@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import PlannerList from '../planner/PlannerList';
+import PlannerList from '../planner/list/PlannerList';
 import Intro from './Intro';
 import SpotSlider from '../spot/SpotSlider';
 import ReviewList from '../review/ReviewList';
