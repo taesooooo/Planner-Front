@@ -47,90 +47,93 @@ const PlannerList = () => {
 
   const plannerRef = useRef();
 
-  const slideStart = useCallback((clientX) => {
+  // 슬라이드 클릭 다운
+  const slideStart = (clientX) => {
     setSlideStartX(clientX);
     setSlideStatus(true);
+    console.log('start');
     // setCurrentTransition(window.getComputedStyle(plannerRef.current).transition);
     // plannerRef.current.style.transition = 'initial';
+  };
+
+  useEffect(() => {
+    let refValue = plannerRef.current;
+    refValue.addEventListener('mousedown', (e) => {
+      slideStart(e.clientX);
+      console.log('use start');
+    });
+    return () => {
+      refValue.removeEventListener('mousedown', function () {
+        slideStart();
+        console.log('return start');
+      });
+    };
   }, []);
 
+  // 슬라이드 이동
   const slideMove = useCallback(
     (clientX) => {
       if (slideStatus) {
         setSlideGap(slideStartX - clientX);
         if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
           setSlideGap(0);
+          // setCurrentIndex(currentIndex - 1);
         } else if (currentIndex <= 0 && slideGap < 0) {
           setSlideGap(0);
+          // setCurrentIndex(currentIndex + 1);
         }
-        plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + slideGap + 'px)';
-        plannerRef.current.style.transition = 'all 0.5s ease-in-out';
-        console.log(11);
+        // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + slideGap + 'px)';
+        // plannerRef.current.style.transition = 'all 0.5s ease-in-out';
+        console.log('move');
       }
     },
-    [currentIndex, slideStartX, slideStatus, slideGap],
+    [currentIndex, slideGap, slideStartX, slideStatus],
   );
 
-  // currentIndex가 변하면서 무한 반복됨.??
+  useEffect(() => {
+    let refValue = plannerRef.current;
+    if (slideStatus) {
+      refValue.addEventListener('mousemove', (e) => {
+        slideMove(e.clientX);
+        console.log('use move');
+      });
+    }
+    return () => {
+      refValue.removeEventListener('mousemove', function () {
+        slideMove();
+        console.log('return move');
+      });
+    };
+  }, [slideMove, slideStatus]);
+
+  // 슬라이드 클릭 업
   const slideEnd = useCallback(() => {
     if (slideGap >= SLIDE_STANDARD) {
       setCurrentIndex(currentIndex + 1);
+      setCurrentIndex(currentIndex === TOTAL_SLIDES - 1 ? currentIndex : currentIndex + 1);
     } else if (slideGap <= -SLIDE_STANDARD) {
       setCurrentIndex(currentIndex - 1);
+      setCurrentIndex(currentIndex === 0 ? 0 : currentIndex - 1);
     }
-    console.log(3);
-    plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
-    plannerRef.current.style.transition = 'all 0.5s ease-in-out';
-    setSlideGap(0);
+    // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
+    // plannerRef.current.style.transition = 'all 0.5s ease-in-out';
     setSlideStatus(false);
+    setSlideGap(0);
+    console.log('end');
   }, [currentIndex, slideGap]);
 
   useEffect(() => {
-    setCurrentIndex(currentIndex === TOTAL_SLIDES - 1 ? currentIndex : currentIndex + 1);
-    setCurrentIndex(currentIndex === 0 ? 0 : currentIndex - 1);
-  }, [currentIndex]);
-
-  useEffect(() => {
-    let refValue = null;
-    if (plannerRef) {
-      plannerRef.current.addEventListener('mousedown', (e) => {
-        slideStart(e.clientX);
-      });
-      refValue = plannerRef.current;
-      return () => {
-        if (refValue) {
-          refValue.removeEventListener('mousedown', slideStart);
-        }
-      };
-    }
-  }, [slideStart]);
-  useEffect(() => {
-    let refValue = null;
-    if (plannerRef) {
-      plannerRef.current.addEventListener('mousemove', (e) => {
-        slideMove(e.clientX);
-      });
-      refValue = plannerRef.current;
-      return () => {
-        if (refValue) {
-          refValue.removeEventListener('mousemove', slideMove);
-        }
-      };
-    }
-  }, [slideMove]);
-  useEffect(() => {
-    let refValue = null;
-    if (plannerRef) {
-      plannerRef.current.addEventListener('mouseup', () => {
+    let refValue = plannerRef.current;
+    refValue.addEventListener('mouseup', () => {
+      slideEnd();
+      console.log('use end');
+    });
+    return () => {
+      refValue.removeEventListener('mouseup', function () {
         slideEnd();
+        console.log('return end');
       });
-      refValue = plannerRef.current;
-      return () => {
-        if (refValue) {
-          refValue.removeEventListener('mouseup', slideEnd);
-        }
-      };
-    }
+    };
   }, [slideEnd]);
 
   return (
