@@ -48,62 +48,54 @@ const PlannerList = () => {
   const plannerRef = useRef();
 
   // 슬라이드 클릭 다운
-  const slideStart = (clientX) => {
-    setSlideStartX(clientX);
+  const slideStart = useCallback((e) => {
+    setSlideStartX(e.clientX);
     setSlideStatus(true);
     console.log('start');
     // setCurrentTransition(window.getComputedStyle(plannerRef.current).transition);
     // plannerRef.current.style.transition = 'initial';
+  }, []);
+
+  const noReturn = () => {
+    console.log('no Return');
   };
 
   useEffect(() => {
     let refValue = plannerRef.current;
-    refValue.addEventListener('mousedown', (e) => {
-      slideStart(e.clientX);
-      console.log('use start');
-    });
+    refValue.addEventListener('mousedown', slideStart);
+    console.log("use start")
     return () => {
-      refValue.removeEventListener('mousedown', function () {
-        slideStart();
-        console.log('return start');
-      });
+      refValue.removeEventListener('mousedown', slideStart);
     };
-  }, []);
+  }, [slideStart]);
 
   // 슬라이드 이동
   const slideMove = useCallback(
-    (clientX) => {
-      if (slideStatus) {
-        setSlideGap(slideStartX - clientX);
-        if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
-          setSlideGap(0);
-          // setCurrentIndex(currentIndex - 1);
-        } else if (currentIndex <= 0 && slideGap < 0) {
-          setSlideGap(0);
-          // setCurrentIndex(currentIndex + 1);
-        }
-        // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + slideGap + 'px)';
-        // plannerRef.current.style.transition = 'all 0.5s ease-in-out';
-        console.log('move');
+    (e) => {
+      setSlideGap(slideStartX - e.clientX);
+      if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
+        setSlideGap(0);
+        // setCurrentIndex(currentIndex - 1);
+      } else if (currentIndex <= 0 && slideGap < 0) {
+        setSlideGap(0);
+        // setCurrentIndex(currentIndex + 1);
       }
+      plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + slideGap + 'px)';
+      plannerRef.current.style.transition = 'all 0.5s ease-in-out';
+      console.log('move');
     },
-    [currentIndex, slideGap, slideStartX, slideStatus],
+    [currentIndex, slideGap, slideStartX],
   );
 
   useEffect(() => {
     let refValue = plannerRef.current;
     if (slideStatus) {
-      refValue.addEventListener('mousemove', (e) => {
-        slideMove(e.clientX);
-        console.log('use move');
-      });
+      refValue.addEventListener('mousemove', slideMove);
+      console.log("use move")
     }
-    return () => {
-      refValue.removeEventListener('mousemove', function () {
-        slideMove();
-        console.log('return move');
-      });
-    };
+    // return () => {
+    //   refValue.removeEventListener('mousemove', slideMove);
+    // };
   }, [slideMove, slideStatus]);
 
   // 슬라이드 클릭 업
@@ -115,8 +107,8 @@ const PlannerList = () => {
       setCurrentIndex(currentIndex - 1);
       setCurrentIndex(currentIndex === 0 ? 0 : currentIndex - 1);
     }
-    // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
-    // plannerRef.current.style.transition = 'all 0.5s ease-in-out';
+    plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
+    plannerRef.current.style.transition = 'all 0.5s ease-in-out';
     setSlideStatus(false);
     setSlideGap(0);
     console.log('end');
@@ -124,17 +116,13 @@ const PlannerList = () => {
 
   useEffect(() => {
     let refValue = plannerRef.current;
-    refValue.addEventListener('mouseup', () => {
-      slideEnd();
-      console.log('use end');
-    });
+    refValue.removeEventListener('mousemove', slideMove);
+    refValue.addEventListener('mouseup', slideEnd);
+    console.log("use end")
     return () => {
-      refValue.removeEventListener('mouseup', function () {
-        slideEnd();
-        console.log('return end');
-      });
+      refValue.removeEventListener('mouseup', slideEnd);
     };
-  }, [slideEnd]);
+  }, [slideEnd, slideMove]);
 
   return (
     <PlannerListBlock>
