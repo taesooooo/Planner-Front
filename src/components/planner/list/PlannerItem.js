@@ -9,8 +9,10 @@ const PlannerItemBlock = styled.div`
   border-radius: 0.5rem;
   box-shadow: 3px 3px 7px 1px ${palette.gray[1]};
   padding: 0.2rem;
+  user-select: none;
 `;
 const TitleBox = styled.div`
+  /* user-select: none; */
   padding: 0 0.5rem;
 `;
 const Title = styled.p`

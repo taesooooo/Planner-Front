@@ -7,6 +7,7 @@ const PlannerListBlock = styled.div`
   margin-bottom: 5rem;
   overflow-x: hidden;
   width: 100%;
+  border: 1px solid blue;
 `;
 
 const TitleBox = styled.div`
@@ -37,95 +38,86 @@ const Button = styled.button`
 `;
 
 const PlannerList = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [slideStatus, setSlideStatus] = useState(false);
-  const [slideStartX, setSlideStartX] = useState();
-  const [slideGap, setSlideGap] = useState();
-  const [currentTransition, setCurrentTransition] = useState();
+  // const [currentIndex, setCurrentIndex] = useState(0);
+  // const [slideStatus, setSlideStatus] = useState(false);
+  // const [slideStartX, setSlideStartX] = useState();
+  // const [slideGap, setSlideGap] = useState();
+  // const [currentTransition, setCurrentTransition] = useState();
+  const plannerRef = useRef();
+  const blockRef = useRef();
+
+  let currentPosition = 0;
+  let slideStatus = false;
+  let slideStartX = 0;
+  let slideGap = 0;
   const TOTAL_SLIDES = 6;
   const SLIDE_STANDARD = 128;
+  const screenWidth = blockRef.current.clientWidth;
 
-  const plannerRef = useRef();
-
-  // 슬라이드 클릭 다운
-  const slideStart = useCallback((e) => {
-    setSlideStartX(e.clientX);
-    setSlideStatus(true);
+  // 슬라이드 마우스 다운
+  const slideStart = (e) => {
+    slideStartX = e.clientX;
+    slideStatus = true;
     console.log('start');
     // setCurrentTransition(window.getComputedStyle(plannerRef.current).transition);
     // plannerRef.current.style.transition = 'initial';
-  }, []);
-
-  const noReturn = () => {
-    console.log('no Return');
   };
+
+  // 슬라이드 마우스 이동
+  const slideMove = (e) => {
+    if (slideStatus) {
+      slideGap = slideStartX - e.clientX;
+
+      // if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
+      //   slideGap = 0;
+      // } else if (currentIndex <= 0 && slideGap < 0) {
+      //   slideGap = 0;
+      // }
+      plannerRef.current.style = 'transform: translateX(-' + currentPosition + slideGap + 'px)';
+      // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
+      plannerRef.current.style.transition = 'all 0s ease-in-out';
+      console.log('move');
+    }
+  };
+  // 슬라이드 마우스 업
+  const slideEnd = () => {
+    // if (slideGap >= SLIDE_STANDARD) {
+    //   console.log('a1: ' + currentIndex);
+    //   currentIndex = currentIndex === TOTAL_SLIDES - 1 ? 5 : currentIndex + 1;
+    //   console.log('a2: ' + currentIndex);
+    // } else if (slideGap <= -SLIDE_STANDARD) {
+    //   console.log('b1: ' + currentIndex);
+    //   currentIndex = currentIndex <= 0 ? 0 : currentIndex - 1;
+    //   console.log('b2: ' + currentIndex);
+    // }
+    let sum = currentPosition + slideGap;
+
+    plannerRef.current.style = 'transform: translateX(-' + slideGap + 'px)';
+    // plannerRef.current.style = 'transform: translateX(-' + currentIndex * 256 + slideGap + 'px)';
+    plannerRef.current.style.transition = 'all s ease-in-out';
+
+    slideStatus = false;
+    slideGap = 0;
+    console.log('end');
+  };
+
+  useEffect(() => {});
 
   useEffect(() => {
     let refValue = plannerRef.current;
     refValue.addEventListener('mousedown', slideStart);
-    console.log("use start")
+    refValue.addEventListener('mousemove', slideMove);
+    refValue.addEventListener('mouseup', slideEnd);
+
     return () => {
       refValue.removeEventListener('mousedown', slideStart);
-    };
-  }, [slideStart]);
-
-  // 슬라이드 이동
-  const slideMove = useCallback(
-    (e) => {
-      setSlideGap(slideStartX - e.clientX);
-      if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
-        setSlideGap(0);
-        // setCurrentIndex(currentIndex - 1);
-      } else if (currentIndex <= 0 && slideGap < 0) {
-        setSlideGap(0);
-        // setCurrentIndex(currentIndex + 1);
-      }
-      plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + slideGap + 'px)';
-      plannerRef.current.style.transition = 'all 0.5s ease-in-out';
-      console.log('move');
-    },
-    [currentIndex, slideGap, slideStartX],
-  );
-
-  useEffect(() => {
-    let refValue = plannerRef.current;
-    if (slideStatus) {
-      refValue.addEventListener('mousemove', slideMove);
-      console.log("use move")
-    }
-    // return () => {
-    //   refValue.removeEventListener('mousemove', slideMove);
-    // };
-  }, [slideMove, slideStatus]);
-
-  // 슬라이드 클릭 업
-  const slideEnd = useCallback(() => {
-    if (slideGap >= SLIDE_STANDARD) {
-      setCurrentIndex(currentIndex + 1);
-      setCurrentIndex(currentIndex === TOTAL_SLIDES - 1 ? currentIndex : currentIndex + 1);
-    } else if (slideGap <= -SLIDE_STANDARD) {
-      setCurrentIndex(currentIndex - 1);
-      setCurrentIndex(currentIndex === 0 ? 0 : currentIndex - 1);
-    }
-    plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
-    plannerRef.current.style.transition = 'all 0.5s ease-in-out';
-    setSlideStatus(false);
-    setSlideGap(0);
-    console.log('end');
-  }, [currentIndex, slideGap]);
-
-  useEffect(() => {
-    let refValue = plannerRef.current;
-    refValue.removeEventListener('mousemove', slideMove);
-    refValue.addEventListener('mouseup', slideEnd);
-    console.log("use end")
-    return () => {
+      refValue.removeEventListener('mousemove', slideMove);
       refValue.removeEventListener('mouseup', slideEnd);
     };
-  }, [slideEnd, slideMove]);
+  });
 
   return (
-    <PlannerListBlock>
+    <PlannerListBlock ref={blockRef}>
       <TitleBox>
         <Title>나의 플래너</Title>
         <Button>플래너 생성</Button>
