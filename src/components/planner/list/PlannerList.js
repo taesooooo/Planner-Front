@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PlannerItem from './PlannerItem';
 
 const PlannerListBlock = styled.div`
-  padding: 1rem;
+  /* padding: 1rem; */
   margin-bottom: 5rem;
   overflow-x: hidden;
   width: 100%;
@@ -24,7 +24,7 @@ const Title = styled.p`
 const Planners = styled.div`
   display: flex;
   border: 1px solid lightblue;
-  width: calc(6 * 256px);
+  /* width: calc(6 * 256px); */
 `;
 
 const Button = styled.button`
@@ -38,81 +38,77 @@ const Button = styled.button`
 `;
 
 const PlannerList = () => {
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  // const [slideStatus, setSlideStatus] = useState(false);
-  // const [slideStartX, setSlideStartX] = useState();
-  // const [slideGap, setSlideGap] = useState();
-  // const [currentTransition, setCurrentTransition] = useState();
   const plannerRef = useRef();
   const blockRef = useRef();
 
   let currentPosition = 0;
-  let slideStatus = false;
-  let slideStartX = 0;
-  let slideGap = 0;
+  let slideStatus = false; // mouseMove 실행 여부
+  let slideStartX = 0; // 마우스 다운 좌표
+  let slideMoving = 0; // 마우스 이동한 좌표
+  let slideGap = 0; // 마우스 업 좌표
   const TOTAL_SLIDES = 6;
-  const SLIDE_STANDARD = 128;
-  const screenWidth = blockRef.current.clientWidth;
+  const ITEM_SIZE = 270;
+
+  /**
+   * 당기는 애니메이션
+   * 마우스 나가면 드래그 종료
+   * 플래너아이템 단위로 이동
+   */
 
   // 슬라이드 마우스 다운
   const slideStart = (e) => {
     slideStartX = e.clientX;
     slideStatus = true;
-    console.log('start');
-    // setCurrentTransition(window.getComputedStyle(plannerRef.current).transition);
-    // plannerRef.current.style.transition = 'initial';
   };
 
   // 슬라이드 마우스 이동
   const slideMove = (e) => {
     if (slideStatus) {
-      slideGap = slideStartX - e.clientX;
+      slideGap = e.clientX - slideStartX;
+      slideMoving = currentPosition + e.clientX - slideStartX;
+      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
+      plannerRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
+      plannerRef.current.style.transitionDuration = ' 0s';
 
-      // if (currentIndex >= TOTAL_SLIDES - 1 && slideGap > 0) {
-      //   slideGap = 0;
-      // } else if (currentIndex <= 0 && slideGap < 0) {
-      //   slideGap = 0;
+      // const currentX = plannerRef.current.getBoundingClientRect();
+      // const screenWidth = blockRef.current.clientWidth;
+      // if (currentX.x > 100 || currentX.x < -(TOTAL_SLIDES * screenWidth)) {
+      //   plannerRef.current.style.transitionDuration = '3s';
       // }
-      plannerRef.current.style = 'transform: translateX(-' + currentPosition + slideGap + 'px)';
-      // plannerRef.current.style = 'transform: translateX(-' + 256 * currentIndex + 'px)';
-      plannerRef.current.style.transition = 'all 0s ease-in-out';
-      console.log('move');
     }
   };
   // 슬라이드 마우스 업
   const slideEnd = () => {
-    // if (slideGap >= SLIDE_STANDARD) {
-    //   console.log('a1: ' + currentIndex);
-    //   currentIndex = currentIndex === TOTAL_SLIDES - 1 ? 5 : currentIndex + 1;
-    //   console.log('a2: ' + currentIndex);
-    // } else if (slideGap <= -SLIDE_STANDARD) {
-    //   console.log('b1: ' + currentIndex);
-    //   currentIndex = currentIndex <= 0 ? 0 : currentIndex - 1;
-    //   console.log('b2: ' + currentIndex);
-    // }
-    let sum = currentPosition + slideGap;
+    const currentX = plannerRef.current.getBoundingClientRect();
+    // let slideEndX = slideMoving;
 
-    plannerRef.current.style = 'transform: translateX(-' + slideGap + 'px)';
-    // plannerRef.current.style = 'transform: translateX(-' + currentIndex * 256 + slideGap + 'px)';
-    plannerRef.current.style.transition = 'all s ease-in-out';
+    // let slideEndX = Math.round(Math.round((slideGap / ITEM_SIZE + currentPosition)) * ITEM_SIZE);
+    let slideEndX = Math.round(slideGap / ITEM_SIZE) * ITEM_SIZE + currentPosition;
 
+    if (slideEndX > 100) {
+      slideEndX = 0;
+    } else if (slideEndX < -ITEM_SIZE * (TOTAL_SLIDES - 1)) {
+      slideEndX = -(ITEM_SIZE * (TOTAL_SLIDES - 1));
+    }
+
+    plannerRef.current.style = 'transform: translateX(' + slideEndX + 'px)';
+    plannerRef.current.style.transitionDuration = ' 1s';
+    currentPosition = slideEndX;
     slideStatus = false;
-    slideGap = 0;
-    console.log('end');
   };
-
-  useEffect(() => {});
 
   useEffect(() => {
     let refValue = plannerRef.current;
     refValue.addEventListener('mousedown', slideStart);
     refValue.addEventListener('mousemove', slideMove);
     refValue.addEventListener('mouseup', slideEnd);
+    // refValue.addEventListener('mouseout', slideEnd);
 
     return () => {
       refValue.removeEventListener('mousedown', slideStart);
       refValue.removeEventListener('mousemove', slideMove);
       refValue.removeEventListener('mouseup', slideEnd);
+      // refValue.removeEventListener('mouseout', slideEnd);
     };
   });
 
