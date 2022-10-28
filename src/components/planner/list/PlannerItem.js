@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import palette from '../../../lib/styles/palette';
 
-const PlannerItemBlock = styled.div`
-  width: 256px;
-  height: 320px;
-  margin: 3px;
+const PlannerItemBlock = styled.li`
+  flex-basis: 22.5%;
+  margin: 0.5%;
+  background-color: white;
   border: 1px solid ${palette.ivory[0]};
   border-radius: 0.5rem;
   box-shadow: 3px 3px 7px 1px ${palette.gray[1]};
@@ -14,10 +14,11 @@ const PlannerItemBlock = styled.div`
 const TitleBox = styled.div`
   /* user-select: none; */
   padding: 0 0.5rem;
+  /* height: 85px; */
+  border: 1px solid red;
 `;
 const Title = styled.p`
-  /* font-size: 1.2rem;
-  fo */
+  /* font-size: 1.2rem; */
   font-weight: bold;
 `;
 const Date = styled.p`
@@ -26,8 +27,24 @@ const Date = styled.p`
 `;
 
 const SimpleMap = styled.div`
-  width: 256px;
-  height: 240px;
+  /* width: 256px;
+  height: 240px; */
+  @media all and (min-width: 1200px) {
+    width: 256px;
+    height: 240px;
+  }
+  @media all and (min-width: 1000px) and (max-width: 1200px) {
+    width: 200px;
+    height: 180px;
+  }
+  @media all and (min-width: 750px) and (max-width: 1000px) {
+    width: 150px;
+    height: 130px;
+  }
+  @media all and (max-width: 750px) {
+    width: 100px;
+    height: 80px;
+  }
 `;
 
 const PlannerItem = () => {

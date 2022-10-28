@@ -8,10 +8,9 @@ const PlannerListPage = () => {
   return (
     <>
       <Header />
-      <Planner>
-        <PlannerList />
-        <ShareList />
-      </Planner>
+
+      <PlannerList />
+      <ShareList />
       <Footer />
     </>
   );

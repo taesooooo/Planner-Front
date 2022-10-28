@@ -3,11 +3,23 @@ import styled from 'styled-components';
 import PlannerItem from './PlannerItem';
 
 const PlannerListBlock = styled.div`
-  /* padding: 1rem; */
-  margin-bottom: 5rem;
-  overflow-x: hidden;
-  width: 100%;
-  border: 1px solid blue;
+  padding: 0 3rem 2rem 3rem;
+  margin: 100px auto 5rem;
+  background-color: lightgray;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  min-width: 600px;
+  @media all and (min-width: 1200px) {
+      width: 1100px;
+  }
+  @media all and (min-width: 1000px) and (max-width: 1200px) {
+    width: 975px;
+  }
+  @media all and (min-width: 750px) and (max-width: 1000px) {
+    width: 725px;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -21,10 +33,18 @@ const Title = styled.p`
   font-weight: bold;
 `;
 
-const Planners = styled.div`
+const HiddenBox = styled.div`
+  overflow: hidden;
+  border: 1px solid red;
+
+`;
+
+const Planners = styled.ul`
   display: flex;
   border: 1px solid lightblue;
-  /* width: calc(6 * 256px); */
+  width: 100%;
+  height: 100%;
+  /* width: calc(6 * 270px); */
 `;
 
 const Button = styled.button`
@@ -53,6 +73,8 @@ const PlannerList = () => {
    * 당기는 애니메이션
    * 마우스 나가면 드래그 종료
    * 플래너아이템 단위로 이동
+   * 마지막 아이템은 끝에 고정
+   * 아이템들 비율=> 1:1:1:1:0.3 고정
    */
 
   // 슬라이드 마우스 다운
@@ -66,8 +88,8 @@ const PlannerList = () => {
     if (slideStatus) {
       slideGap = e.clientX - slideStartX;
       slideMoving = currentPosition + e.clientX - slideStartX;
-      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
       plannerRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
+      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
       plannerRef.current.style.transitionDuration = ' 0s';
 
       // const currentX = plannerRef.current.getBoundingClientRect();
@@ -82,7 +104,6 @@ const PlannerList = () => {
     const currentX = plannerRef.current.getBoundingClientRect();
     // let slideEndX = slideMoving;
 
-    // let slideEndX = Math.round(Math.round((slideGap / ITEM_SIZE + currentPosition)) * ITEM_SIZE);
     let slideEndX = Math.round(slideGap / ITEM_SIZE) * ITEM_SIZE + currentPosition;
 
     if (slideEndX > 100) {
@@ -114,18 +135,22 @@ const PlannerList = () => {
 
   return (
     <PlannerListBlock ref={blockRef}>
-      <TitleBox>
-        <Title>나의 플래너</Title>
-        <Button>플래너 생성</Button>
-      </TitleBox>
-      <Planners ref={plannerRef}>
+      <Container>
+        <TitleBox>
+          <Title>나의 플래너</Title>
+          <Button>플래너 생성</Button>
+        </TitleBox>
+        <HiddenBox>
+          <Planners ref={plannerRef}>
+            <PlannerItem />
+            {/* <PlannerItem />
         <PlannerItem />
-        {/* <PlannerItem />
         <PlannerItem />
         <PlannerItem />
-        <PlannerItem />
-        <PlannerItem /> */}
-      </Planners>
+      <PlannerItem /> */}
+          </Planners>
+        </HiddenBox>
+      </Container>
     </PlannerListBlock>
   );
 };
