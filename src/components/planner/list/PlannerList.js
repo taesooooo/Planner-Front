@@ -1,25 +1,37 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import PlannerItem from './PlannerItem';
 
 const PlannerListBlock = styled.div`
-  padding: 0 3rem 2rem 3rem;
-  margin: 100px auto 5rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0 2rem 0;
+  margin-top: 100px;
   background-color: lightgray;
 `;
 
 const Container = styled.div`
+  /* border: 1px solid green; */
   margin: 0 auto;
-  min-width: 600px;
+  @media all and (min-width: 768px) {
+    width: 750px;
+  }
+  @media all and (min-width: 992px) {
+    width: 970px;
+  }
   @media all and (min-width: 1200px) {
-      width: 1100px;
+    width: 1170px;
   }
-  @media all and (min-width: 1000px) and (max-width: 1200px) {
-    width: 975px;
-  }
-  @media all and (min-width: 750px) and (max-width: 1000px) {
-    width: 725px;
-  }
+`;
+
+const HiddenBox = styled.div`
+  overflow: hidden;
+  z-index: 1;
+`;
+
+const Planners = styled.ul`
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 const TitleBox = styled.div`
@@ -33,20 +45,6 @@ const Title = styled.p`
   font-weight: bold;
 `;
 
-const HiddenBox = styled.div`
-  overflow: hidden;
-  border: 1px solid red;
-
-`;
-
-const Planners = styled.ul`
-  display: flex;
-  border: 1px solid lightblue;
-  width: 100%;
-  height: 100%;
-  /* width: calc(6 * 270px); */
-`;
-
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
@@ -57,24 +55,57 @@ const Button = styled.button`
   color: white;
 `;
 
-const PlannerList = () => {
-  const plannerRef = useRef();
-  const blockRef = useRef();
+const PlannerItem = styled.li`
+  width: 100%;
+  height: 100%;
+  flex-basis: 22.5%;
+  flex-shrink: 0;
+  margin-left: 0.5%;
+  background-color: white;
+  border: 1px solid ivory;
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 7px 1px lightgray;
+  /* padding: 3px; */
+  user-select: none;
+`;
+const InfoBox = styled.div`
+  /* user-select: none; */
+  height: 60px;
+  margin: 0;
+  padding: 3px;
+  border-top: 1px solid lightgray;
+`;
+const Name = styled.p`
+  margin: 0 0 10px 0;
+  font-weight: bold;
+`;
+const Date = styled.p`
+  margin: 0;
+  font-size: 0.8rem;
+  color: gray;
+`;
 
+const SimpleMap = styled.div`
+  height: 18vw;
+`;
+
+const PlannerList = () => {
+  const blockRef = useRef();
+  const plannersRef = useRef();
+  const itemRef = useRef();
+
+  let currentIndex = 0;
   let currentPosition = 0;
   let slideStatus = false; // mouseMove 실행 여부
   let slideStartX = 0; // 마우스 다운 좌표
   let slideMoving = 0; // 마우스 이동한 좌표
   let slideGap = 0; // 마우스 업 좌표
   const TOTAL_SLIDES = 6;
-  const ITEM_SIZE = 270;
 
   /**
    * 당기는 애니메이션
    * 마우스 나가면 드래그 종료
-   * 플래너아이템 단위로 이동
-   * 마지막 아이템은 끝에 고정
-   * 아이템들 비율=> 1:1:1:1:0.3 고정
+   * 마지막 슬라이드 여백
    */
 
   // 슬라이드 마우스 다운
@@ -88,38 +119,34 @@ const PlannerList = () => {
     if (slideStatus) {
       slideGap = e.clientX - slideStartX;
       slideMoving = currentPosition + e.clientX - slideStartX;
-      plannerRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
-      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
-      plannerRef.current.style.transitionDuration = ' 0s';
 
-      // const currentX = plannerRef.current.getBoundingClientRect();
-      // const screenWidth = blockRef.current.clientWidth;
-      // if (currentX.x > 100 || currentX.x < -(TOTAL_SLIDES * screenWidth)) {
-      //   plannerRef.current.style.transitionDuration = '3s';
-      // }
+      plannersRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
+      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
+      plannersRef.current.style.transitionDuration = ' 0s';
     }
   };
   // 슬라이드 마우스 업
   const slideEnd = () => {
-    const currentX = plannerRef.current.getBoundingClientRect();
-    // let slideEndX = slideMoving;
+    const cur = itemRef.current.getBoundingClientRect();
+    console.log(cur);
+    const itemWidth = itemRef.current.offsetWidth + plannersRef.current.offsetWidth * 0.005;
 
-    let slideEndX = Math.round(slideGap / ITEM_SIZE) * ITEM_SIZE + currentPosition;
+    let slideEndX = Math.round(slideGap / itemWidth) * itemWidth + currentPosition;
 
-    if (slideEndX > 100) {
+    if (slideEndX > 0) {
       slideEndX = 0;
-    } else if (slideEndX < -ITEM_SIZE * (TOTAL_SLIDES - 1)) {
-      slideEndX = -(ITEM_SIZE * (TOTAL_SLIDES - 1));
+    } else if (slideEndX < -itemWidth * (TOTAL_SLIDES - 2)) {
+      slideEndX = -(itemWidth * (TOTAL_SLIDES - 2));
     }
 
-    plannerRef.current.style = 'transform: translateX(' + slideEndX + 'px)';
-    plannerRef.current.style.transitionDuration = ' 1s';
+    plannersRef.current.style = 'transform: translateX(' + slideEndX + 'px)';
+    plannersRef.current.style.transitionDuration = ' 1s';
     currentPosition = slideEndX;
     slideStatus = false;
   };
 
   useEffect(() => {
-    let refValue = plannerRef.current;
+    let refValue = plannersRef.current;
     refValue.addEventListener('mousedown', slideStart);
     refValue.addEventListener('mousemove', slideMove);
     refValue.addEventListener('mouseup', slideEnd);
@@ -141,13 +168,63 @@ const PlannerList = () => {
           <Button>플래너 생성</Button>
         </TitleBox>
         <HiddenBox>
-          <Planners ref={plannerRef}>
-            <PlannerItem />
-            {/* <PlannerItem />
-        <PlannerItem />
-        <PlannerItem />
-        <PlannerItem />
-      <PlannerItem /> */}
+          <Planners ref={plannersRef}>
+            <PlannerItem ref={itemRef}>
+              <SimpleMap />
+              <InfoBox>
+                <Name>1</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>2</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>3</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>4</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>5</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>6</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>7</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
+            <PlannerItem>
+              <SimpleMap />
+              <InfoBox>
+                <Name>8</Name>
+                <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
+              </InfoBox>
+            </PlannerItem>
           </Planners>
         </HiddenBox>
       </Container>
