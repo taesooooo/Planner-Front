@@ -10,7 +10,7 @@ const PlannerListBlock = styled.div`
 `;
 
 const Container = styled.div`
-  /* border: 1px solid green; */
+  padding: 0 15px 0 15px;
   margin: 0 auto;
   @media all and (min-width: 768px) {
     width: 750px;
@@ -67,9 +67,12 @@ const PlannerItem = styled.li`
   box-shadow: 3px 3px 7px 1px lightgray;
   /* padding: 3px; */
   user-select: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const InfoBox = styled.div`
-  /* user-select: none; */
+  user-select: none;
   height: 60px;
   margin: 0;
   padding: 3px;
@@ -90,22 +93,19 @@ const SimpleMap = styled.div`
 `;
 
 const PlannerList = () => {
-  const blockRef = useRef();
   const plannersRef = useRef();
   const itemRef = useRef();
 
-  let currentIndex = 0;
-  let currentPosition = 0;
-  let slideStatus = false; // mouseMove 실행 여부
-  let slideStartX = 0; // 마우스 다운 좌표
-  let slideMoving = 0; // 마우스 이동한 좌표
-  let slideGap = 0; // 마우스 업 좌표
+  let currentPosition = 0; // 이전에 이동한 좌표
+  let slideStatus = false; // mouseMove 실행 조건
+  let slideStartX = 0; // mousedown: 마우스 다운된 좌표
+  let slideMoving = 0; // mousemove: 이전 좌표 + 현재 마우스가 이동한 좌표
+  let slideGap = 0; // mousemove - mousedown 좌표
   const TOTAL_SLIDES = 6;
 
   /**
-   * 당기는 애니메이션
-   * 마우스 나가면 드래그 종료
-   * 마지막 슬라이드 여백
+   * 마지막 슬라이드 여백 처리
+   * 보이는 슬라이드 고정
    */
 
   // 슬라이드 마우스 다운
@@ -121,22 +121,20 @@ const PlannerList = () => {
       slideMoving = currentPosition + e.clientX - slideStartX;
 
       plannersRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
-      // plannerRef.current.style = 'transform: translateX(' + currentPosition + slideMoving + 'px)'; // 왜?? 말이안됨
       plannersRef.current.style.transitionDuration = ' 0s';
     }
   };
+  
   // 슬라이드 마우스 업
   const slideEnd = () => {
-    const cur = itemRef.current.getBoundingClientRect();
-    console.log(cur);
-    const itemWidth = itemRef.current.offsetWidth + plannersRef.current.offsetWidth * 0.005;
-
-    let slideEndX = Math.round(slideGap / itemWidth) * itemWidth + currentPosition;
-
+    let itemMargin = plannersRef.current.offsetWidth * 0.005;
+    let itemSize = itemRef.current.offsetWidth + itemMargin;
+    let slideEndX = Math.round(slideGap / itemSize) * itemSize + currentPosition; // 최종 이동할 좌표
+    
     if (slideEndX > 0) {
       slideEndX = 0;
-    } else if (slideEndX < -itemWidth * (TOTAL_SLIDES - 2)) {
-      slideEndX = -(itemWidth * (TOTAL_SLIDES - 2));
+    } else if (slideEndX < -itemSize * (TOTAL_SLIDES - 2)) {
+      slideEndX = -(itemSize * (TOTAL_SLIDES - 2));
     }
 
     plannersRef.current.style = 'transform: translateX(' + slideEndX + 'px)';
@@ -148,20 +146,18 @@ const PlannerList = () => {
   useEffect(() => {
     let refValue = plannersRef.current;
     refValue.addEventListener('mousedown', slideStart);
-    refValue.addEventListener('mousemove', slideMove);
-    refValue.addEventListener('mouseup', slideEnd);
-    // refValue.addEventListener('mouseout', slideEnd);
+    window.addEventListener('mousemove', slideMove);
+    window.addEventListener('mouseup', slideEnd);
 
     return () => {
       refValue.removeEventListener('mousedown', slideStart);
-      refValue.removeEventListener('mousemove', slideMove);
-      refValue.removeEventListener('mouseup', slideEnd);
-      // refValue.removeEventListener('mouseout', slideEnd);
+      window.removeEventListener('mousemove', slideMove);
+      window.removeEventListener('mouseup', slideEnd);
     };
   });
 
   return (
-    <PlannerListBlock ref={blockRef}>
+    <PlannerListBlock>
       <Container>
         <TitleBox>
           <Title>나의 플래너</Title>
