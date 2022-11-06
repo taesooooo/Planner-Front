@@ -13,13 +13,13 @@ const Container = styled.div`
   padding: 0 15px 0 15px;
   margin: 0 auto;
   @media all and (min-width: 768px) {
-    width: 750px;
+    width: 738px;
   }
-  @media all and (min-width: 992px) {
-    width: 970px;
+  @media all and (min-width: 960px) {
+    width: 930px;
   }
-  @media all and (min-width: 1200px) {
-    width: 1170px;
+  @media all and (min-width: 1280px) {
+    width: 1250px;
   }
 `;
 
@@ -93,15 +93,16 @@ const SimpleMap = styled.div`
 `;
 
 const PlannerList = () => {
+  const plannersBoxRef = useRef();
   const plannersRef = useRef();
   const itemRef = useRef();
 
   let currentPosition = 0; // 이전에 이동한 좌표
-  let slideStatus = false; // mouseMove 실행 조건
-  let slideStartX = 0; // mousedown: 마우스 다운된 좌표
-  let slideMoving = 0; // mousemove: 이전 좌표 + 현재 마우스가 이동한 좌표
-  let slideGap = 0; // mousemove - mousedown 좌표
-  const TOTAL_SLIDES = 6;
+  let sliderStatus = false; // mouseMove 실행 조건
+  let sliderStartX = 0; // mousedown: 마우스 다운된 좌표
+  let sliderMoving = 0; // mousemove: 이전 좌표 + 현재 마우스가 이동한 좌표
+  let sliderGap = 0; // mousemove - mousedown 좌표
+  const TOTAL_SLIDERS = 6;
 
   /**
    * 마지막 슬라이드 여백 처리
@@ -109,50 +110,54 @@ const PlannerList = () => {
    */
 
   // 슬라이드 마우스 다운
-  const slideStart = (e) => {
-    slideStartX = e.clientX;
-    slideStatus = true;
+  const sliderStart = (e) => {
+    sliderStartX = e.clientX;
+    sliderStatus = true;
   };
 
   // 슬라이드 마우스 이동
-  const slideMove = (e) => {
-    if (slideStatus) {
-      slideGap = e.clientX - slideStartX;
-      slideMoving = currentPosition + e.clientX - slideStartX;
+  const sliderMove = (e) => {
+    if (sliderStatus) {
+      sliderGap = e.clientX - sliderStartX;
+      sliderMoving = currentPosition + e.clientX - sliderStartX;
 
-      plannersRef.current.style = 'transform: translateX(' + slideMoving + 'px)';
+      plannersRef.current.style.transform = ' translateX(' + sliderMoving + 'px)';
       plannersRef.current.style.transitionDuration = ' 0s';
     }
   };
-  
-  // 슬라이드 마우스 업
-  const slideEnd = () => {
-    let itemMargin = plannersRef.current.offsetWidth * 0.005;
-    let itemSize = itemRef.current.offsetWidth + itemMargin;
-    let slideEndX = Math.round(slideGap / itemSize) * itemSize + currentPosition; // 최종 이동할 좌표
-    
-    if (slideEndX > 0) {
-      slideEndX = 0;
-    } else if (slideEndX < -itemSize * (TOTAL_SLIDES - 2)) {
-      slideEndX = -(itemSize * (TOTAL_SLIDES - 2));
-    }
 
-    plannersRef.current.style = 'transform: translateX(' + slideEndX + 'px)';
+  // 슬라이드 마우스 업
+  const sliderEnd = () => {
+    let itemMargin = plannersRef.current.offsetWidth * 0.005;
+    let plannersBoxSize = plannersBoxRef.current.getBoundingClientRect().width;
+    let itemSize = itemRef.current.offsetWidth + itemMargin;
+    let sliderEndX = Math.round(sliderGap / itemSize) * itemSize + currentPosition; // 최종 이동할 좌표
+
+    if (sliderEndX > 0) {
+      sliderEndX = 0;
+    } else if (sliderEndX < plannersBoxSize - plannersRef.current.scrollWidth) {
+      sliderEndX = plannersBoxSize - plannersRef.current.scrollWidth;
+    }
+    // } else if (sliderEndX < -itemSize * (TOTAL_SLIDERS - 2)) {
+    //   sliderEndX = -(itemSize * (TOTAL_SLIDERS - 2));
+    // }
+
+    plannersRef.current.style.transform = 'translateX(' + sliderEndX + 'px)';
     plannersRef.current.style.transitionDuration = ' 1s';
-    currentPosition = slideEndX;
-    slideStatus = false;
+    currentPosition = sliderEndX;
+    sliderStatus = false;
   };
 
   useEffect(() => {
     let refValue = plannersRef.current;
-    refValue.addEventListener('mousedown', slideStart);
-    window.addEventListener('mousemove', slideMove);
-    window.addEventListener('mouseup', slideEnd);
+    refValue.addEventListener('mousedown', sliderStart);
+    window.addEventListener('mousemove', sliderMove);
+    window.addEventListener('mouseup', sliderEnd);
 
     return () => {
-      refValue.removeEventListener('mousedown', slideStart);
-      window.removeEventListener('mousemove', slideMove);
-      window.removeEventListener('mouseup', slideEnd);
+      refValue.removeEventListener('mousedown', sliderStart);
+      window.removeEventListener('mousemove', sliderMove);
+      window.removeEventListener('mouseup', sliderEnd);
     };
   });
 
@@ -163,7 +168,7 @@ const PlannerList = () => {
           <Title>나의 플래너</Title>
           <Button>플래너 생성</Button>
         </TitleBox>
-        <HiddenBox>
+        <HiddenBox ref={plannersBoxRef}>
           <Planners ref={plannersRef}>
             <PlannerItem ref={itemRef}>
               <SimpleMap />
