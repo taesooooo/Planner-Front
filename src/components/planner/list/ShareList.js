@@ -66,17 +66,16 @@ const Title = styled.p`
 `;
 
 const ShareItem = styled.li`
-  width: 100%;
-  height: 100%;
-  flex-basis: 22.5%;
   flex-shrink: 0;
-  margin-left: 0.5%;
-  background-color: white;
-  border: 1px solid ivory;
-  border-radius: 0.5rem;
-  box-shadow: 3px 3px 7px 1px lightgray;
-  /* padding: 3px; */
-  user-select: none;
+  width: 200px;
+  float: left;
+  border-radius: 2px;
+  box-shadow: 3px 3px 7px 1px gray;
+  /* padding: 0 6px 12px; */
+  margin: 0.5%;
+  @media all and (min-width: 768px) {
+    width: 24%;
+  }
   &:hover {
     cursor: pointer;
   }
@@ -99,7 +98,16 @@ const Date = styled.p`
 `;
 
 const SimpleMap = styled.div`
-  height: 18vw;
+  width: 100%;
+  height: 150px;
+  border: none;
+  margin: auto;
+  @media all and (min-width: 960px) {
+    height: 200px;
+  }
+  @media all and (min-width: 1280px) {
+    height: 250px;
+  }
 `;
 
 const ShareList = () => {
