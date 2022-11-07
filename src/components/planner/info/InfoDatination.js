@@ -7,15 +7,20 @@ import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 const InfoDatinationBlock = styled.div`
   /* justify-content: center; */
   /* box-shadow: inset 1rem 0 3rem 0.5rem rgba(256, 256, 256, 0.7); */
-  width: 20.8rem;
   display: flex;
-  margin: auto;
+  margin: 0 auto 10px;
+  width: 6.1rem;
+  @media all and (min-width: 450px) {
+    width: 13.3rem;
+  }
+  @media all and (min-width: 768px) {
+    width: 19.8rem;
+  }
 `;
-// 양사이드만 뿌옇게 안되나?
+
 const DateBlock = styled.div`
   overflow: hidden;
-  border-radius: 0.5rem;
-  width: 80%;
+  width: 100%;
   height: 3rem;
 `;
 
@@ -27,6 +32,7 @@ const DateButtons = styled.div`
 
 const DateButton = styled.div`
   border-radius: 0.5rem;
+  border: none;
   width: 3rem;
   height: 3rem;
   text-align: center;

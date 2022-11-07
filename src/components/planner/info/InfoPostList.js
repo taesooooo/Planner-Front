@@ -3,21 +3,24 @@ import InfoEditItem from './InfoEditItem';
 import InfoPostItem from './InfoPostItem';
 
 const InfoPostListBlock = styled.div`
-  padding: 1rem;
+  margin: 50px auto 0;
   width: 100%;
+  height: 100%;
+  min-width: 640px;
 `;
 
 const InfoBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 90%;
+  margin: 0 auto;
 `;
 
 const Info = styled.div`
   width: 100%;
   font-weight: bold;
   display: flex;
-  /* justify-content: space-around; */
   p {
     margin-left: 1rem;
     border: 1px solid lightblue;

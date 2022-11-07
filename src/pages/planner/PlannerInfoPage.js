@@ -14,9 +14,9 @@ const PlannerInfoPage = () => {
       <PlannerInfo>
         <InfoMap />
         <InfoRoute />
+      </PlannerInfo>
         <InfoPostList />
         {/* <InfoPostListContainer /> */}
-      </PlannerInfo>
       <Footer />
     </>
   );

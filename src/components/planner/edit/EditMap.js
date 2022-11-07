@@ -9,8 +9,8 @@ const EditMapBlock = styled.div`
 
 const ButtonBox = styled.div`
   position: absolute;
-  left: 2%;
-  top: 1%;
+  left: 10px;
+  top: 10px;
   z-index: 999;
   display: flex;
   flex-direction: column;

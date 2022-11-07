@@ -31,11 +31,11 @@ const Calendar = styled.div`
 const PlusButton = styled.div`
   cursor: pointer;
   border: 0.2rem solid lightblue;
-  width: 48px;
-  height: 48px;
+  width: 47px;
+  height: 47px;
   text-align: center;
   border-radius: 0.2rem;
-  line-height: 50px;
+  line-height: 47px;
   background-color: white;
 `;
 

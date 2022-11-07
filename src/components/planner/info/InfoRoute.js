@@ -13,25 +13,28 @@ import InfoDatination from './InfoDatination';
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
 
 const InfoRouteBlock = styled.div`
-  border: 1px solid green;
-  width: 21rem;
-  height: 38rem;
+  width: 40%;
+  height: 600px;
   text-align: center;
-  padding: 1rem;
+  margin: 0 auto;
 `;
 
 const Route = styled.div`
+  width: 80%;
+  height: 90%;
   border: 1px solid lightblue;
   border-radius: 1rem;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
 `;
 
 const RouteSpotBox = styled.div`
   border: 0.2rem solid lightblue;
-  width: 15rem;
+  width: 70%;
   align-items: center;
   display: flex;
   margin: 20px 0;
@@ -56,14 +59,6 @@ const RouteSpotName = styled.div`
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
-
-const RouteSpot = styled.div`
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background-color: navy;
-  margin-top: 5px;
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
@@ -95,7 +90,6 @@ const InfoRoute = () => {
         </RouteTransportBox>
         <RouteSpotBox>
           <StyledFontAwesomeIcon icon={faLocationDot} />
-
           <RouteSpotName>한라산</RouteSpotName>
         </RouteSpotBox>
       </Route>

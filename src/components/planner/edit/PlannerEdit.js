@@ -7,12 +7,10 @@ const PlannerEditBlock = styled.div`
   display: flex;
 `;
 
-const PlannerEdit = () => {
+const PlannerEdit = ({children}) => {
   return (
     <PlannerEditBlock>
-      <EditRoute />
-      <EditMap />
-      <EditList />
+      {children}
     </PlannerEditBlock>
   );
 };
