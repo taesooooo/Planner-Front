@@ -13,7 +13,7 @@ const InfoBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 `;
 
