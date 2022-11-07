@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import PlannerItem from '../../planner/list/PlannerItem';
+// import PlannerItem from '../../planner/list/PlannerItem';
 
 const Planners = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const LikePlanners = () => {
       <h3>플래너</h3>
       <hr />
       <Planners>
-        <PlannerItem />
+        {/* <PlannerItem /> */}
       </Planners>
     </>
   );

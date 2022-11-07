@@ -8,7 +8,6 @@ const ShareListBlock = styled.div`
 `;
 
 const Container = styled.div`
-  border: 1px solid red;
   width: 100%;
   height: 100%;
   margin: 10px auto;
@@ -27,7 +26,6 @@ const Container = styled.div`
 `;
 
 const HiddenBox = styled.div`
-  border: 1px solid blue;
   margin: 0 auto;
   overflow: hidden;
   z-index: 1;
@@ -55,14 +53,18 @@ const Shares = styled.ul`
 `;
 
 const TitleBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Title = styled.p`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  margin-left: 15px;
+  @media all and (max-width: 768px) {
+    margin-left: 15px;
+  }
+  @media all and (min-width: 768px) {
+    margin-left: 20px;
+  }
+  @media all and (min-width: 1025px) {
+    margin-left: 0;
+  }
 `;
 
 const ShareItem = styled.li`
@@ -110,22 +112,41 @@ const SimpleMap = styled.div`
   }
 `;
 
+const SharesScrollBox = styled.div`
+width: calc(100% - 40px);
+height: 4px;
+border-radius: 10px;
+/* margin: 0 auto; */
+position: absolute;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: lightgray;
+z-index: 1;
+overflow: hidden;
+@media all and (min-width: 768px) {
+  display: none;
+}
+`;
+
+const SharesScroll = styled.div`
+background-color: gray;
+width: 50%;
+height: 100%;
+z-index: 0;
+`;
+
 const ShareList = () => {
   const sharesBoxRef = useRef();
   const sharesRef = useRef();
   const itemRef = useRef();
+  const scrollBoxRef = useRef();
+  const scrollRef = useRef();
 
   let currentPosition = 0; // 이전에 이동한 좌표
   let sliderStatus = false; // mouseMove 실행 조건
   let sliderStartX = 0; // mousedown: 마우스 다운된 좌표
   let sliderMoving = 0; // mousemove: 이전 좌표 + 현재 마우스가 이동한 좌표
   let sliderGap = 0; // mousemove - mousedown 좌표
-  const TOTAL_SLIDERS = 6;
-
-  /**
-   * 마지막 슬라이드 여백 처리
-   * 보이는 슬라이드 고정
-   */
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
@@ -144,6 +165,8 @@ const ShareList = () => {
     }
   };
 
+ 
+
   // 슬라이드 마우스 업
   const sliderEnd = () => {
     let itemMargin = sharesRef.current.offsetWidth * 0.005;
@@ -156,9 +179,6 @@ const ShareList = () => {
     } else if (sliderEndX < sharesBoxSize - sharesRef.current.scrollWidth) {
       sliderEndX = sharesBoxSize - sharesRef.current.scrollWidth;
     }
-    // } else if (sliderEndX < -itemSize * (TOTAL_SLIDERS - 2)) {
-    //   sliderEndX = -(itemSize * (TOTAL_SLIDERS - 2));
-    // }
 
     sharesRef.current.style.transform = 'translateX(' + sliderEndX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
@@ -183,7 +203,7 @@ const ShareList = () => {
     <ShareListBlock>
       <Container>
         <TitleBox>
-          <Title>다른 이용자들의 플래너</Title>
+          <p>다른 이용자들의 플래너</p>
         </TitleBox>
         <HiddenBox ref={sharesBoxRef}>
           <Shares ref={sharesRef}>
@@ -245,6 +265,9 @@ const ShareList = () => {
             </ShareItem>
           </Shares>
         </HiddenBox>
+        <SharesScrollBox ref={scrollBoxRef}>
+          <SharesScroll ref={scrollRef} />
+        </SharesScrollBox>
       </Container>
     </ShareListBlock>
   );

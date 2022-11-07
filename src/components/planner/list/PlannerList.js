@@ -104,11 +104,6 @@ const PlannerList = () => {
   let sliderGap = 0; // mousemove - mousedown 좌표
   const TOTAL_SLIDERS = 6;
 
-  /**
-   * 마지막 슬라이드 여백 처리
-   * 보이는 슬라이드 고정
-   */
-
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
     sliderStartX = e.clientX;
