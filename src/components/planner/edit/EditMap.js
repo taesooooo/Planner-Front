@@ -5,6 +5,7 @@ const EditMapBlock = styled.div`
   width: 1000px;
   min-width: 200px;
   height: 750px;
+  z-index: -1;
 `;
 
 const ButtonBox = styled.div`

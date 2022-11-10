@@ -7,9 +7,9 @@ const EditCalendarBlock = styled.div`
 `;
 
 const Calendar = styled.div`
-  background-color: lightblue;
+  background-color: tomato;
   border-width: 0.2rem 0 0.2rem 0.2rem;
-  border-color: lightblue;
+  border-color: tomato;
   border-style: solid;
   border-radius: 0.2rem;
   width: 50px;
@@ -45,9 +45,9 @@ const EditCalendar = () => {
       <Calendar>11/11</Calendar>
       <Calendar aria-current={true ? 'date' : null}>11/12</Calendar>
       <Calendar>11/13</Calendar>
-      <PlusButton>
+      {/* <PlusButton>
         <FontAwesomeIcon icon={faPlus} />
-      </PlusButton>
+      </PlusButton> */}
     </EditCalendarBlock>
   );
 };
