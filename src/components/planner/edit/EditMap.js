@@ -46,6 +46,7 @@ const EditMap = () => {
     <EditMapBlock id="map" ref={container}>
       <ButtonBox>
         <Button>사용 방법</Button>
+        <Button>멤버 초대</Button>
         <Button>장소 등록</Button>
         <Button>일정 저장</Button>
       </ButtonBox>

@@ -71,9 +71,9 @@ const ShareItem = styled.li`
   flex-shrink: 0;
   width: 200px;
   float: left;
-  border-radius: 2px;
-  box-shadow: 3px 3px 7px 1px gray;
+  box-shadow: 3px 3px 7px 1px rgb(0,0,0,30%);
   /* padding: 0 6px 12px; */
+  border-radius: 0.5rem;
   margin: 0.5%;
   @media all and (min-width: 768px) {
     width: 24%;

@@ -5,7 +5,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
 
-
 const EditRouteBlock = styled.div`
   width: 450px;
   background-color: beige;
@@ -21,23 +20,23 @@ const RouteList = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0.5rem;
-  margin-top: -50px;
+  /* margin-top: -50px; */
 `;
 
 const RouteLine = styled.div`
   background-color: lightblue;
   width: 0.5rem;
-  height: calc(3 * 90px + 2 * 40px);
-  margin: 0.5rem 0;
+  height: 153px;
   position: absolute;
-  z-index: 99;
+  top: -10px;
+  /* z-index: 1; */
 `;
 
 const ItemBlock = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 const EditTransOption = styled.select`
@@ -62,7 +61,7 @@ const Title = styled.input`
   border: none;
   border-radius: 10px;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   padding: 0 10px;
   &:focus {
     outline: none;
@@ -73,10 +72,8 @@ const DateBox = styled.div`
   margin-bottom: 10px;
   display: flex;
   height: 100%;
-  /* padding: 0 5px; */
-  /* border: 1px solid red; */
   background-color: white;
-  border-radius: 5rem;
+  border-radius: 10px;
   line-height: 30px;
   font-weight: bold;
   div {
@@ -100,6 +97,8 @@ const Participants = styled.select`
   height: 32px;
   border: none;
   border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
   &:focus {
     outline: none;
   }
@@ -111,36 +110,46 @@ const Funds = styled.input`
   border: none;
   border-radius: 10px;
   padding: 0 10px;
+  text-align: right;
+  font-size: 16px;
   &:focus {
     outline: none;
   }
 `;
 
 const FlexDiv = styled.div`
-  margin-bottom: 10px;
   display: flex;
   height: 100%;
-  /* border: 1px solid red; */
   justify-content: space-evenly;
 `;
 
 const EditRoute = () => {
+  const TOTAL = [0, 1, 2];
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const OPTIONS = [
+  const TRANSOPTIONS = [
+    { value: 'none', name: '선택' },
     { value: 'plane', name: '비행기' },
     { value: 'train', name: '기차' },
     { value: 'bus', name: '버스' },
     { value: 'taxi', name: '택시' },
     { value: 'bicycle', name: '오토바이' },
-    { value: 'personwalking', name: '걷기' },
+    { value: 'walking', name: '도보' },
+  ];
+
+  const MEMBEROPTIONS = [
+    { value: 'none', name: '선택' },
+    { value: 'one', name: '1명' },
+    { value: 'two', name: '2명' },
+    { value: 'three', name: '3명' },
+    { value: 'four', name: '4명' },
   ];
 
   return (
     <EditRouteBlock>
       <InfoForm>
-        <Title />
+        <Title placeholder='플래너 이름' />
         <DateBox>
           <StyledDatePicker selected={startDate} onChange={(date) => setStartDate(date)} minDate={new Date()} />
           -
@@ -148,43 +157,37 @@ const EditRoute = () => {
         </DateBox>
         <FlexDiv>
           <Funds placeholder="여행 자금" />
-          <Participants />
+          <Participants>
+            {MEMBEROPTIONS.map((option) => {
+              return (
+                <option key={option.value} value={option.value}>
+                  {option.name}
+                </option>
+              );
+            })}
+          </Participants>
         </FlexDiv>
       </InfoForm>
       <RouteBox>
         <EditCalendar />
         <RouteList>
-          <RouteLine />
-          <ItemBlock>
-            <EditTransOption>
-              {OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.name}
-                </option>
-              ))}
-            </EditTransOption>
-            <EditRouteItem type="delete" />
-          </ItemBlock>
-          <ItemBlock>
-            <EditTransOption>
-              {OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.name}
-                </option>
-              ))}
-            </EditTransOption>
-            <EditRouteItem type="delete" />
-          </ItemBlock>
-          <ItemBlock>
-            <EditTransOption>
-              {OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.name}
-                </option>
-              ))}
-            </EditTransOption>
-            <EditRouteItem type="delete" />
-          </ItemBlock>
+          {TOTAL.map((i) => {
+            return (
+              <ItemBlock>
+                <RouteLine />
+                <EditTransOption>
+                  {TRANSOPTIONS.map((option) => {
+                    return (
+                      <option key={option.value} value={option.value}>
+                        {option.name}
+                      </option>
+                    );
+                  })}
+                </EditTransOption>
+                <EditRouteItem type="delete" />
+              </ItemBlock>
+            );
+          })}
         </RouteList>
       </RouteBox>
     </EditRouteBlock>

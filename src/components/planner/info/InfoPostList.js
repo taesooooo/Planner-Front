@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import InfoEditItem from './InfoEditItem';
 import InfoPostItem from './InfoPostItem';
 
 const InfoPostListBlock = styled.div`
@@ -11,27 +11,38 @@ const InfoPostListBlock = styled.div`
 
 const InfoBlock = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* justify-content: space-around; */
+  /* align-items: center; */
   width: 80%;
   margin: 0 auto;
 `;
 
 const Info = styled.div`
-  width: 100%;
-  font-weight: bold;
+  width: auto;
+  height: auto;
   display: flex;
+  border: 1px solid lightblue;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-weight: bold;
+  & + & {
+    margin-left: 10px;
+  }
   p {
-    margin-left: 1rem;
-    border: 1px solid lightblue;
-    border-radius: 1rem;
-    padding: 1rem;
+    &:first-child {
+      color: gray;
+      white-space: nowrap;
+    }
+    &:last-child {
+      margin-left: 5px;
+    }
+    margin: 0;
   }
 `;
 
 const PostListBlock = styled.div`
   width: 80%;
-  margin: auto;
+  margin: 30px auto;
   border: 1px solid lightgray;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -59,12 +70,10 @@ const Button = styled.button`
   }
 `;
 
-const EditPlannerButton = styled(Button)`
-  border-radius: 1rem;
-  width: 10rem;
-  height: 3rem;
-  font-size: 1.1rem;
+const ItemBox = styled.div`
+  /* border: 1px solid red; */
 `;
+
 /**
  * 1. 메모 생성 버튼 => editItem이 생성됨.
  * 2. editItem 입력 후 확인 버튼 => editItem 자리에 postItem이 생성됨.
@@ -72,16 +81,23 @@ const EditPlannerButton = styled(Button)`
  * 4. postItem의 max버튼 => postItem의 text만큼 높이가 변경됨.
  */
 const InfoPostList = () => {
+  const Total = [1, 2, 3];
+
   return (
     <InfoPostListBlock>
       <InfoBlock>
         <Info>
-          <p>플래너 이름: 제주도 한바퀴</p>
-          <p>일정: 2022년 08월 17일 ~ 2022년 08월 28일</p>
-          <p>참여 인원: 4명</p>
-          <p>여행 자금: 3000000원</p>
+          <p>플래너 이름:</p> <p>제주도 한바퀴</p>
         </Info>
-        <EditPlannerButton>플래너 수정</EditPlannerButton>
+        <Info>
+          <p>일정:</p> <p>2022년 08월 17일 ~ 2022년 08월 28일</p>
+        </Info>
+        <Info>
+          <p>참여 인원:</p> <p>4명</p>
+        </Info>
+        <Info>
+          <p>여행 자금:</p> <p>3000000원</p>
+        </Info>
       </InfoBlock>
       <PostListBlock>
         <PostListBlockTitle>
@@ -89,8 +105,11 @@ const InfoPostList = () => {
           <Button>ADD</Button>
         </PostListBlockTitle>
         <PostList>
-          <InfoEditItem />
-          <InfoPostItem />
+          <ItemBox>
+            {Total.map((i) => {
+              return <InfoPostItem index={i} />;
+            })}
+          </ItemBox>
         </PostList>
       </PostListBlock>
     </InfoPostListBlock>

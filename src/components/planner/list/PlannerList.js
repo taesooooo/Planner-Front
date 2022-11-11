@@ -30,6 +30,7 @@ const HiddenBox = styled.div`
 
 const Planners = styled.ul`
   display: flex;
+  padding: 10px 0;
   width: 100%;
   height: 100%;
 `;
@@ -64,7 +65,7 @@ const PlannerItem = styled.li`
   background-color: white;
   border: 1px solid ivory;
   border-radius: 0.5rem;
-  box-shadow: 3px 3px 7px 1px lightgray;
+  box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
   /* padding: 3px; */
   user-select: none;
   &:hover {
