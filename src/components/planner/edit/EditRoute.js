@@ -120,13 +120,13 @@ const Funds = styled.input`
 const FlexDiv = styled.div`
   display: flex;
   height: 100%;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const EditRoute = () => {
   const TOTAL = [0, 1, 2];
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date().setDate(new Date().getDate + 1));
 
   const TRANSOPTIONS = [
     { value: 'none', name: '선택' },
@@ -149,11 +149,21 @@ const EditRoute = () => {
   return (
     <EditRouteBlock>
       <InfoForm>
-        <Title placeholder='플래너 이름' />
+        <Title placeholder="플래너 이름" />
         <DateBox>
-          <StyledDatePicker selected={startDate} onChange={(date) => setStartDate(date)} minDate={new Date()} />
+          <StyledDatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            minDate={new Date()}
+            dateFormat="yyyy. MM. dd"
+          />
           -
-          <StyledDatePicker selected={endDate} onChange={(date) => setEndDate(date)} minDate={startDate} />
+          <StyledDatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            minDate={startDate}
+            dateFormat="yyyy. MM. dd"
+          />
         </DateBox>
         <FlexDiv>
           <Funds placeholder="여행 자금" />
