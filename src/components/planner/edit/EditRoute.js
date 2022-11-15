@@ -29,7 +29,6 @@ const RouteLine = styled.div`
   height: 153px;
   position: absolute;
   top: -10px;
-  /* z-index: 1; */
 `;
 
 const ItemBlock = styled.div`
@@ -76,17 +75,21 @@ const DateBox = styled.div`
   border-radius: 10px;
   line-height: 30px;
   font-weight: bold;
-  div {
-    z-index: 999;
+  z-index: 999;
+  input {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -70%);
   }
 `;
 const StyledDatePicker = styled(DatePicker)`
   text-align: center;
   font-weight: bold;
-  width: 165px;
-  height: 30px;
+  width: 220px;
+  height: 20px;
   border-radius: 5rem;
   border: none;
+  margin: 0 auto;
   &:focus {
     outline: none;
   }
@@ -110,7 +113,6 @@ const Funds = styled.input`
   border: none;
   border-radius: 10px;
   padding: 0 10px;
-  text-align: right;
   font-size: 16px;
   &:focus {
     outline: none;
@@ -125,8 +127,8 @@ const FlexDiv = styled.div`
 
 const EditRoute = () => {
   const TOTAL = [0, 1, 2];
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date().setDate(new Date().getDate + 1));
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
 
   const TRANSOPTIONS = [
     { value: 'none', name: '선택' },
@@ -152,17 +154,15 @@ const EditRoute = () => {
         <Title placeholder="플래너 이름" />
         <DateBox>
           <StyledDatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
             minDate={new Date()}
-            dateFormat="yyyy. MM. dd"
-          />
-          -
-          <StyledDatePicker
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
-            minDate={startDate}
-            dateFormat="yyyy. MM. dd"
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+            dateFormat=" yyyy. MM. dd "
+            placeholderText="날짜 입력"
           />
         </DateBox>
         <FlexDiv>
