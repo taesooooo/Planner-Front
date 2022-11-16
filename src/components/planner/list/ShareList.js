@@ -29,14 +29,17 @@ const HiddenBox = styled.div`
   margin: 0 auto;
   overflow: hidden;
   z-index: 1;
-  @media all and (max-width: 768px) {
+  width: calc(100% - 40px);
+  padding: 0 20px;
+  /* @media all and (max-width: 768px) {
     margin-left: 15px;
   }
   @media all and (min-width: 768px) {
-    width: calc(100% - 40px);
-  }
+    padding: 0 20px;
+  } */
   @media all and (min-width: 1025px) {
     width: 100%;
+    padding: 0;
   }
   z-index: 1;
 `;
@@ -55,13 +58,13 @@ const Shares = styled.ul`
 const TitleBox = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
-  margin-left: 15px;
-  @media all and (max-width: 768px) {
+  margin-left: 20px;
+  /* @media all and (max-width: 768px) {
     margin-left: 15px;
   }
   @media all and (min-width: 768px) {
     margin-left: 20px;
-  }
+  } */
   @media all and (min-width: 1025px) {
     margin-left: 0;
   }
