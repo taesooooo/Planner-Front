@@ -82,6 +82,7 @@ const DateBox = styled.div`
     transform: translate(-50%, -70%);
   }
 `;
+
 const StyledDatePicker = styled(DatePicker)`
   text-align: center;
   font-weight: bold;
