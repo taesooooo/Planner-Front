@@ -96,7 +96,7 @@ const StyledDatePicker = styled(DatePicker)`
   }
 `;
 
-const Participants = styled.select`
+const Category = styled.select`
   width: 120px;
   height: 32px;
   border: none;
@@ -108,8 +108,19 @@ const Participants = styled.select`
   }
 `;
 
+const People = styled.input`
+  width: 40px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 10px;
+  font-size: 16px;
+  &:focus {
+    outline: none;
+  }
+`;
 const Funds = styled.input`
-  width: 160px;
+  width: 130px;
   height: 30px;
   border: none;
   border-radius: 10px;
@@ -143,10 +154,10 @@ const EditRoute = () => {
 
   const MEMBEROPTIONS = [
     { value: 'none', name: '선택' },
-    { value: 'one', name: '1명' },
-    { value: 'two', name: '2명' },
-    { value: 'three', name: '3명' },
-    { value: 'four', name: '4명' },
+    { value: 'alone', name: '혼자' },
+    { value: 'couple', name: '연인' },
+    { value: 'friend', name: '친구' },
+    { value: 'family', name: '가족' },
   ];
 
   return (
@@ -168,7 +179,8 @@ const EditRoute = () => {
         </DateBox>
         <FlexDiv>
           <Funds placeholder="여행 자금" />
-          <Participants>
+          <People placeholder='인원' />
+          <Category>
             {MEMBEROPTIONS.map((option) => {
               return (
                 <option key={option.value} value={option.value}>
@@ -176,7 +188,7 @@ const EditRoute = () => {
                 </option>
               );
             })}
-          </Participants>
+          </Category>
         </FlexDiv>
       </InfoForm>
       <RouteBox>
