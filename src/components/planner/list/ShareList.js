@@ -62,7 +62,7 @@ const ShareItem = styled.li`
   flex-shrink: 0;
   width: 200px;
   float: left;
-  box-shadow: 3px 3px 7px 1px rgb(0,0,0,30%);
+  box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
   /* padding: 0 6px 12px; */
   border-radius: 0.5rem;
   margin: 0.5%;
@@ -104,26 +104,26 @@ const SimpleMap = styled.div`
 `;
 
 const SharesScrollBox = styled.div`
-width: calc(100% - 40px);
-height: 4px;
-border-radius: 10px;
-/* margin: 0 auto; */
-position: absolute;
-left: 50%;
-transform: translate(-50%, -50%);
-background-color: lightgray;
-z-index: 1;
-overflow: hidden;
-@media all and (min-width: 768px) {
-  display: none;
-}
+  width: calc(100% - 40px);
+  height: 4px;
+  border-radius: 10px;
+  /* margin: 0 auto; */
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: lightgray;
+  z-index: 1;
+  overflow: hidden;
+  @media all and (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const SharesScroll = styled.div`
-background-color: gray;
-width: 50%;
-height: 100%;
-z-index: 0;
+  background-color: gray;
+  width: 50%;
+  height: 100%;
+  z-index: 0;
 `;
 
 const ShareList = () => {
@@ -156,8 +156,6 @@ const ShareList = () => {
     }
   };
 
- 
-
   // 슬라이드 마우스 업
   const sliderEnd = () => {
     let itemMargin = sharesRef.current.offsetWidth * 0.005;
@@ -182,11 +180,13 @@ const ShareList = () => {
     refValue.addEventListener('mousedown', sliderStart);
     window.addEventListener('mousemove', sliderMove);
     window.addEventListener('mouseup', sliderEnd);
+    window.addEventListener('resize', sliderEnd);
 
     return () => {
       refValue.removeEventListener('mousedown', sliderStart);
       window.removeEventListener('mousemove', sliderMove);
       window.removeEventListener('mouseup', sliderEnd);
+      window.addEventListener('resize', sliderEnd);
     };
   });
 
