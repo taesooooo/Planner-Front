@@ -44,6 +44,7 @@ const TitleBox = styled.div`
 const Title = styled.p`
   font-size: 1.3rem;
   font-weight: bold;
+  
 `;
 
 const Button = styled.button`
@@ -71,6 +72,7 @@ const PlannerItem = styled.li`
   &:hover {
     cursor: pointer;
   }
+  
 `;
 const InfoBox = styled.div`
   user-select: none;
@@ -134,9 +136,6 @@ const PlannerList = () => {
     } else if (sliderEndX < plannersBoxSize - plannersRef.current.scrollWidth) {
       sliderEndX = plannersBoxSize - plannersRef.current.scrollWidth;
     }
-    // } else if (sliderEndX < -itemSize * (TOTAL_SLIDERS - 2)) {
-    //   sliderEndX = -(itemSize * (TOTAL_SLIDERS - 2));
-    // }
 
     plannersRef.current.style.transform = 'translateX(' + sliderEndX + 'px)';
     plannersRef.current.style.transitionDuration = ' 1s';
@@ -149,11 +148,13 @@ const PlannerList = () => {
     refValue.addEventListener('mousedown', sliderStart);
     window.addEventListener('mousemove', sliderMove);
     window.addEventListener('mouseup', sliderEnd);
+    window.addEventListener('resize', sliderEnd);
 
     return () => {
       refValue.removeEventListener('mousedown', sliderStart);
       window.removeEventListener('mousemove', sliderMove);
       window.removeEventListener('mouseup', sliderEnd);
+      window.removeEventListener('resize', sliderEnd);
     };
   });
 
