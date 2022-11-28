@@ -68,14 +68,14 @@ const PlannerItem = styled.li`
   border-radius: 0.5rem;
   box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
   /* padding: 3px; */
-  user-select: none;
+  /* user-select: none; */
   &:hover {
     cursor: pointer;
   }
   
 `;
 const InfoBox = styled.div`
-  user-select: none;
+  /* user-select: none; */
   height: 60px;
   margin: 0;
   padding: 3px;
@@ -116,6 +116,7 @@ const PlannerList = () => {
   // 슬라이드 마우스 이동
   const sliderMove = (e) => {
     if (sliderStatus) {
+      e.preventDefault();
       sliderGap = e.clientX - sliderStartX;
       sliderMoving = currentPosition + e.clientX - sliderStartX;
 
