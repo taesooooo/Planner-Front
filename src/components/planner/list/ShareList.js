@@ -31,6 +31,7 @@ const HiddenBox = styled.div`
   z-index: 1;
   width: calc(100% - 40px);
   padding: 0 20px;
+  /* overflow-x: scroll; */
   @media all and (min-width: 768px) {
     width: 100%;
     padding: 0;
@@ -122,7 +123,7 @@ const SharesScrollBox = styled.div`
 
 const SharesScroll = styled.div`
   background-color: gray;
-  width: 50%;
+  width: 100px;
   height: 100%;
   z-index: 0;
 `;
@@ -140,6 +141,7 @@ const ShareList = () => {
   let moveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
   let sliderX = 0; // 슬라이더 x 좌표
   const TOTAL_SLIDE = 4;
+  let  a = 0;
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
@@ -153,8 +155,13 @@ const ShareList = () => {
       currentX = e.clientX;
       moveX = sliderX + currentX - startX;
 
+      a = sharesRef.current.getBoundingClientRect().left;
+      console.log(a)
+
       sharesRef.current.style.transform = ' translateX(' + moveX + 'px)';
-      sharesRef.current.style.transitionDuration = ' 0s';
+      sharesRef.current.style.transitionDuration = '0s';
+      scrollRef.current.style.transform = ' translateX(' + a + 'px)';
+      scrollRef.current.style.transitionDuration = '0s';
     }
   };
 
@@ -170,8 +177,16 @@ const ShareList = () => {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
 
+    if(a < 0){
+      a = 0;
+    }else if (a < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
+      a = scrollBoxRef.current.clientWidth;
+    }
+
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
+    scrollRef.current.style.transform = ' translateX('  + a + 'px)';
+    scrollRef.current.style.transitionDuration = ' 1s';
     isSlide = false;
   };
 
