@@ -96,52 +96,59 @@ const SimpleMap = styled.div`
 `;
 
 const PlannerList = () => {
-  const plannersBoxRef = useRef();
+  const hiddenBoxRef = useRef();
   const plannersRef = useRef();
   const itemRef = useRef();
 
-  let currentPosition = 0; // 이전에 이동한 좌표
-  let sliderStatus = false; // mouseMove 실행 조건
-  let sliderStartX = 0; // mousedown: 마우스 다운된 좌표
-  let sliderMoving = 0; // mousemove: 이전 좌표 + 현재 마우스가 이동한 좌표
-  let sliderGap = 0; // mousemove - mousedown 좌표
-  const TOTAL_SLIDERS = 6;
+  let isSlide = false; // 슬라이더 이벤트 실행 조건
+  let startX = 0; // 마우스 클릭한 x 좌표
+  let currentX = 0; // 마우스 이동한 x 좌표
+  let moveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
+  let sliderX = 0; // 슬라이더 x 좌표
+  const TOTAL_SLIDE = 8;
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
-    sliderStartX = e.clientX;
-    sliderStatus = true;
+    startX = e.clientX;
+    isSlide = true;
   };
 
   // 슬라이드 마우스 이동
   const sliderMove = (e) => {
-    if (sliderStatus) {
-      e.preventDefault();
-      sliderGap = e.clientX - sliderStartX;
-      sliderMoving = currentPosition + e.clientX - sliderStartX;
+    if (isSlide) {
+      currentX = e.clientX;
+      moveX = sliderX + currentX - startX;
 
-      plannersRef.current.style.transform = ' translateX(' + sliderMoving + 'px)';
+      plannersRef.current.style.transform = ' translateX(' + moveX + 'px)';
       plannersRef.current.style.transitionDuration = ' 0s';
     }
   };
 
   // 슬라이드 마우스 업
-  const sliderEnd = () => {
-    let itemMargin = plannersRef.current.offsetWidth * 0.005;
-    let plannersBoxSize = plannersBoxRef.current.getBoundingClientRect().width;
-    let itemSize = itemRef.current.offsetWidth + itemMargin;
-    let sliderEndX = Math.round(sliderGap / itemSize) * itemSize + currentPosition; // 최종 이동할 좌표
-
-    if (sliderEndX > 0) {
-      sliderEndX = 0;
-    } else if (sliderEndX < plannersBoxSize - plannersRef.current.scrollWidth) {
-      sliderEndX = plannersBoxSize - plannersRef.current.scrollWidth;
+  const sliderEnd = (e) => {
+    let itemSize = plannersRef.current.scrollWidth / TOTAL_SLIDE;
+    sliderX = Math.round(moveX / itemSize) * itemSize;
+ 
+    if (sliderX > 0) {
+      sliderX = 0;
+    } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
+      sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
     }
 
-    plannersRef.current.style.transform = 'translateX(' + sliderEndX + 'px)';
+    plannersRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     plannersRef.current.style.transitionDuration = ' 1s';
-    currentPosition = sliderEndX;
-    sliderStatus = false;
+    isSlide = false;
+  };
+
+  // 너비 변경시 슬라이더 조절 
+  const sliderResize = () => {
+    if (sliderX > 0) {
+      sliderX = 0;
+    } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
+      sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
+    }
+    plannersRef.current.style.transform = 'translateX(' + sliderX + 'px)';
+    plannersRef.current.style.transitionDuration = '0s';
   };
 
   useEffect(() => {
@@ -149,13 +156,13 @@ const PlannerList = () => {
     refValue.addEventListener('mousedown', sliderStart);
     window.addEventListener('mousemove', sliderMove);
     window.addEventListener('mouseup', sliderEnd);
-    window.addEventListener('resize', sliderEnd);
+    window.addEventListener('resize', sliderResize);
 
     return () => {
       refValue.removeEventListener('mousedown', sliderStart);
       window.removeEventListener('mousemove', sliderMove);
       window.removeEventListener('mouseup', sliderEnd);
-      window.removeEventListener('resize', sliderEnd);
+      window.removeEventListener('resize', sliderResize);
     };
   });
 
@@ -166,7 +173,7 @@ const PlannerList = () => {
           <Title>나의 플래너</Title>
           <Button>플래너 생성</Button>
         </TitleBox>
-        <HiddenBox ref={plannersBoxRef}>
+        <HiddenBox ref={hiddenBoxRef}>
           <Planners ref={plannersRef}>
             <PlannerItem ref={itemRef}>
               <SimpleMap />

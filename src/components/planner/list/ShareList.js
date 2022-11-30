@@ -128,7 +128,7 @@ const SharesScroll = styled.div`
 `;
 
 const ShareList = () => {
-  const hiddentBoxRef = useRef();
+  const hiddenBoxRef = useRef();
   const sharesRef = useRef();
   const itemRef = useRef();
   const scrollBoxRef = useRef();
@@ -137,9 +137,9 @@ const ShareList = () => {
   let isSlide = false; // 슬라이더 이벤트 실행 조건
   let startX = 0; // 마우스 클릭한 x 좌표
   let currentX = 0; // 마우스 이동한 x 좌표
-  let endX = 0; // 마우스 뗀 x 좌표
   let moveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
   let sliderX = 0; // 슬라이더 x 좌표
+  const TOTAL_SLIDE = 4;
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
@@ -160,15 +160,14 @@ const ShareList = () => {
 
   // 슬라이드 마우스 업
   const sliderEnd = (e) => {
-    endX = e.clientX;
-    let itemMargin = sharesRef.current.offsetWidth * 0.005;
-    let itemSize = itemRef.current.offsetWidth + itemMargin;
+    let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
+ 
 
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
-      sliderX = hiddentBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+      sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
 
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
@@ -176,11 +175,12 @@ const ShareList = () => {
     isSlide = false;
   };
 
+  // 너비 변경시 슬라이더 조절 
   const sliderResize = () => {
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
-      sliderX = hiddentBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+      sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = '0s';
@@ -207,7 +207,7 @@ const ShareList = () => {
         <TitleBox>
           <p>다른 이용자들의 플래너</p>
         </TitleBox>
-        <HiddenBox ref={hiddentBoxRef}>
+        <HiddenBox ref={hiddenBoxRef}>
           <Shares ref={sharesRef}>
             <ShareItem ref={itemRef}>
               <SimpleMap />
