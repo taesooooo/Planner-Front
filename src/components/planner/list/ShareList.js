@@ -123,9 +123,9 @@ const SharesScrollBox = styled.div`
 
 const SharesScroll = styled.div`
   background-color: gray;
-  width: 100px;
+  width: 70%;
   height: 100%;
-  z-index: 0;
+  /* z-index: 0; */
 `;
 
 const ShareList = () => {
@@ -141,11 +141,18 @@ const ShareList = () => {
   let moveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
   let sliderX = 0; // 슬라이더 x 좌표
   const TOTAL_SLIDE = 4;
-  let  a = 0;
+  let a = 0;
+  let b = 0;
+  
+  let scstartX = 0;
+  let sccurrentX = 0; // 마우스 이동한 x 좌표
+  let scmoveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
+  let scrollX = 0; // 슬라이더 x 좌표
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
     startX = e.clientX;
+    scstartX = e.clientX;
     isSlide = true;
   };
 
@@ -153,15 +160,17 @@ const ShareList = () => {
   const sliderMove = (e) => {
     if (isSlide) {
       currentX = e.clientX;
+      sccurrentX = e.clientX;
       moveX = sliderX + currentX - startX;
+      scmoveX = scrollX + sccurrentX - scstartX;
 
-      a = sharesRef.current.getBoundingClientRect().left;
-      console.log(a)
+      a = b + -sharesRef.current.getBoundingClientRect().left;
 
       sharesRef.current.style.transform = ' translateX(' + moveX + 'px)';
       sharesRef.current.style.transitionDuration = '0s';
-      scrollRef.current.style.transform = ' translateX(' + a + 'px)';
+      scrollRef.current.style.transform = ' translateX(' + -scmoveX + 'px)';
       scrollRef.current.style.transitionDuration = '0s';
+
     }
   };
 
@@ -169,36 +178,45 @@ const ShareList = () => {
   const sliderEnd = (e) => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
- 
-
+    
+    scrollX = scmoveX;
     if (sliderX > 0) {
       sliderX = 0;
-    } else if (sliderX < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
+    } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
 
-    if(a < 0){
-      a = 0;
-    }else if (a < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
-      a = scrollBoxRef.current.clientWidth;
+    if (scrollX > 0) {
+      scrollX = 0;
+    } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
+      scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
     }
-
+    
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
-    scrollRef.current.style.transform = ' translateX('  + a + 'px)';
+    scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
     scrollRef.current.style.transitionDuration = ' 1s';
     isSlide = false;
   };
 
-  // 너비 변경시 슬라이더 조절 
+  // 너비 변경시 슬라이더 조절
   const sliderResize = () => {
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
+
+    if (scrollX > 0) {
+      scrollX = 0;
+    } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
+      scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
+    }
+
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = '0s';
+    scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
+    scrollRef.current.style.transitionDuration = ' 0s';
   };
 
   useEffect(() => {

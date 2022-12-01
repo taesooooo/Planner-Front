@@ -131,9 +131,12 @@ const PlannerList = () => {
  
     if (sliderX > 0) {
       sliderX = 0;
-    } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
+    }  else if (sliderX < hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
     }
+    // } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
+    //   sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
+    // }
 
     plannersRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     plannersRef.current.style.transitionDuration = ' 1s';
@@ -147,6 +150,7 @@ const PlannerList = () => {
     } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
     }
+    
     plannersRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     plannersRef.current.style.transitionDuration = '0s';
   };
