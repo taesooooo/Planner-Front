@@ -11,6 +11,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   margin: 10px auto;
+  
   @media all and (min-width: 768px) {
     width: calc(100% - 40px);
     padding: 0 20px;
@@ -31,12 +32,13 @@ const HiddenBox = styled.div`
   z-index: 1;
   width: calc(100% - 40px);
   padding: 0 20px;
-  /* overflow-x: scroll; */
+
   @media all and (min-width: 768px) {
     width: 100%;
     padding: 0;
   }
   z-index: 1;
+
 `;
 
 const Shares = styled.ul`
@@ -45,6 +47,7 @@ const Shares = styled.ul`
   margin: 0 auto;
   padding: 0 20px 0 0;
   display: inline-block;
+  
   @media all and (min-width: 768px) {
     width: 100%;
     padding: 0;
@@ -141,18 +144,13 @@ const ShareList = () => {
   let moveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
   let sliderX = 0; // 슬라이더 x 좌표
   const TOTAL_SLIDE = 4;
-  let a = 0;
-  let b = 0;
-  
-  let scstartX = 0;
-  let sccurrentX = 0; // 마우스 이동한 x 좌표
-  let scmoveX = 0; // 현재 x 좌표 + 마우스 이동할 x 좌표
-  let scrollX = 0; // 슬라이더 x 좌표
+
+  // let scrMoveX = 0; 
+  // let scrollX = 0; 
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
     startX = e.clientX;
-    scstartX = e.clientX;
     isSlide = true;
   };
 
@@ -160,17 +158,13 @@ const ShareList = () => {
   const sliderMove = (e) => {
     if (isSlide) {
       currentX = e.clientX;
-      sccurrentX = e.clientX;
       moveX = sliderX + currentX - startX;
-      scmoveX = scrollX + sccurrentX - scstartX;
-
-      a = b + -sharesRef.current.getBoundingClientRect().left;
+      // scrMoveX = scrollX + currentX - startX;
 
       sharesRef.current.style.transform = ' translateX(' + moveX + 'px)';
       sharesRef.current.style.transitionDuration = '0s';
-      scrollRef.current.style.transform = ' translateX(' + -scmoveX + 'px)';
-      scrollRef.current.style.transitionDuration = '0s';
-
+      // scrollRef.current.style.transform = ' translateX(' + -scrMoveX + 'px)';
+      // scrollRef.current.style.transitionDuration = '0s';
     }
   };
 
@@ -178,24 +172,24 @@ const ShareList = () => {
   const sliderEnd = (e) => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
-    
-    scrollX = scmoveX;
+    // scrollX = scrMoveX;
+
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
-
-    if (scrollX > 0) {
-      scrollX = 0;
-    } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
-      scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
-    }
-    
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
-    scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
-    scrollRef.current.style.transitionDuration = ' 1s';
+
+    // if (scrollX > 0) {
+    //   scrollX = 0;
+    // } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
+    //   scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
+    // }
+    // scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
+    // scrollRef.current.style.transitionDuration = ' 1s';
+    
     isSlide = false;
   };
 
@@ -206,17 +200,16 @@ const ShareList = () => {
     } else if (sliderX < sharesRef.current.clientWidth - sharesRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
-
-    if (scrollX > 0) {
-      scrollX = 0;
-    } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
-      scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
-    }
-
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = '0s';
-    scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
-    scrollRef.current.style.transitionDuration = ' 0s';
+
+    // if (scrollX > 0) {
+    //   scrollX = 0;
+    // } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
+    //   scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
+    // }
+    // scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
+    // scrollRef.current.style.transitionDuration = ' 0s';
   };
 
   useEffect(() => {
@@ -300,9 +293,9 @@ const ShareList = () => {
             </ShareItem>
           </Shares>
         </HiddenBox>
-        <SharesScrollBox ref={scrollBoxRef}>
+        {/* <SharesScrollBox ref={scrollBoxRef}>
           <SharesScroll ref={scrollRef} />
-        </SharesScrollBox>
+        </SharesScrollBox> */}
       </Container>
     </ShareListBlock>
   );
