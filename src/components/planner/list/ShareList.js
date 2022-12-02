@@ -135,8 +135,8 @@ const ShareList = () => {
   const hiddenBoxRef = useRef();
   const sharesRef = useRef();
   const itemRef = useRef();
-  const scrollBoxRef = useRef();
-  const scrollRef = useRef();
+  // const scrollBoxRef = useRef();
+  // const scrollRef = useRef();
 
   let isSlide = false; // 슬라이더 이벤트 실행 조건
   let startX = 0; // 마우스 클릭한 x 좌표
