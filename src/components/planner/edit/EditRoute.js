@@ -36,6 +36,11 @@ const ItemBlock = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  &:nth-child(1) {
+    select {
+      display: none;
+    }
+  }
 `;
 
 const EditTransOption = styled.select`
@@ -76,6 +81,7 @@ const DateBox = styled.div`
   line-height: 30px;
   font-weight: bold;
   z-index: 999;
+
   input {
     position: absolute;
     left: 50%;
@@ -179,7 +185,7 @@ const EditRoute = () => {
         </DateBox>
         <FlexDiv>
           <Funds placeholder="여행 자금" />
-          <People placeholder='인원' />
+          <People placeholder="인원" />
           <Category>
             {MEMBEROPTIONS.map((option) => {
               return (

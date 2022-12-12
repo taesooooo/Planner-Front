@@ -14,6 +14,8 @@ const EditListBlock = styled.div`
 const MenuList = styled.div`
   width: 320px;
   display: flex;
+ 
+ 
 `;
 
 const MenuItem = styled.div`

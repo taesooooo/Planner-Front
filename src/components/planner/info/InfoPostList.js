@@ -107,7 +107,7 @@ const InfoPostList = () => {
         <PostList>
           <ItemBox>
             {Total.map((i) => {
-              return <InfoPostItem index={i} />;
+              return <InfoPostItem index={i} key={i} />;
             })}
           </ItemBox>
         </PostList>
