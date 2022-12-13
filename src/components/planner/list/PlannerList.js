@@ -5,8 +5,7 @@ const PlannerListBlock = styled.div`
   width: 100%;
   height: 100%;
   padding: 1rem 0 2rem 0;
-  margin-top: 100px;
-  background-color: lightgray;
+  background-color: #f1eee0;
 `;
 
 const Container = styled.div`
@@ -43,18 +42,17 @@ const TitleBox = styled.div`
 
 const Title = styled.p`
   font-size: 1.3rem;
-  font-weight: bold;
-  
 `;
 
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
-  background-color: lightblue;
+  background-color: #9aad67;
   border: none;
   border-radius: 0.5rem;
-  font-weight: bold;
   color: white;
+  font-weight: bolder;
+  font-size: 0.9rem;
 `;
 
 const PlannerItem = styled.li`
@@ -67,28 +65,32 @@ const PlannerItem = styled.li`
   border: 1px solid ivory;
   border-radius: 0.5rem;
   box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
-  /* padding: 3px; */
-  /* user-select: none; */
   &:hover {
     cursor: pointer;
   }
-  
 `;
 const InfoBox = styled.div`
-  /* user-select: none; */
   height: 60px;
   margin: 0;
   padding: 3px;
   border-top: 1px solid lightgray;
+  overflow: hidden;
 `;
 const Name = styled.p`
   margin: 0 0 10px 0;
-  font-weight: bold;
-`;
+  font-size: 0.8rem;
+
+  @media all and (min-width: 768px){
+    font-size: 1rem;
+  }
+  `;
 const Date = styled.p`
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   color: gray;
+  @media all and (min-width: 768px){
+    font-size: 0.8rem;
+  }
 `;
 
 const SimpleMap = styled.div`
@@ -128,10 +130,10 @@ const PlannerList = () => {
   const sliderEnd = (e) => {
     let itemSize = plannersRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
- 
+
     if (sliderX > 0) {
       sliderX = 0;
-    }  else if (sliderX < hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth) {
+    } else if (sliderX < hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
     }
     // } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
@@ -143,14 +145,14 @@ const PlannerList = () => {
     isSlide = false;
   };
 
-  // 너비 변경시 슬라이더 조절 
+  // 너비 변경시 슬라이더 조절
   const sliderResize = () => {
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < plannersRef.current.clientWidth - plannersRef.current.scrollWidth) {
       sliderX = hiddenBoxRef.current.clientWidth - plannersRef.current.scrollWidth;
     }
-    
+
     plannersRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     plannersRef.current.style.transitionDuration = '0s';
   };
@@ -182,56 +184,56 @@ const PlannerList = () => {
             <PlannerItem ref={itemRef}>
               <SimpleMap />
               <InfoBox>
-                <Name>1</Name>
+                <Name>1이세계를 향하여가나다라</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>2</Name>
+                <Name>2메밀꽃 필무렵</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>3</Name>
+                <Name>3아르헨티나 항구</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>4</Name>
+                <Name>4브라질은 이긴다</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>5</Name>
+                <Name>5버섯마을 침공기</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>6</Name>
+                <Name>6그날을 기억하십시오</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>7</Name>
+                <Name>777행운의 날</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
             <PlannerItem>
               <SimpleMap />
               <InfoBox>
-                <Name>8</Name>
+                <Name>8무한 로딩</Name>
                 <Date>2020년 11월 11일 ~ 2022년 17월 29일</Date>
               </InfoBox>
             </PlannerItem>
