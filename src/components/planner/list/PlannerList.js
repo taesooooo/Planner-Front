@@ -77,18 +77,17 @@ const InfoBox = styled.div`
   overflow: hidden;
 `;
 const Name = styled.p`
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   font-size: 0.8rem;
-
-  @media all and (min-width: 768px){
+  @media all and (min-width: 768px) {
     font-size: 1rem;
   }
-  `;
+`;
 const Date = styled.p`
   margin: 0;
   font-size: 0.5rem;
   color: gray;
-  @media all and (min-width: 768px){
+  @media all and (min-width: 768px) {
     font-size: 0.8rem;
   }
 `;

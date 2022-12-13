@@ -55,8 +55,7 @@ const Shares = styled.ul`
 `;
 
 const TitleBox = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.3rem;
   margin-left: 20px;
   @media all and (min-width: 768px) {
     margin-left: 0;
@@ -68,7 +67,6 @@ const ShareItem = styled.li`
   width: 200px;
   float: left;
   box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
-  /* padding: 0 6px 12px; */
   border-radius: 0.5rem;
   margin: 0.5%;
   @media all and (min-width: 768px) {
@@ -85,15 +83,23 @@ const InfoBox = styled.div`
   padding: 3px;
   border-top: 1px solid lightgray;
 `;
+
 const Name = styled.p`
-  margin: 0 0 10px 0;
-  font-weight: bold;
+  margin: 0 0 8px 0;
+  font-size: 0.8rem;
+  @media all and (min-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 const Date = styled.p`
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   color: gray;
+  @media all and (min-width: 768px) {
+    font-size: 0.8rem;
+  }
 `;
+
 
 const SimpleMap = styled.div`
   width: 100%;
@@ -108,28 +114,28 @@ const SimpleMap = styled.div`
   }
 `;
 
-const SharesScrollBox = styled.div`
-  width: calc(100% - 40px);
-  height: 4px;
-  border-radius: 10px;
-  /* margin: 0 auto; */
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: lightgray;
-  z-index: 1;
-  overflow: hidden;
-  @media all and (min-width: 768px) {
-    display: none;
-  }
-`;
+// const SharesScrollBox = styled.div`
+//   width: calc(100% - 40px);
+//   height: 4px;
+//   border-radius: 10px;
+//   /* margin: 0 auto; */
+//   position: absolute;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: lightgray;
+//   z-index: 1;
+//   overflow: hidden;
+//   @media all and (min-width: 768px) {
+//     display: none;
+//   }
+// `;
 
-const SharesScroll = styled.div`
-  background-color: gray;
-  width: 70%;
-  height: 100%;
-  /* z-index: 0; */
-`;
+// const SharesScroll = styled.div`
+//   background-color: gray;
+//   width: 70%;
+//   height: 100%;
+//   /* z-index: 0; */
+// `;
 
 const ShareList = () => {
   const hiddenBoxRef = useRef();
