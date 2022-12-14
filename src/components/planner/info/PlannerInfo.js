@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const PlannerInfoBlock = styled.div`
-  margin: 100px auto 0;
+  margin: 0 auto;
   display: flex;
   width: 100%;
   height: 100%;

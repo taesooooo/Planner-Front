@@ -1,54 +1,14 @@
 import styled from 'styled-components';
 import EditCalendar from './EditCalendar';
-import EditRouteItem from './EditRouteItem';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
+import EditRouteList from './EditRouteList';
 
 const EditRouteBlock = styled.div`
   width: 450px;
-  background-color: beige;
+  background-color: #f1eee0;
   height: calc(100%-5rem);
-`;
-
-const RouteBox = styled.div`
-  display: flex;
-`;
-
-const RouteList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.5rem;
-  /* margin-top: -50px; */
-`;
-
-const RouteLine = styled.div`
-  background-color: lightblue;
-  width: 0.5rem;
-  height: 153px;
-  position: absolute;
-  top: -10px;
-`;
-
-const ItemBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  &:nth-child(1) {
-    select {
-      display: none;
-    }
-  }
-`;
-
-const EditTransOption = styled.select`
-  border-radius: 0.5rem;
-  border: 0.2rem solid lightblue;
-  width: 80px;
-  height: 40px;
-  z-index: 1;
 `;
 
 const InfoForm = styled.form`
@@ -56,7 +16,10 @@ const InfoForm = styled.form`
   width: calc(100% - 20px);
   display: flex;
   flex-direction: column;
-  background-color: lightblue;
+  background-color: #CDD9AC;
+  input::placeholder {
+    color: lightgray;
+  }
 `;
 
 const Title = styled.input`
@@ -64,8 +27,6 @@ const Title = styled.input`
   margin-bottom: 10px;
   border: none;
   border-radius: 10px;
-  font-weight: bold;
-  font-size: 1.3rem;
   padding: 0 10px;
   &:focus {
     outline: none;
@@ -79,9 +40,7 @@ const DateBox = styled.div`
   background-color: white;
   border-radius: 10px;
   line-height: 30px;
-  font-weight: bold;
   z-index: 999;
-
   input {
     position: absolute;
     left: 50%;
@@ -91,47 +50,11 @@ const DateBox = styled.div`
 
 const StyledDatePicker = styled(DatePicker)`
   text-align: center;
-  font-weight: bold;
   width: 220px;
   height: 20px;
   border-radius: 5rem;
   border: none;
   margin: 0 auto;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Category = styled.select`
-  width: 120px;
-  height: 32px;
-  border: none;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 14px;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const People = styled.input`
-  width: 40px;
-  height: 30px;
-  border: none;
-  border-radius: 10px;
-  padding: 0 10px;
-  font-size: 16px;
-  &:focus {
-    outline: none;
-  }
-`;
-const Funds = styled.input`
-  width: 130px;
-  height: 30px;
-  border: none;
-  border-radius: 10px;
-  padding: 0 10px;
-  font-size: 16px;
   &:focus {
     outline: none;
   }
@@ -143,28 +66,57 @@ const FlexDiv = styled.div`
   justify-content: space-between;
 `;
 
+const Funds = styled.input`
+  width: 130px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 10px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const People = styled.input`
+  width: 40px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 10px;
+  
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Category = styled.select`
+  width: 120px;
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  &:invalid {
+    color: lightgray;
+  }
+  &:focus {
+    outline: none;
+  }
+  option:disabled {
+    display: none;
+  }
+`;
+
+const RouteBox = styled.div`
+  display: flex;
+`;
+
 const EditRoute = () => {
-  const TOTAL = [0, 1, 2];
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
 
-  const TRANSOPTIONS = [
-    { value: 'none', name: '선택' },
-    { value: 'plane', name: '비행기' },
-    { value: 'train', name: '기차' },
-    { value: 'bus', name: '버스' },
-    { value: 'taxi', name: '택시' },
-    { value: 'bicycle', name: '오토바이' },
-    { value: 'walking', name: '도보' },
-  ];
+ 
 
-  const MEMBEROPTIONS = [
-    { value: 'none', name: '선택' },
-    { value: 'alone', name: '혼자' },
-    { value: 'couple', name: '연인' },
-    { value: 'friend', name: '친구' },
-    { value: 'family', name: '가족' },
-  ];
+ 
 
   return (
     <EditRouteBlock>
@@ -186,38 +138,19 @@ const EditRoute = () => {
         <FlexDiv>
           <Funds placeholder="여행 자금" />
           <People placeholder="인원" />
-          <Category>
-            {MEMBEROPTIONS.map((option) => {
-              return (
-                <option key={option.value} value={option.value}>
-                  {option.name}
-                </option>
-              );
-            })}
+          <Category required>
+            <option value="" disabled selected>선택</option>
+            <option value="alone">혼자</option>
+            <option value="couple">연인</option>
+            <option value="friend">친구</option>
+            <option value="family">가족</option>
+            
           </Category>
         </FlexDiv>
       </InfoForm>
       <RouteBox>
         <EditCalendar />
-        <RouteList>
-          {TOTAL.map((i) => {
-            return (
-              <ItemBlock>
-                <RouteLine />
-                <EditTransOption>
-                  {TRANSOPTIONS.map((option) => {
-                    return (
-                      <option key={option.value} value={option.value}>
-                        {option.name}
-                      </option>
-                    );
-                  })}
-                </EditTransOption>
-                <EditRouteItem type="delete" />
-              </ItemBlock>
-            );
-          })}
-        </RouteList>
+        <EditRouteList />
       </RouteBox>
     </EditRouteBlock>
   );

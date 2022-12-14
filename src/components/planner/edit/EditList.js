@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import EditRouteItem from './EditRouteItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faBed } from '@fortawesome/free-solid-svg-icons';
@@ -8,50 +7,103 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
   width: 320px;
-  padding: 0.5rem;
+  background-color: #f1eee0;
 `;
 
 const MenuList = styled.div`
-  width: 320px;
+  width: calc(100% - 10px);
   display: flex;
- 
- 
+  padding: 5px;
+  background-color: #cdd9ac;
 `;
 
 const MenuItem = styled.div`
-  border: 1px solid lightblue;
+  border: 3px solid #cdd9ac;
+  background-color: white;
   border-radius: 10%;
-  width: 80px;
-  height: 80px;
+  width: 4.5rem;
+  height: 4.5rem;
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  color: #3a3934;
   & + & {
     margin-left: 1px;
   }
   p {
     line-height: 1px;
-    color: lightblue;
+    color: #3a3934;
     font-size: bolder;
+  }
+  &:hover {
+    border: 3px solid #9aad67;
+    transform: translateY(-3px);
+    cursor: pointer;
   }
 `;
 
-const RouteList = styled.div`
-  padding: 5px;
+const List = styled.div`
+  padding: 5px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  width: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+`;
+
+const ListItem = styled.div`
+  border-bottom: 1px solid lightgray;
+  /* border-radius: 0.5rem; */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 90px;
+  background-color: white;
+  z-index: 99;
+`;
+
+const Img = styled.div`
+  border-radius: 5%;
+  border: 1px solid gray;
+  width: 80px;
+  height: 80px;
+`;
+
+const Name = styled.div`
+  width: 120px;
+  height: 2.4em;
+  overflow-y: auto;
+  white-space: wrap;
+  line-height: 1.2;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Button = styled.button`
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #9aad67;
+  color: white;
+  width: 4rem;
   height: 2rem;
 `;
 
 const EditList = () => {
+  const TOTAL = [0, 1, 2];
+
   return (
     <EditListBlock>
       <MenuList>
@@ -72,11 +124,17 @@ const EditList = () => {
           <p>좋아요</p>
         </MenuItem>
       </MenuList>
-      <RouteList>
-        <EditRouteItem />
-        <EditRouteItem />
-        <EditRouteItem />
-      </RouteList>
+      <List>
+        {TOTAL.map((i) => {
+          return (
+            <ListItem key={i}>
+              <Img />
+              <Name>천안 사거리</Name>
+              <Button>추가</Button>
+            </ListItem>
+          );
+        })}
+      </List>
     </EditListBlock>
   );
 };
