@@ -88,6 +88,7 @@ const Button = styled.button`
   color: white;
   width: 4rem;
   height: 2rem;
+  cursor: pointer;
 `;
 
 const EditRouteList = () => {

@@ -6,7 +6,7 @@ const EditCalendarBlock = styled.div`
 `;
 
 const Calendar = styled.div`
-  background-color: #f4d284;
+  background-color: lightgray;
   border: none;
   border-radius: 0.2rem;
   width: 50px;

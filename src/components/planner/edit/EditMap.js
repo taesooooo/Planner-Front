@@ -25,9 +25,13 @@ const Button = styled.button`
   border-radius: 1rem;
   width: 8rem;
   height: 3rem;
-  background-color: #FFCBC1;
+  background-color: rgba(255, 203, 193, 80%);
   color: white;
   font-weight: bold;
+  &:hover {
+    transform: translate(1px, -1px);
+  }
+  cursor: pointer;
 `;
 
 const EditMap = () => {

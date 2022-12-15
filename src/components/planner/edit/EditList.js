@@ -6,7 +6,7 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
-  width: 320px;
+  width: 400px;
   background-color: #f1eee0;
 `;
 
@@ -15,6 +15,7 @@ const MenuList = styled.div`
   display: flex;
   padding: 5px;
   background-color: #cdd9ac;
+  justify-content: center;
 `;
 
 const MenuItem = styled.div`
@@ -35,7 +36,8 @@ const MenuItem = styled.div`
   p {
     line-height: 1px;
     color: #3a3934;
-    font-size: bolder;
+    font-size: 0.8rem;
+    font-weight: bold;
   }
   &:hover {
     border: 3px solid #9aad67;
@@ -45,7 +47,7 @@ const MenuItem = styled.div`
 `;
 
 const List = styled.div`
-  padding: 5px 0;
+  padding: 1px 0 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +59,6 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 const ListItem = styled.div`
-  border-bottom: 1px solid lightgray;
   /* border-radius: 0.5rem; */
   display: flex;
   align-items: center;
@@ -66,6 +67,18 @@ const ListItem = styled.div`
   height: 90px;
   background-color: white;
   z-index: 99;
+  /* box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%); */
+  /* border: 1px solid lightgray; */
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: lightgray;
+  & + & {
+    margin-top: 1px;
+  }
+  &:hover {
+    /* transform: translate(1px, -1px); */
+    background-color: lightgray;
+  }
 `;
 
 const Img = styled.div`
@@ -99,6 +112,7 @@ const Button = styled.button`
   color: white;
   width: 4rem;
   height: 2rem;
+  cursor: pointer;
 `;
 
 const EditList = () => {
