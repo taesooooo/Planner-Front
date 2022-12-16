@@ -2,10 +2,9 @@ import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const EditMapBlock = styled.div`
-  width: 1000px;
+  width: calc(100% - 670px);
   min-width: 200px;
   height: 750px;
-  z-index: -1;
 `;
 
 const ButtonBox = styled.div`

@@ -6,7 +6,7 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
-  width: 400px;
+  width: 300px;
   background-color: #f1eee0;
 `;
 
@@ -77,7 +77,7 @@ const ListItem = styled.div`
   }
   &:hover {
     /* transform: translate(1px, -1px); */
-    background-color: lightgray;
+    background-color: #ffcbc14f;
   }
 `;
 

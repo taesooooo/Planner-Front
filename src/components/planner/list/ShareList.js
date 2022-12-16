@@ -21,7 +21,7 @@ const Container = styled.div`
     padding: 0;
   }
   @media all and (min-width: 1280px) {
-    width: 1250px;
+    width: 1024px;
     padding: 0;
   }
 `;
@@ -64,7 +64,7 @@ const TitleBox = styled.div`
 
 const ShareItem = styled.li`
   flex-shrink: 0;
-  width: 200px;
+  width: 180px;
   float: left;
   box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
   border-radius: 0.5rem;
@@ -74,6 +74,8 @@ const ShareItem = styled.li`
   }
   &:hover {
     cursor: pointer;
+    box-shadow: 3px 4px 14px 2px rgb(0, 0, 0, 30%);
+    transform: translateY(-3px);
   }
 `;
 const InfoBox = styled.div`
@@ -86,31 +88,37 @@ const InfoBox = styled.div`
 
 const Name = styled.p`
   margin: 0 0 8px 0;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   @media all and (min-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
+  }
+  @media all and (min-width: 960px) {
+    font-size: 0.9rem;
   }
 `;
 const Date = styled.p`
   margin: 0;
-  font-size: 0.5rem;
+  font-size: 0.4rem;
   color: gray;
   @media all and (min-width: 768px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+  }
+  @media all and (min-width: 960px) {
+    font-size: 0.7rem;
   }
 `;
 
 
 const SimpleMap = styled.div`
   width: 100%;
-  height: 150px;
+  height: 120px;
   border: none;
   margin: auto;
   @media all and (min-width: 960px) {
-    height: 200px;
+    height: 160px;
   }
   @media all and (min-width: 1280px) {
-    height: 250px;
+    height: 190px;
   }
 `;
 

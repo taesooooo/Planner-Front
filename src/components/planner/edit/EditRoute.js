@@ -6,14 +6,14 @@ import { useState } from 'react';
 import EditRouteList from './EditRouteList';
 
 const EditRouteBlock = styled.div`
-  width: 450px;
+  width: 370px;
   background-color: #f1eee0;
   height: calc(100%-5rem);
 `;
 
 const InfoForm = styled.form`
-  padding: 10px;
-  width: calc(100% - 20px);
+ padding: 10px 15px;
+    width: calc(100% - 30px);
   display: flex;
   flex-direction: column;
   background-color: #CDD9AC;
@@ -67,7 +67,7 @@ const FlexDiv = styled.div`
 `;
 
 const Funds = styled.input`
-  width: 130px;
+  width: 90px;
   height: 30px;
   border: none;
   border-radius: 10px;
@@ -78,7 +78,7 @@ const Funds = styled.input`
 `;
 
 const People = styled.input`
-  width: 40px;
+  width: 35px;
   height: 30px;
   border: none;
   border-radius: 10px;
@@ -90,8 +90,8 @@ const People = styled.input`
 `;
 
 const Category = styled.select`
-  width: 120px;
-  height: 32px;
+  width: 100px;
+  height: 30px;
   border: none;
   border-radius: 10px;
   text-align: center;
@@ -113,8 +113,6 @@ const RouteBox = styled.div`
 const EditRoute = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
-
- 
 
  
 

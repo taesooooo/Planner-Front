@@ -4,12 +4,12 @@ import styled from 'styled-components';
 const PlannerListBlock = styled.div`
   width: 100%;
   height: 100%;
-  padding: 1rem 0 2rem 0;
+  padding: 15px 0;
   background-color: #f1eee0;
 `;
 
 const Container = styled.div`
-  padding: 0 15px 0 15px;
+  padding: 0 15px;
   margin: 0 auto;
   @media all and (min-width: 768px) {
     width: 738px;
@@ -18,7 +18,8 @@ const Container = styled.div`
     width: 930px;
   }
   @media all and (min-width: 1280px) {
-    width: 1250px;
+    width: 1024px;
+
   }
 `;
 
@@ -67,6 +68,8 @@ const PlannerItem = styled.li`
   box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
   &:hover {
     cursor: pointer;
+    box-shadow: 3px 4px 14px 2px rgb(0, 0, 0, 30%);
+    transform: translateY(-5px);
   }
 `;
 const InfoBox = styled.div`
@@ -78,22 +81,37 @@ const InfoBox = styled.div`
 `;
 const Name = styled.p`
   margin: 0 0 8px 0;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   @media all and (min-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
+  }
+  @media all and (min-width: 960px) {
+    font-size: 0.9rem;
   }
 `;
 const Date = styled.p`
   margin: 0;
-  font-size: 0.5rem;
+  font-size: 0.4rem;
   color: gray;
   @media all and (min-width: 768px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+  }
+  @media all and (min-width: 960px) {
+    font-size: 0.7rem;
   }
 `;
 
 const SimpleMap = styled.div`
-  height: 18vw;
+  height: 14vw;
+  @media all and (min-width: 768px) {
+    height: 120px;
+  }
+  @media all and (min-width: 960px) {
+    height: 160px;
+  }
+  @media all and (min-width: 1280px) {
+    height: 190px;
+  }
 `;
 
 const PlannerList = () => {

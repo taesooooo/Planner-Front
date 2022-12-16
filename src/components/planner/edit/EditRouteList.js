@@ -9,7 +9,7 @@ const EditRouteListBlock = styled.div`
 
 const RouteLine = styled.div`
   background-color: #cdd9ac;
-  width: 0.5rem;
+  width: 0.2rem;
   height: 153px;
   position: absolute;
   top: -10px;
@@ -50,7 +50,7 @@ const RouteItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 300px;
+  width: 290px;
   height: 90px;
   margin: 0.5rem 0;
   background-color: white;
