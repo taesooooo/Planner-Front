@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MapBlock = styled.div`
-  width: 60%;
+  width: 55%;
+  height: 600px;
   padding: 0 10px;
   position: relative;
 `;
@@ -13,26 +14,7 @@ const Map = styled.div`
   width: 100%;
 `;
 
-const ButtonBox = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 10px;
-  left: 20px;
-  display: flex;
-  flex-direction: column;
-`;
-const Button = styled.button`
-  border-radius: 10px;
-  color: white;
-  background-color: lightblue;
-  border: none;
-  width: 120px;
-  height: 40px;
-  font-weight: bold;
-  &+&{
-    margin-top: 10px;
-  }
-`;
+
 
 const InfoMap = () => {
   const { kakao } = window;
@@ -49,10 +31,6 @@ const InfoMap = () => {
   return (
     <MapBlock>
       <Map id="map" ref={container} />
-      <ButtonBox>
-        <Button>플래너 수정</Button>
-        <Button>플래너 삭제</Button>
-      </ButtonBox>
     </MapBlock>
   );
 };

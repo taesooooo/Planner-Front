@@ -8,7 +8,8 @@ import EditRouteList from './EditRouteList';
 const EditRouteBlock = styled.div`
   width: 370px;
   background-color: #f1eee0;
-  height: calc(100%-5rem);
+  height: 750px;
+  float:left;
 `;
 
 const InfoForm = styled.form`

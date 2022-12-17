@@ -1,27 +1,28 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faBus } from '@fortawesome/free-solid-svg-icons';
-// import { faTaxi } from '@fortawesome/free-solid-svg-icons'; // 택시
+// import { faBus } from '@fortawesome/free-solid-svg-icons'; // 버스
+import { faTaxi } from '@fortawesome/free-solid-svg-icons'; // 택시
 // import { faPlane } from '@fortawesome/free-solid-svg-icons'; // 비행기
 // import { faPersonWalking } from '@fortawesome/free-solid-svg-icons'; // 도보
 // import { faBicycle } from '@fortawesome/free-solid-svg-icons'; // 자전거 or 오토바이
 // import { faTrainSubway } from '@fortawesome/free-solid-svg-icons'; // 지하철 or 기차
-import { faCar } from '@fortawesome/free-solid-svg-icons'; // 자가용 or 렌터카
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'; // 여행지
 import { faBed } from '@fortawesome/free-solid-svg-icons'; // 숙소
-import InfoDatination from './InfoDatination';
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
+import InfoDatination from './InfoDatination';
+import InfoMap from './InfoMap';
 
 const InfoRouteBlock = styled.div`
-  width: 40%;
-  height: 600px;
+  width: 100%;
+  height: 100%;
   text-align: center;
   margin: 0 auto;
+  display: flex;
 `;
 
-const Route = styled.div`
-  width: 80%;
-  height: 90%;
+const RouteBox = styled.div`
+  width: 40%;
+  height: 600px;
   border: 1px solid lightblue;
   border-radius: 1rem;
   overflow-y: auto;
@@ -32,7 +33,9 @@ const Route = styled.div`
   margin: 0 auto;
 `;
 
-const RouteSpotBox = styled.div`
+const RouteList = styled.div``;
+
+const RouteItem = styled.div`
   border: 0.2rem solid lightblue;
   width: 70%;
   align-items: center;
@@ -43,7 +46,7 @@ const RouteSpotBox = styled.div`
   background-color: white;
 `;
 
-const RouteTransportBox = styled.div`
+const TransItem = styled.div`
   display: flex;
   border: 0.2rem solid lightblue;
   border-radius: 1rem;
@@ -53,6 +56,7 @@ const RouteTransportBox = styled.div`
   background-color: white;
 `;
 
+const SpotItem = styled.div``;
 const RouteSpotName = styled.div`
   white-space: nowrap;
   display: inline-block;
@@ -75,24 +79,30 @@ const RouteLine = styled.div`
 `;
 
 const InfoRoute = () => {
+  const TOTAL = [0, 1, 2];
   return (
     <InfoRouteBlock>
-      <InfoDatination />
-      <Route>
-        <RouteLine />
-        <RouteSpotBox>
-          <StyledFontAwesomeIcon icon={faBed} />
-          <RouteSpotName>해적선 숙소</RouteSpotName>
-        </RouteSpotBox>
-        <RouteTransportBox>
-          <StyledFontAwesomeIcon icon={faCar} />
-          Taxi
-        </RouteTransportBox>
-        <RouteSpotBox>
-          <StyledFontAwesomeIcon icon={faLocationDot} />
-          <RouteSpotName>한라산</RouteSpotName>
-        </RouteSpotBox>
-      </Route>
+      <InfoMap />
+      <RouteBox>
+        <InfoDatination />
+        <RouteList>
+          {/* <RouteLine /> */}
+          {TOTAL.map((i) => {
+            return (
+              <RouteItem key={i}>
+                <TransItem>
+                  <StyledFontAwesomeIcon icon={faTaxi} />
+                  Taxi
+                </TransItem>
+                <SpotItem>
+                  <StyledFontAwesomeIcon icon={faBed} />
+                  <RouteSpotName>해적선 숙소</RouteSpotName>
+                </SpotItem>
+              </RouteItem>
+            );
+          })}
+        </RouteList>
+      </RouteBox>
     </InfoRouteBlock>
   );
 };

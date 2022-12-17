@@ -15,7 +15,7 @@ const RouteLine = styled.div`
   top: -10px;
 `;
 
-const ItemBlock = styled.div`
+const RouteItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +27,7 @@ const ItemBlock = styled.div`
   }
 `;
 
-const TransOption = styled.select`
+const TransItem = styled.select`
   border-radius: 0.5rem;
   border: 0.2rem solid #cdd9ac;
   width: 80px;
@@ -44,7 +44,7 @@ const TransOption = styled.select`
   }
 `;
 
-const RouteItem = styled.div`
+const SpotItem = styled.div`
   border: 0.2rem solid #cdd9ac;
   border-radius: 0.5rem;
   display: flex;
@@ -98,9 +98,9 @@ const EditRouteList = () => {
     <EditRouteListBlock>
       {TOTAL.map((i) => {
         return (
-          <ItemBlock key={i}>
+          <RouteItem key={i}>
             <RouteLine />
-            <TransOption required>
+            <TransItem required>
               <option value="" disabled selected>
                 선택
               </option>
@@ -110,13 +110,13 @@ const EditRouteList = () => {
               <option value="taxi">택시</option>
               <option value="bicycle">오토바이</option>
               <option value="walking">도보</option>
-            </TransOption>
-            <RouteItem>
+            </TransItem>
+            <SpotItem>
               <Img />
               <Name>천안 사거리</Name>
               <Button>삭제</Button>
-            </RouteItem>
-          </ItemBlock>
+            </SpotItem>
+          </RouteItem>
         );
       })}
     </EditRouteListBlock>

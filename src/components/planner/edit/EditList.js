@@ -7,7 +7,10 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
   width: 300px;
+  height: 750px;
   background-color: #f1eee0;
+  float:left;
+
 `;
 
 const MenuList = styled.div`
