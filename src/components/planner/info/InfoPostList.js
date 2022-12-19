@@ -75,6 +75,7 @@ const ItemBox = styled.div`
 `;
 
 /**
+ * (메모는 나의 플래너 정보 페이지에서만 보임)
  * 1. 메모 생성 버튼 => editItem이 생성됨.
  * 2. editItem 입력 후 확인 버튼 => editItem 자리에 postItem이 생성됨.
  * 3. postItem의 edit버튼 => postItem 자리에 editItem이 생성되고 나머진 2와 동일.

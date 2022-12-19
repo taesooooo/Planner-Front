@@ -4,15 +4,18 @@ import InfoRoute from '../../components/planner/info/InfoRoute';
 import InfoPostListContainer from '../../containers/planner/info/InfoPostListContainer';
 import InfoPostList from '../../components/planner/info/InfoPostList';
 import InfoMenu from '../../components/planner/info/InfoMenu';
+import PlannerInfo from '../../components/planner/info/PlannerInfo';
 
 const PlannerInfoPage = () => {
   return (
     <>
       <Header />
-      <InfoMenu />
-      <InfoRoute />
-      <InfoPostList />
-      {/* <InfoPostListContainer /> */}
+      <PlannerInfo>
+        <InfoMenu />
+        <InfoRoute />
+        <InfoPostList />
+        {/* <InfoPostListContainer /> */}
+      </PlannerInfo>
       <Footer />
     </>
   );

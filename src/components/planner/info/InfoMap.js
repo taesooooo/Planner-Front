@@ -3,18 +3,15 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MapBlock = styled.div`
-  width: 55%;
+  width: 60%;
   height: 600px;
-  padding: 0 10px;
-  position: relative;
 `;
 
 const Map = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
+  /* box-sizing: border-box; */
 `;
-
-
 
 const InfoMap = () => {
   const { kakao } = window;

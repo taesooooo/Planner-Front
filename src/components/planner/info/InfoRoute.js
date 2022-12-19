@@ -6,7 +6,7 @@ import { faTaxi } from '@fortawesome/free-solid-svg-icons'; // 택시
 // import { faPersonWalking } from '@fortawesome/free-solid-svg-icons'; // 도보
 // import { faBicycle } from '@fortawesome/free-solid-svg-icons'; // 자전거 or 오토바이
 // import { faTrainSubway } from '@fortawesome/free-solid-svg-icons'; // 지하철 or 기차
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'; // 여행지
+// import { faLocationDot } from '@fortawesome/free-solid-svg-icons'; // 여행지
 import { faBed } from '@fortawesome/free-solid-svg-icons'; // 숙소
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
 import InfoDatination from './InfoDatination';
@@ -15,54 +15,64 @@ import InfoMap from './InfoMap';
 const InfoRouteBlock = styled.div`
   width: 100%;
   height: 100%;
-  text-align: center;
-  margin: 0 auto;
   display: flex;
+  justify-content: space-around;
 `;
 
 const RouteBox = styled.div`
-  width: 40%;
+  width: 35%;
   height: 600px;
   border: 1px solid lightblue;
   border-radius: 1rem;
-  overflow-y: auto;
-  overflow-x: hidden;
+  flex-direction: column;
+  display: flex;
+  /* align-items: center; */
+  `;
+
+const RouteList = styled.div`
+overflow-y: auto;
+overflow-x: hidden;
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
+
+const RouteItem = styled.div`
+  /* width: 70%; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
-`;
-
-const RouteList = styled.div``;
-
-const RouteItem = styled.div`
-  border: 0.2rem solid lightblue;
-  width: 70%;
-  align-items: center;
-  display: flex;
-  margin: 20px 0;
-  padding: 1rem 1rem;
-  border-radius: 1rem;
-  background-color: white;
-`;
+  /* border: 0.2rem solid lightblue; */
+  `;
 
 const TransItem = styled.div`
+width: 100px;
   display: flex;
+  padding: 0.5rem 1rem;
   border: 0.2rem solid lightblue;
   border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
   font-size: 0.8rem;
+  font-weight: bold;
   background-color: white;
-`;
+  `;
 
-const SpotItem = styled.div``;
+const SpotItem = styled.div`
+width: 200px;
+display: flex;
+padding: 0.5rem 1rem;
+border: 0.2rem solid lightblue;
+border-radius: 1rem;
+background-color: white;
+margin: 20px 0;
+
+`;
 const RouteSpotName = styled.div`
   white-space: nowrap;
-  display: inline-block;
   font-weight: bold;
+  font-size: 0.8rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* display: inline-block; */
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
@@ -79,24 +89,24 @@ const RouteLine = styled.div`
 `;
 
 const InfoRoute = () => {
-  const TOTAL = [0, 1, 2];
+  const TOTAL = [0, 1, 2,];
   return (
     <InfoRouteBlock>
       <InfoMap />
       <RouteBox>
         <InfoDatination />
         <RouteList>
-          {/* <RouteLine /> */}
           {TOTAL.map((i) => {
             return (
               <RouteItem key={i}>
+              {/* <RouteLine /> */}
                 <TransItem>
                   <StyledFontAwesomeIcon icon={faTaxi} />
                   Taxi
                 </TransItem>
                 <SpotItem>
                   <StyledFontAwesomeIcon icon={faBed} />
-                  <RouteSpotName>해적선 숙소</RouteSpotName>
+                  <RouteSpotName>해적선 숙소소소소소</RouteSpotName>
                 </SpotItem>
               </RouteItem>
             );
