@@ -5,75 +5,73 @@ import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 const InfoDatinationBlock = styled.div`
-  /* justify-content: center; */
-  /* box-shadow: inset 1rem 0 3rem 0.5rem rgba(256, 256, 256, 0.7); */
-  display: flex;
+  width: 100%;
   margin: 0 auto 10px;
-  width: 6.1rem;
-  @media all and (min-width: 450px) {
-    width: 13.3rem;
-  }
-  @media all and (min-width: 768px) {
-    width: 19.8rem;
-  }
+  display: flex;
 `;
 
-const DateBlock = styled.div`
+const HiddenBox = styled.div`
   overflow: hidden;
-  width: 100%;
-  height: 3rem;
+  width: calc(100% - 6.8rem);
 `;
 
 const DateButtons = styled.div`
   display: flex;
-  width: calc(16 * 3rem);
+  /* width: 15.4rem; */
+  width: 100%;
   /* transform: translateX(16rem); */
 `;
 
 const DateButton = styled.div`
-  border-radius: 0.5rem;
-  border: none;
-  width: 3rem;
-  height: 3rem;
+  position: relative;
+  border-radius: 50px;
+  border: 0.2rem solid #cdd9ac;
+  width: 100%;
+  flex-basis: 18.7%;
+  flex-shrink: 0;
+  /* width: 3rem;
+  height: 3rem; */
   text-align: center;
   line-height: 3rem;
   font-weight: bold;
-  color: gray;
-  background-color: lightblue;
+  /* color: white; */
+  background-color: white;
   float: left;
-  & + & {
-    margin-left: 0.1rem;
-  }
-  ${(props) =>
-    props.blur &&
-    css`
-      opacity: 0.3;
-      &:hover {
-        cursor: default;
-        background-color: lightblue;
-      }
-    `};
+  margin: 0 0.1rem;
+`;
+
+const ButtonLine = styled.div`
+  width: 4rem;
+  height: 0.2rem;
+  background-color: #cdd9ac;
+  position: absolute;
+  top: 23px;
+  left: -3px;
+  z-index: -1;
 `;
 
 const SwipeButton = styled.div`
-  border-radius: 0.5rem;
+  border-radius: 50px;
+  border: 0.2rem solid #cdd9ac;
   width: 3rem;
   height: 3rem;
-  background-color: lightgray;
+  background-color: #cdd9ac;
+  color: white;
   font-size: 1.5rem;
   text-align: center;
   line-height: 3rem;
-  margin: 0 0.1rem;
+
   &:hover {
     cursor: pointer;
   }
 `;
 
 const InfoDatination = () => {
-  const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
+  const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const TOTAL_SLIDES = date.length;
   const dateRef = useRef();
+  const buttonRef = useRef();
 
   const handlePrev = () => {
     if (currentIndex === 0) {
@@ -89,7 +87,8 @@ const InfoDatination = () => {
   };
 
   useEffect(() => {
-    dateRef.current.style = 'transform: translateX(-' + 3 * currentIndex + 'rem)';
+    console.log(buttonRef.current.clientWidth);
+    dateRef.current.style = 'transform: translateX(-' + 57.087 * currentIndex + 'px)';
     dateRef.current.style.transition = 'all 0.5s ease-in-out';
   }, [currentIndex]);
 
@@ -98,13 +97,16 @@ const InfoDatination = () => {
       <SwipeButton onClick={handlePrev}>
         <FontAwesomeIcon icon={faCaretLeft} />
       </SwipeButton>
-      <DateBlock>
+      <HiddenBox>
         <DateButtons ref={dateRef}>
           {date.map((item, i) => (
-            <DateButton key={i}>11/{item}</DateButton>
+            <DateButton ref={buttonRef} key={i}>
+              <ButtonLine />
+              11/{item}
+            </DateButton>
           ))}
         </DateButtons>
-      </DateBlock>
+      </HiddenBox>
       <SwipeButton onClick={handleNext}>
         <FontAwesomeIcon icon={faCaretRight} />
       </SwipeButton>

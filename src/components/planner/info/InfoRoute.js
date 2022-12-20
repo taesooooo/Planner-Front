@@ -20,9 +20,9 @@ const InfoRouteBlock = styled.div`
 `;
 
 const RouteBox = styled.div`
-  width: 35%;
+  width: 350px;
   height: 600px;
-  border: 1px solid lightblue;
+  border: 1px solid #cdd9ac;
   border-radius: 1rem;
   flex-direction: column;
   display: flex;
@@ -30,6 +30,7 @@ const RouteBox = styled.div`
   `;
 
 const RouteList = styled.div`
+height: 100%;
 overflow-y: auto;
 overflow-x: hidden;
 display: flex;
@@ -42,14 +43,15 @@ const RouteItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   /* border: 0.2rem solid lightblue; */
   `;
 
 const TransItem = styled.div`
-width: 100px;
+width: 75px;
   display: flex;
   padding: 0.5rem 1rem;
-  border: 0.2rem solid lightblue;
+  border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: bold;
@@ -60,7 +62,7 @@ const SpotItem = styled.div`
 width: 200px;
 display: flex;
 padding: 0.5rem 1rem;
-border: 0.2rem solid lightblue;
+border: 0.2rem solid #cdd9ac;
 border-radius: 1rem;
 background-color: white;
 margin: 20px 0;
@@ -80,12 +82,13 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 const RouteLine = styled.div`
-  background-color: lightblue;
-  width: 0.5rem;
-  height: calc(2 * 58.6px + 1 * 24.2px);
+  background-color:#cdd9ac;
+  width: 0.2rem;
+  height: 85px;
   z-index: -1;
   margin: 20px 0;
   position: absolute;
+  top: -45px;
 `;
 
 const InfoRoute = () => {
@@ -99,7 +102,7 @@ const InfoRoute = () => {
           {TOTAL.map((i) => {
             return (
               <RouteItem key={i}>
-              {/* <RouteLine /> */}
+              <RouteLine />
                 <TransItem>
                   <StyledFontAwesomeIcon icon={faTaxi} />
                   Taxi
