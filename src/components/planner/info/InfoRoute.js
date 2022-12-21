@@ -11,6 +11,8 @@ import { faBed } from '@fortawesome/free-solid-svg-icons'; // 숙소
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
 import InfoDatination from './InfoDatination';
 import InfoMap from './InfoMap';
+import { useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 const InfoRouteBlock = styled.div`
   width: 100%;
@@ -21,21 +23,25 @@ const InfoRouteBlock = styled.div`
 
 const RouteBox = styled.div`
   width: 350px;
-  height: 600px;
-  border: 1px solid #cdd9ac;
+  height: 590px;
+  border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   flex-direction: column;
   display: flex;
+  padding-bottom: 5px;
   /* align-items: center; */
   `;
 
 const RouteList = styled.div`
 height: 100%;
 overflow-y: auto;
-overflow-x: hidden;
 display: flex;
 flex-direction: column;
 align-items: center;
+position: relative;
+&::-webkit-scrollbar {
+    display: none; 
+}
 `;
 
 const RouteItem = styled.div`
@@ -44,18 +50,22 @@ const RouteItem = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  top: -38px;
   /* border: 0.2rem solid lightblue; */
+ 
   `;
 
 const TransItem = styled.div`
+
 width: 75px;
-  display: flex;
+display: flex;
   padding: 0.5rem 1rem;
   border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: bold;
   background-color: white;
+  
   `;
 
 const SpotItem = styled.div`
@@ -92,20 +102,38 @@ const RouteLine = styled.div`
 `;
 
 const InfoRoute = () => {
-  const TOTAL = [0, 1, 2,];
+  const TOTAL = [0, 1, 2,1,1,1,1,1,1];
+  const [shadow, setShadow] = useState(false);
+  const listRef = useRef();
+
+  const headerShadow = () => {
+    if (window.pageYOffset === 0) {
+      setShadow(false);
+    } else {
+      setShadow(true);
+        }
+};
+
+useEffect(() => {
+    listRef.addEventListener('scroll', headerShadow);
+
+   return () => {
+        listRef.removeEventListener('scroll', headerShadow);
+    };
+});
   return (
     <InfoRouteBlock>
       <InfoMap />
       <RouteBox>
-        <InfoDatination />
-        <RouteList>
+        <InfoDatination shadow={shadow} />
+        <RouteList ref={listRef}>
           {TOTAL.map((i) => {
             return (
               <RouteItem key={i}>
               <RouteLine />
                 <TransItem>
                   <StyledFontAwesomeIcon icon={faTaxi} />
-                  Taxi
+                  Taxi{i}
                 </TransItem>
                 <SpotItem>
                   <StyledFontAwesomeIcon icon={faBed} />
