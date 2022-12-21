@@ -12,7 +12,11 @@ const InfoDatinationBlock = styled.div`
   align-items: center;
   border-bottom: 0.2rem solid #cdd9ac;
   border-radius: 10px;
-  /* box-shadow: 0px 3px 7px 1px rgb(0, 0, 0, 30%) */
+  ${(props) =>
+    props.shadow &&
+    css`
+      box-shadow: 0px 3px 7px 1px rgb(0, 0, 0, 30%);
+    `}
 `;
 
 const HiddenBox = styled.div`
@@ -70,7 +74,7 @@ const SwipeButton = styled.div`
   }
 `;
 
-const InfoDatination = ({shadow}) => {
+const InfoDatination = ({ shadow }) => {
   const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const TOTAL_SLIDES = date.length;
@@ -91,15 +95,12 @@ const InfoDatination = ({shadow}) => {
   };
 
   useEffect(() => {
-    console.log(buttonRef.current.clientWidth);
     dateRef.current.style = 'transform: translateX(-' + 58 * currentIndex + 'px)';
     dateRef.current.style.transition = 'all 0.5s ease-in-out';
   }, [currentIndex]);
 
- 
-
   return (
-    <InfoDatinationBlock>
+    <InfoDatinationBlock shadow={shadow}>
       <SwipeButton onClick={handlePrev}>
         <FontAwesomeIcon icon={faCaretLeft} />
       </SwipeButton>

@@ -102,12 +102,14 @@ const RouteLine = styled.div`
 `;
 
 const InfoRoute = () => {
-  const TOTAL = [0, 1, 2,1,1,1,1,1,1];
+  const TOTAL = [0, 1, 2,3,4,5,6,7,8];
   const [shadow, setShadow] = useState(false);
   const listRef = useRef();
-
+  const itemRef = useRef();
+  
   const headerShadow = () => {
-    if (window.pageYOffset === 0) {
+    console.log(itemRef.current.getBoundingClientRect().y)
+    if (itemRef.current.getBoundingClientRect().y > 1040) {
       setShadow(false);
     } else {
       setShadow(true);
@@ -115,11 +117,13 @@ const InfoRoute = () => {
 };
 
 useEffect(() => {
-    listRef.addEventListener('scroll', headerShadow);
-
-   return () => {
-        listRef.removeEventListener('scroll', headerShadow);
+  let refValue = listRef.current;
+  
+    refValue.addEventListener('scroll', headerShadow);
+    return () => {
+      refValue.removeEventListener('scroll', headerShadow);
     };
+  
 });
   return (
     <InfoRouteBlock>
@@ -129,7 +133,7 @@ useEffect(() => {
         <RouteList ref={listRef}>
           {TOTAL.map((i) => {
             return (
-              <RouteItem key={i}>
+              <RouteItem key={i} ref={itemRef}>
               <RouteLine />
                 <TransItem>
                   <StyledFontAwesomeIcon icon={faTaxi} />
