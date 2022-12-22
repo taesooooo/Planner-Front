@@ -3,8 +3,18 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MapBlock = styled.div`
-  width: 60%;
-  height: 600px;
+  width: 500px;
+  height: 400px;
+  margin-right: 10px;
+  // 페이지 크기에 맞게 너비와 높이의 줄어듬.
+  /* @media all and (min-width: 768px){
+    height: 45vw;
+    width: 45vw;
+  } */
+  @media all and (min-width: 960px) {
+    width: 60%;
+    height: 600px;
+  }
 `;
 
 const Map = styled.div`

@@ -23,6 +23,7 @@ const HiddenBox = styled.div`
   overflow: hidden;
   width: calc(100% - 6.8rem);
   position: relative;
+  padding: 5px 0;
 `;
 
 const DateButtons = styled.div`
@@ -47,6 +48,14 @@ const DateButton = styled.div`
   background-color: white;
   float: left;
   margin: 0 0.1rem;
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-3px);
+    background-color: #cdd9ac;
+  }
+  &[aria-current] {
+    background-color: #cdd9ac;
+  }
 `;
 
 const ButtonLine = styled.div`
@@ -54,7 +63,7 @@ const ButtonLine = styled.div`
   height: 0.2rem;
   background-color: #cdd9ac;
   position: absolute;
-  top: 26px;
+  top: 31px;
   z-index: -1;
 `;
 
@@ -71,6 +80,8 @@ const SwipeButton = styled.div`
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-3px);
+    background-color: #cdd9ac;
   }
 `;
 
@@ -88,14 +99,14 @@ const InfoDatination = ({ shadow }) => {
     setCurrentIndex(currentIndex - 1);
   };
   const handleNext = () => {
-    if (currentIndex === TOTAL_SLIDES - 5) {
+    if ((currentIndex === TOTAL_SLIDES - 4) || (TOTAL_SLIDES <= 5)) {
       return;
-    }
+    } 
     setCurrentIndex(currentIndex + 1);
   };
 
   useEffect(() => {
-    dateRef.current.style = 'transform: translateX(-' + 58 * currentIndex + 'px)';
+    dateRef.current.style = 'transform: translateX(-' + 58.3 * currentIndex + 'px)';
     dateRef.current.style.transition = 'all 0.5s ease-in-out';
   }, [currentIndex]);
 
@@ -108,7 +119,7 @@ const InfoDatination = ({ shadow }) => {
         <ButtonLine />
         <DateButtons ref={dateRef}>
           {date.map((item, i) => (
-            <DateButton ref={buttonRef} key={i}>
+            <DateButton ref={buttonRef} key={i} aria-current={i === 1 ? 'date' : null}>
               11/{item}
             </DateButton>
           ))}

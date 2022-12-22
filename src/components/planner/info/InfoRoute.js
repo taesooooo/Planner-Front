@@ -18,7 +18,13 @@ const InfoRouteBlock = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  @media all and (min-width: 768px){
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: flex-start;
+  }
 `;
 
 const RouteBox = styled.div`
@@ -30,6 +36,10 @@ const RouteBox = styled.div`
   display: flex;
   padding-bottom: 5px;
   /* align-items: center; */
+  margin-top: 20px;
+  @media all and (min-width: 768px){
+margin-top: 0px;
+}
   `;
 
 const RouteList = styled.div`

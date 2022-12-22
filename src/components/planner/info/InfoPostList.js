@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import InfoPostItem from './InfoPostItem';
+import airplaneDay from '../../../lib/img/airplane-day.jpg';
+import airplaneNight from '../../../lib/img/airplane-night.jpg';
 
 const InfoPostListBlock = styled.div`
-  margin: 50px auto 0;
+  margin-top: 20px;
   width: 100%;
-  height: 100%;
+  height: 600px;
   min-width: 640px;
+  display: flex;
+  justify-content: center;
 `;
 
 const InfoBlock = styled.div`
@@ -41,20 +45,26 @@ const Info = styled.div`
 `;
 
 const PostListBlock = styled.div`
-  width: 80%;
-  margin: 30px auto;
+  width: 50%;
+  height: calc(100% - 1rem);
   border: 1px solid lightgray;
-  border-radius: 0.5rem;
-  padding: 1rem;
-`;
+  border-radius: 10px;
+  padding: 0 1rem 1rem;
+  
+  /* margin: 0 auto; */
+  `;
 
-const PostListBlockTitle = styled.div`
+const PostListHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const PostList = styled.div``;
+const PostList = styled.div`
+height: 100%;
+overflow: hidden;
+overflow-y: auto;
+`;
 
 const Button = styled.button`
   border-radius: 0.5rem;
@@ -70,8 +80,46 @@ const Button = styled.button`
   }
 `;
 
-const ItemBox = styled.div`
-  /* border: 1px solid red; */
+const Ad = styled.div`
+  width: 50%;
+  height: 100%;
+  margin-left: 5px;
+  display: none;
+  transition: all 0.3s;
+  position: relative;
+  border-radius: 10px;
+  /* background-image: url(./airplane-day.jpg);
+  background-size: 100%; */
+  /* &:hover {
+    background-image: url(./airplane-night.jpg);
+  } */
+  div {
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 0.9rem;
+    @media all and (min-width: 960px) {
+    font-size: 1.2rem;
+    }
+  }
+  @media all and (min-width: 768px) {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+    display: block;
+  }
+`;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 `;
 
 /**
@@ -83,10 +131,30 @@ const ItemBox = styled.div`
  */
 const InfoPostList = () => {
   const Total = [1, 2, 3];
+  const [isChange, setIsChange] = useState(false);
+  const adRef = useRef();
 
+  const onChangeTrue = () => {
+    setIsChange(true);
+  };
+  const onChangeFalse = () => {
+    setIsChange(false);
+  };
+
+  useEffect(() => {
+    let refValue = adRef.current;
+
+    refValue.addEventListener('mouseover', onChangeTrue);
+    refValue.addEventListener('mouseout', onChangeFalse);
+
+    return () => {
+      refValue.removeEventListener('mouseover', onChangeTrue);
+      refValue.removeEventListener('mouseout', onChangeFalse);
+    };
+  });
   return (
     <InfoPostListBlock>
-      <InfoBlock>
+      {/* <InfoBlock>
         <Info>
           <p>플래너 이름:</p> <p>제주도 한바퀴</p>
         </Info>
@@ -99,20 +167,32 @@ const InfoPostList = () => {
         <Info>
           <p>여행 자금:</p> <p>3000000원</p>
         </Info>
-      </InfoBlock>
+      </InfoBlock> */}
       <PostListBlock>
-        <PostListBlockTitle>
+        <PostListHeader>
           <h3>Memo</h3>
           <Button>ADD</Button>
-        </PostListBlockTitle>
+        </PostListHeader>
         <PostList>
-          <ItemBox>
-            {Total.map((i) => {
-              return <InfoPostItem index={i} key={i} />;
-            })}
-          </ItemBox>
+          {Total.map((i) => {
+            return <InfoPostItem index={i} key={i} />;
+          })}
         </PostList>
       </PostListBlock>
+      {!isChange ? (
+        <Ad ref={adRef}>
+          <Img src={airplaneDay} alt="airplane-day" />
+          <div>
+            바쁜 일정 중에 잊는 것들이 있을 수가 있어요. <br />
+            여행에 필요한 정보들을 기록해 보세요.
+          </div>
+        </Ad>
+      ) : (
+        <Ad ref={adRef}>
+          <Img src={airplaneNight} alt="airplane-night" />
+          <div>한국다봄을 앱에서도 사용해 보세요.</div>
+        </Ad>
+      )}
     </InfoPostListBlock>
   );
 };
