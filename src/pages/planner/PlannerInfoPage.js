@@ -11,8 +11,8 @@ const PlannerInfoPage = () => {
     <>
       <Header />
       <PlannerInfo>
-        <InfoMenu />
         <InfoRoute />
+        <InfoMenu />
         <InfoPostList />
         {/* <InfoPostListContainer /> */}
       </PlannerInfo>

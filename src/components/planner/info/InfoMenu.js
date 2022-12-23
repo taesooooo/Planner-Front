@@ -1,36 +1,73 @@
 import styled from 'styled-components';
 
 const InfoMenuBlock = styled.div`
-  border: 1px solid red;
+  border: 1px solid lightgray;
+  border-width: 1px 0 1px 0;
+  width: 100%;
+  height: 100px;
+  margin: 5px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 10px; */
 `;
 
-const ButtonBox = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 10px;
-  left: 20px;
+const InfoBox = styled.div`
+  width: 33%;
+  height: 50%;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-`;
-const Button = styled.button`
-  border-radius: 10px;
-  color: white;
-  background-color: lightblue;
-  border: none;
-  width: 120px;
-  height: 40px;
-  font-weight: bold;
-  &+&{
-    margin-top: 10px;
+  & + & {
+    border-left: 3px dotted lightgray;
   }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Ask = styled.div`
+  font-size: 0.8rem;
+  color: gray;
+  margin-right: 5px;
+`;
+
+const Text = styled.div`
+  font-size: 1.2rem;
+`;
+
+const Date = styled.div`
+  font-size: 0.9rem;
+  color: lightgray;
 `;
 
 const InfoMenu = () => {
   return (
     <InfoMenuBlock>
-
+      <InfoBox>
+        <FlexBox>
+          <Ask>플래너 이름: </Ask>
+          <Text>해적선 이야기</Text>
+        </FlexBox>
+        <Date>2022. 11. 11 ~ 2022. 12. 24</Date>
+      </InfoBox>
+      <InfoBox>
+        <FlexBox>
+          <Ask>인원: </Ask>
+          <Text>4명 (가족)</Text>
+        </FlexBox>
+      </InfoBox>
+      <InfoBox>
+        <FlexBox>
+          <Ask>자금: </Ask>
+          <Text>900000원</Text>
+        </FlexBox>
+      </InfoBox>
     </InfoMenuBlock>
-  )
-}
+  );
+};
 
 export default InfoMenu;

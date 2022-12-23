@@ -13,7 +13,7 @@ const InfoDatinationBlock = styled.div`
   border-bottom: 0.2rem solid #cdd9ac;
   border-radius: 10px;
   ${(props) =>
-    props.shadow &&
+    props.isShadow &&
     css`
       box-shadow: 0px 3px 7px 1px rgb(0, 0, 0, 30%);
     `}
@@ -85,7 +85,7 @@ const SwipeButton = styled.div`
   }
 `;
 
-const InfoDatination = ({ shadow }) => {
+const InfoDatination = ({ isShadow }) => {
   const [date, setDate] = useState([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const TOTAL_SLIDES = date.length;
@@ -111,7 +111,7 @@ const InfoDatination = ({ shadow }) => {
   }, [currentIndex]);
 
   return (
-    <InfoDatinationBlock shadow={shadow}>
+    <InfoDatinationBlock isShadow={isShadow}>
       <SwipeButton onClick={handlePrev}>
         <FontAwesomeIcon icon={faCaretLeft} />
       </SwipeButton>

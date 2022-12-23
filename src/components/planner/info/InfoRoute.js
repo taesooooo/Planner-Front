@@ -29,12 +29,12 @@ const InfoRouteBlock = styled.div`
 
 const RouteBox = styled.div`
   width: 350px;
-  height: 590px;
+  height: 574px;
   border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   flex-direction: column;
   display: flex;
-  padding-bottom: 5px;
+  padding-bottom: 1rem;
   /* align-items: center; */
   margin-top: 20px;
   @media all and (min-width: 768px){
@@ -113,25 +113,23 @@ const RouteLine = styled.div`
 
 const InfoRoute = () => {
   const TOTAL = [0, 1, 2,3,4,5,6,7,8];
-  const [shadow, setShadow] = useState(false);
+  const [isShadow, setIsShadow] = useState(false);
   const listRef = useRef();
-  const itemRef = useRef();
   
-  const headerShadow = () => {
-    console.log(itemRef.current.getBoundingClientRect().y)
-    if (itemRef.current.getBoundingClientRect().y > 1040) {
-      setShadow(false);
+  const handleShadow = () => {
+    if (listRef.current.scrollTop === 0) {
+      setIsShadow(false);
     } else {
-      setShadow(true);
+      setIsShadow(true);
         }
 };
 
 useEffect(() => {
   let refValue = listRef.current;
   
-    refValue.addEventListener('scroll', headerShadow);
+    refValue.addEventListener('scroll', handleShadow);
     return () => {
-      refValue.removeEventListener('scroll', headerShadow);
+      refValue.removeEventListener('scroll', handleShadow);
     };
   
 });
@@ -139,11 +137,11 @@ useEffect(() => {
     <InfoRouteBlock>
       <InfoMap />
       <RouteBox>
-        <InfoDatination shadow={shadow} />
+        <InfoDatination isShadow={isShadow} />
         <RouteList ref={listRef}>
           {TOTAL.map((i) => {
             return (
-              <RouteItem key={i} ref={itemRef}>
+              <RouteItem key={i} >
               <RouteLine />
                 <TransItem>
                   <StyledFontAwesomeIcon icon={faTaxi} />

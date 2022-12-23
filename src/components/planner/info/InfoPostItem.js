@@ -1,26 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef } from 'react';
 import { useState } from 'react';
 
 const PostItem = styled.div`
-  border: 1px solid lightblue;
+  border: 1px solid #cdd9ac;
   border-radius: 5px;
   margin-bottom: 1rem;
   /* display: flex; */
   flex-direction: column;
   padding: 10px;
-  display: none;
+  /* display: none; */
 `;
 
-const PostItemTitleBox = styled.div`
+const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const TitleInfo = styled.div`
+const HeaderInfo = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -50,25 +50,43 @@ const Text = styled.div`
   /* border: 1px solid lightgray;
   border-radius: 1rem; */
   padding: 1rem;
+  ${(props) =>
+    props.isMax &&
+    css`
+      visibility: visible;
+      max-height: 200px;
+    `}
 `;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+`;
+
 
 const Button = styled.button`
   border-radius: 0.5rem;
   border: none;
-  background-color: lightblue;
+  background-color: #9aad67;
   color: white;
-  width: 5rem;
+  width: 4rem;
   height: 2rem;
   margin-left: 1rem;
   font-weight: bold;
   &:hover {
     cursor: pointer;
-    background-color: blueviolet;
+    background-color: #f4d284;
   }
 `;
 
+const EditButton = styled(Button)`
+  width: 5rem;
+  margin-top: 10px;
+`
+
 const EditItem = styled.div`
-  border: 1px solid lightblue;
+  border: 1px solid #cdd9ac;
   border-radius: 5px;
   margin-bottom: 1rem;
   display: flex;
@@ -82,13 +100,6 @@ const EditItemTitleBox = styled.div`
   align-items: center;
 `;
 
-const ButtonBox = styled.div`
-  width: 100%;
-  Button {
-    float: right;
-    margin-top: 8px;
-  }
-`;
 
 const StyledInput = styled.input`
   border: none;
@@ -97,12 +108,12 @@ const StyledInput = styled.input`
   height: 2rem;
   text-indent: 10px;
   border-radius: 5px;
-  background-color: #f1eded;
+  background-color: #f1eee0;
   &::placeholder {
     color: #beb9b9;
   }
   &:focus {
-    color: lightblue;
+    color: #ef9a9a;
   }
 `;
 
@@ -118,70 +129,91 @@ const InfoPostItem = ({ index }) => {
     ],
   };
 
-  const editItemRef = useRef();
-  const postItemRef = useRef();
+  // editItem과 postItem을 스타일 변경으로 구분한다.
+  // const editItemRef = useRef();
+  // const postItemRef = useRef();
+  // const onCompletePost = () => {
+  //   editItemRef.current.style.display = 'none';
+  //   postItemRef.current.style.display = 'flex';
+  // };
+  // const onEditPost = () => {
+  //   editItemRef.current.style.display = 'flex';
+  //   postItemRef.current.style.display = 'none';
+  //   textRef.current.style.maxHeight = '0';
+  //   textRef.current.style.visibility = 'hidden';
+  //   setShowText(false);
+  // };
+
   const textRef = useRef();
-  const onCompletePost = () => {
-    editItemRef.current.style.display = 'none';
-    postItemRef.current.style.display = 'flex';
+  const [isMax, setIsMax] = useState(false);
+  const onMax = () => {
+    if (isMax === false) {
+      setIsMax(true);
+    } else {
+      setIsMax(false);
+    }
   };
-  const onEditPost = () => {
-    editItemRef.current.style.display = 'flex';
-    postItemRef.current.style.display = 'none';
-    textRef.current.style.maxHeight = '0';
-    textRef.current.style.visibility = 'hidden';
-    setShowText(false);
+  // const onMaxPost = () => {
+  //   if (!isMax) {
+  //     textRef.current.style.maxHeight = '200px';
+  //     textRef.current.style.visibility = 'visible';
+  //     setIsMax(true);
+  //   } else {
+  //     textRef.current.style.maxHeight = '0';
+  //     textRef.current.style.visibility = 'hidden';
+  //     setIsMax(false);
+  //   }
+  // };
+
+  const [isEdit, setIsEdit] = useState(false);
+  const onEdit = () => {
+    setIsEdit(true);
+    setIsMax(false);
   };
 
-  const [showText, setShowText] = useState(false);
-  const onMaxPost = () => {
-    if (!showText) {
-      textRef.current.style.maxHeight = '200px';
-      textRef.current.style.visibility = 'visible';
-      setShowText(true);
-    } else {
-      textRef.current.style.maxHeight = '0';
-      textRef.current.style.visibility = 'hidden';
-      setShowText(false);
-    }
+  const onPost = () => {
+    setIsEdit(false);
   };
   return (
     <>
-      <EditItem ref={editItemRef}>
-        <EditItemTitleBox>
-          <Number>{index}</Number>
-          <StyledInput name="title" placeholder="Title" type="text" />
-        </EditItemTitleBox>
-        <ReactQuill
-          placeholder="내용을 입력해주세요."
-          theme="snow"
-          modules={modules}
-          // value={text}
-          // onChange={}
-        />
-        <ButtonBox>
-          <Button onClick={onCompletePost}>Complete</Button>
-        </ButtonBox>
-      </EditItem>
-      <PostItem ref={postItemRef}>
-        <PostItemTitleBox>
-          <TitleInfo>
+      {isEdit ? (
+        <EditItem>
+          <EditItemTitleBox>
             <Number>{index}</Number>
-            <div>
-              <Title>공지사항</Title>
-              <Date>2022. 08. 19. PM 13:24:31</Date>
-            </div>
-          </TitleInfo>
-          <div>
-            <Button onClick={onMaxPost}>Max</Button>
-            <Button onClick={onEditPost}>Edit</Button>
-            <Button>Delete</Button>
-          </div>
-        </PostItemTitleBox>
-        <Text ref={textRef}>
-          PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.
-        </Text>
-      </PostItem>
+            <StyledInput name="title" placeholder="Title" type="text" />
+          </EditItemTitleBox>
+          <ReactQuill
+            placeholder="내용을 입력해주세요."
+            theme="snow"
+            modules={modules}
+            // value={text}
+            // onChange={}
+          />
+          <ButtonBox>
+            <EditButton onClick={onPost}>Complete</EditButton>
+          </ButtonBox>
+        </EditItem>
+      ) : (
+        <PostItem>
+          <PostHeader>
+            <HeaderInfo>
+              <Number>{index}</Number>
+              <div>
+                <Title>공지사항</Title>
+                <Date>2022. 08. 19. PM 13:24:31</Date>
+              </div>
+            </HeaderInfo>
+            <ButtonBox>
+              <Button onClick={onMax}>Max</Button>
+              <Button onClick={onEdit}>Edit</Button>
+              <Button>Delete</Button>
+            </ButtonBox>
+          </PostHeader>
+          <Text ref={textRef} isMax={isMax}>
+            PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.PostText입니다.
+          </Text>
+        </PostItem>
+      )}
     </>
   );
 };

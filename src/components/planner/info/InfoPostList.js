@@ -1,75 +1,51 @@
 import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import InfoPostItem from './InfoPostItem';
 import airplaneDay from '../../../lib/img/airplane-day.jpg';
 import airplaneNight from '../../../lib/img/airplane-night.jpg';
 
 const InfoPostListBlock = styled.div`
-  margin-top: 20px;
   width: 100%;
-  height: 600px;
-  min-width: 640px;
+  height: 550px;
   display: flex;
   justify-content: center;
 `;
 
-const InfoBlock = styled.div`
-  display: flex;
-  /* justify-content: space-around; */
-  /* align-items: center; */
-  width: 80%;
-  margin: 0 auto;
-`;
-
-const Info = styled.div`
-  width: auto;
-  height: auto;
-  display: flex;
-  border: 1px solid lightblue;
-  border-radius: 1rem;
-  padding: 1rem;
-  font-weight: bold;
-  & + & {
-    margin-left: 10px;
-  }
-  p {
-    &:first-child {
-      color: gray;
-      white-space: nowrap;
-    }
-    &:last-child {
-      margin-left: 5px;
-    }
-    margin: 0;
-  }
-`;
-
 const PostListBlock = styled.div`
-  width: 50%;
-  height: calc(100% - 1rem);
-  border: 1px solid lightgray;
+  width: 60%;
+  min-width: 400px;
+  height: 100%;
+  /* height: calc(100% - 1rem); */
+  border: 0.2rem solid #CDD9AC;
   border-radius: 10px;
-  padding: 0 1rem 1rem;
-  
-  /* margin: 0 auto; */
   `;
 
 const PostListHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+  padding: 0 1rem;
+
+  ${(props) =>
+    props.isShadow &&
+    css`
+      box-shadow: 0px 3px 7px 1px rgb(0, 0, 0, 30%);
+    `}
+  `;
 
 const PostList = styled.div`
-height: 100%;
-overflow: hidden;
+height: calc(100% - 5rem);
 overflow-y: auto;
+padding: 0 1rem;
+&::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Button = styled.button`
   border-radius: 0.5rem;
   border: none;
-  background-color: lightblue;
+  background-color: #9AAD67;
   color: white;
   width: 5rem;
   height: 2rem;
@@ -77,6 +53,7 @@ const Button = styled.button`
   font-weight: bold;
   &:hover {
     cursor: pointer;
+    background-color: #f4d284;
   }
 `;
 
@@ -130,9 +107,10 @@ const Img = styled.img`
  * 4. postItem의 max버튼 => postItem의 text만큼 높이가 변경됨.
  */
 const InfoPostList = () => {
-  const Total = [1, 2, 3];
+  const Total = [1, 2, 3,4];
   const [isChange, setIsChange] = useState(false);
   const adRef = useRef();
+
 
   const onChangeTrue = () => {
     setIsChange(true);
@@ -141,39 +119,43 @@ const InfoPostList = () => {
     setIsChange(false);
   };
 
-  useEffect(() => {
-    let refValue = adRef.current;
+  const [isShadow, setIsShadow] = useState(false);
+  const listRef = useRef();
+  
+  const handleShadow = () => {
+    if (listRef.current.scrollTop === 0) {
+      setIsShadow(false);
+    } else {
+      setIsShadow(true);
+        }
+};
 
-    refValue.addEventListener('mouseover', onChangeTrue);
-    refValue.addEventListener('mouseout', onChangeFalse);
+  useEffect(() => {
+    let refAd = adRef.current;
+    let refList = listRef.current;
+
+    refAd.addEventListener('mouseover', onChangeTrue);
+    refAd.addEventListener('mouseout', onChangeFalse);
+    refList.addEventListener('scroll', handleShadow);
 
     return () => {
-      refValue.removeEventListener('mouseover', onChangeTrue);
-      refValue.removeEventListener('mouseout', onChangeFalse);
+      refAd.removeEventListener('mouseover', onChangeTrue);
+      refAd.removeEventListener('mouseout', onChangeFalse);
+      refList.removeEventListener('scroll', handleShadow);
+
     };
   });
+
+  
+  
   return (
     <InfoPostListBlock>
-      {/* <InfoBlock>
-        <Info>
-          <p>플래너 이름:</p> <p>제주도 한바퀴</p>
-        </Info>
-        <Info>
-          <p>일정:</p> <p>2022년 08월 17일 ~ 2022년 08월 28일</p>
-        </Info>
-        <Info>
-          <p>참여 인원:</p> <p>4명</p>
-        </Info>
-        <Info>
-          <p>여행 자금:</p> <p>3000000원</p>
-        </Info>
-      </InfoBlock> */}
       <PostListBlock>
-        <PostListHeader>
+        <PostListHeader isShadow={isShadow}>
           <h3>Memo</h3>
           <Button>ADD</Button>
         </PostListHeader>
-        <PostList>
+        <PostList ref={listRef}>
           {Total.map((i) => {
             return <InfoPostItem index={i} key={i} />;
           })}
