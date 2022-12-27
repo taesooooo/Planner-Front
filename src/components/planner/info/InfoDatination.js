@@ -64,7 +64,6 @@ const ButtonLine = styled.div`
   background-color: #cdd9ac;
   position: absolute;
   top: 31px;
-  z-index: -1;
 `;
 
 const SwipeButton = styled.div`

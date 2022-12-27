@@ -1,16 +1,31 @@
 import styled from 'styled-components';
 
 const InfoMenuBlock = styled.div`
-  border: 1px solid lightgray;
-  border-width: 1px 0 1px 0;
   width: 100%;
-  height: 100px;
-  margin: 5px auto;
+  height: 120px;
+  `;
+
+const Container = styled.div`
+height: calc(100% - 16px);
+  border: 1px solid rgb(0, 0, 0, 5%);
+  border-width: 8px 0 8px 0;
+  /* margin: 5px auto; */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* padding: 10px; */
+  padding: 0;
+  /* @media all and (min-width: 768px) {
+    width: 738px;
+  } */
+  @media all and (min-width: 960px) {
+    /* width: 930px; */
+    padding: 0 100px;
+  }
+  /* @media all and (min-width: 1280px) {
+    width: 1024px;
+  } */
 `;
+
 
 const InfoBox = styled.div`
   width: 33%;
@@ -30,13 +45,16 @@ const FlexBox = styled.div`
 `;
 
 const Ask = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: gray;
   margin-right: 5px;
-`;
+  font-weight: bold;
+  `;
 
 const Text = styled.div`
   font-size: 1.2rem;
+  font-weight: bold;
+  
 `;
 
 const Date = styled.div`
@@ -47,6 +65,8 @@ const Date = styled.div`
 const InfoMenu = () => {
   return (
     <InfoMenuBlock>
+      <Container>
+        
       <InfoBox>
         <FlexBox>
           <Ask>플래너 이름: </Ask>
@@ -66,6 +86,8 @@ const InfoMenu = () => {
           <Text>900000원</Text>
         </FlexBox>
       </InfoBox>
+      
+      </Container>
     </InfoMenuBlock>
   );
 };

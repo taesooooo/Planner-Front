@@ -7,17 +7,36 @@ import airplaneNight from '../../../lib/img/airplane-night.jpg';
 const InfoPostListBlock = styled.div`
   width: 100%;
   height: 550px;
+  background-color: #f1eee0;
+  padding-top: 30px;
+  `;
+
+const Container = styled.div`
+  height: 100%;
+  margin: 0px auto;
   display: flex;
   justify-content: center;
+  @media all and (min-width: 768px) {
+    width: 738px;
+  }
+  @media all and (min-width: 960px) {
+    width: 930px;
+  }
+  @media all and (min-width: 1280px) {
+    width: 1024px;
+  }
 `;
 
+
 const PostListBlock = styled.div`
-  width: 60%;
+  width: 65%;
   min-width: 400px;
   height: 100%;
   /* height: calc(100% - 1rem); */
   border: 0.2rem solid #CDD9AC;
   border-radius: 10px;
+  background-color: white;
+
   `;
 
 const PostListHeader = styled.div`
@@ -58,7 +77,7 @@ const Button = styled.button`
 `;
 
 const Ad = styled.div`
-  width: 50%;
+  width: 350px;
   height: 100%;
   margin-left: 5px;
   display: none;
@@ -81,7 +100,7 @@ const Ad = styled.div`
     text-align: center;
     font-size: 0.9rem;
     @media all and (min-width: 960px) {
-    font-size: 1.2rem;
+    font-size: 1rem;
     }
   }
   @media all and (min-width: 768px) {
@@ -150,6 +169,8 @@ const InfoPostList = () => {
   
   return (
     <InfoPostListBlock>
+      <Container>
+
       <PostListBlock>
         <PostListHeader isShadow={isShadow}>
           <h3>Memo</h3>
@@ -175,6 +196,8 @@ const InfoPostList = () => {
           <div>한국다봄을 앱에서도 사용해 보세요.</div>
         </Ad>
       )}
+      </Container>
+      
     </InfoPostListBlock>
   );
 };

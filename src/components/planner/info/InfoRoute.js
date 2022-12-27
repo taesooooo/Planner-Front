@@ -17,19 +17,39 @@ import { useState } from 'react';
 const InfoRouteBlock = styled.div`
   width: 100%;
   height: 100%;
+  background-color: #f1eee0;
+  padding: 10px 0 30px;
+`;
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  @media all and (min-width: 768px){
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: flex-start;
+  margin: 0px auto;
+  h3 {
+    /* color: #9AAD67; */
   }
+  @media all and (min-width: 768px) {
+    width: 738px;
+  }
+  @media all and (min-width: 960px) {
+    width: 930px;
+  }
+  @media all and (min-width: 1280px) {
+    width: 1024px;
+  }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: flex-start;
 `;
 
 const RouteBox = styled.div`
   width: 350px;
   height: 574px;
+  background-color: white;
   border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   flex-direction: column;
@@ -37,21 +57,21 @@ const RouteBox = styled.div`
   padding-bottom: 1rem;
   /* align-items: center; */
   margin-top: 20px;
-  @media all and (min-width: 768px){
-margin-top: 0px;
-}
-  `;
+  @media all and (min-width: 768px) {
+    margin-top: 0px;
+  }
+`;
 
 const RouteList = styled.div`
-height: 100%;
-overflow-y: auto;
-display: flex;
-flex-direction: column;
-align-items: center;
-position: relative;
-&::-webkit-scrollbar {
-    display: none; 
-}
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const RouteItem = styled.div`
@@ -61,32 +81,30 @@ const RouteItem = styled.div`
   align-items: center;
   position: relative;
   top: -38px;
+  z-index: 1;
   /* border: 0.2rem solid lightblue; */
- 
-  `;
+`;
 
 const TransItem = styled.div`
-
-width: 75px;
-display: flex;
+  width: 75px;
+  display: flex;
   padding: 0.5rem 1rem;
   border: 0.2rem solid #cdd9ac;
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: bold;
   background-color: white;
-  
-  `;
+  z-index: 1;
+`;
 
 const SpotItem = styled.div`
-width: 200px;
-display: flex;
-padding: 0.5rem 1rem;
-border: 0.2rem solid #cdd9ac;
-border-radius: 1rem;
-background-color: white;
-margin: 20px 0;
-
+  width: 200px;
+  display: flex;
+  padding: 0.5rem 1rem;
+  border: 0.2rem solid #cdd9ac;
+  border-radius: 1rem;
+  background-color: white;
+  margin: 20px 0;
 `;
 const RouteSpotName = styled.div`
   white-space: nowrap;
@@ -102,60 +120,65 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 const RouteLine = styled.div`
-  background-color:#cdd9ac;
+  background-color: #cdd9ac;
   width: 0.2rem;
-  height: 85px;
-  z-index: -1;
+  height: 80px;
+
   margin: 20px 0;
   position: absolute;
-  top: -45px;
+  top: -42px;
 `;
 
 const InfoRoute = () => {
-  const TOTAL = [0, 1, 2,3,4,5,6,7,8];
+  const TOTAL = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [isShadow, setIsShadow] = useState(false);
   const listRef = useRef();
-  
+
   const handleShadow = () => {
     if (listRef.current.scrollTop === 0) {
       setIsShadow(false);
     } else {
       setIsShadow(true);
-        }
-};
+    }
+  };
 
-useEffect(() => {
-  let refValue = listRef.current;
-  
+  useEffect(() => {
+    let refValue = listRef.current;
+
     refValue.addEventListener('scroll', handleShadow);
     return () => {
       refValue.removeEventListener('scroll', handleShadow);
     };
-  
-});
+  });
+
   return (
     <InfoRouteBlock>
-      <InfoMap />
-      <RouteBox>
-        <InfoDatination isShadow={isShadow} />
-        <RouteList ref={listRef}>
-          {TOTAL.map((i) => {
-            return (
-              <RouteItem key={i} >
-              <RouteLine />
-                <TransItem>
-                  <StyledFontAwesomeIcon icon={faTaxi} />
-                  Taxi{i}
-                </TransItem>
-                <SpotItem>
-                  <StyledFontAwesomeIcon icon={faBed} />
-                  <RouteSpotName>해적선 숙소소소소소</RouteSpotName>
-                </SpotItem>
-              </RouteItem>
-            );
-          })}
-        </RouteList>
-      </RouteBox>
+      <Container>
+        <h3>따수베어님의 플래너</h3>
+        <FlexBox>
+          <InfoMap />
+          <RouteBox>
+            <InfoDatination isShadow={isShadow} />
+            <RouteList ref={listRef}>
+              {TOTAL.map((i) => {
+                return (
+                  <RouteItem key={i}>
+                    <RouteLine />
+                    <TransItem>
+                      <StyledFontAwesomeIcon icon={faTaxi} />
+                      Taxi{i}
+                    </TransItem>
+                    <SpotItem>
+                      <StyledFontAwesomeIcon icon={faBed} />
+                      <RouteSpotName>해적선 숙소소소소소</RouteSpotName>
+                    </SpotItem>
+                  </RouteItem>
+                );
+              })}
+            </RouteList>
+          </RouteBox>
+        </FlexBox>
+      </Container>
     </InfoRouteBlock>
   );
 };

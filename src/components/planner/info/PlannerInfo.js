@@ -1,9 +1,10 @@
-import { Children } from 'react';
+
 import styled from 'styled-components';
 
 const PlannerInfoBlock = styled.div`
   width: 100%;
   height: 100%;
+  margin-top: 50px;
 `;
 
 const Container = styled.div`
