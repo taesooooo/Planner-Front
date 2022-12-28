@@ -122,35 +122,35 @@ const SimpleMap = styled.div`
   }
 `;
 
-// const SharesScrollBox = styled.div`
-//   width: calc(100% - 40px);
-//   height: 4px;
-//   border-radius: 10px;
-//   /* margin: 0 auto; */
-//   position: absolute;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   background-color: lightgray;
-//   z-index: 1;
-//   overflow: hidden;
-//   @media all and (min-width: 768px) {
-//     display: none;
-//   }
-// `;
+const SharesScrollBox = styled.div`
+  width: calc(100% - 40px);
+  height: 4px;
+  border-radius: 10px;
+  /* margin: 0 auto; */
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: lightgray;
+  z-index: 1;
+  overflow: hidden;
+  @media all and (min-width: 768px) {
+    display: none;
+  }
+`;
 
-// const SharesScroll = styled.div`
-//   background-color: gray;
-//   width: 70%;
-//   height: 100%;
-//   /* z-index: 0; */
-// `;
+const SharesScroll = styled.div`
+  background-color: gray;
+  width: 70%;
+  height: 100%;
+  /* z-index: 0; */
+`;
 
 const ShareList = () => {
   const hiddenBoxRef = useRef();
   const sharesRef = useRef();
   const itemRef = useRef();
-  // const scrollBoxRef = useRef();
-  // const scrollRef = useRef();
+  const scrollBoxRef = useRef();
+  const scrollRef = useRef();
 
   let isSlide = false; // 슬라이더 이벤트 실행 조건
   let startX = 0; // 마우스 클릭한 x 좌표
@@ -307,9 +307,9 @@ const ShareList = () => {
             </ShareItem>
           </Shares>
         </HiddenBox>
-        {/* <SharesScrollBox ref={scrollBoxRef}>
+        <SharesScrollBox ref={scrollBoxRef}>
           <SharesScroll ref={scrollRef} />
-        </SharesScrollBox> */}
+        </SharesScrollBox>
       </Container>
     </ShareListBlock>
   );
