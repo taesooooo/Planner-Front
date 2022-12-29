@@ -4,12 +4,15 @@ import { useEffect, useRef } from 'react';
 import palette from '../../lib/styles/palette';
 
 const HeaderBlock = styled.div`
+width: 100%;
   height: 75px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
+  right: 0;
+  left: 0;
   background-color: white;
   z-index: 999;
   padding: 0 80px;

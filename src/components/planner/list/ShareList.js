@@ -30,12 +30,13 @@ const HiddenBox = styled.div`
   margin: 0 auto;
   overflow: hidden;
   z-index: 1;
-  width: calc(100% - 40px);
-  padding: 0 20px;
+  /* width: calc(100% - 40px);
+  padding: 0 20px; */
 
   @media all and (min-width: 768px) {
-    width: 100%;
-    padding: 0;
+    /* width: 100%;
+    padding: 0; */
+    margin-left: 15px;
   }
   z-index: 1;
 
@@ -45,12 +46,13 @@ const Shares = styled.ul`
   width: 840px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 20px 0 0;
+  padding: 0;
+  /* padding: 0 20px 0 0; */
   display: inline-block;
   
   @media all and (min-width: 768px) {
     width: 100%;
-    padding: 0;
+    /* padding: 0; */
   }
 `;
 
