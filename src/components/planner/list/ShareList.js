@@ -30,6 +30,7 @@ const HiddenBox = styled.div`
   margin: 0 auto;
   overflow: hidden;
   z-index: 1;
+  border :1px solid blue;
   /* width: calc(100% - 40px);
   padding: 0 20px; */
 
@@ -38,7 +39,8 @@ const HiddenBox = styled.div`
 `;
 
 const Shares = styled.ul`
-  width: 840px;
+border: 1px solid red;
+  width: 750px;
   height: 100%;
   margin: 0 auto;
   padding: 0 15px;
@@ -184,8 +186,9 @@ const ShareList = () => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
     // scrollX = scrMoveX;
-    console.log('x:' + sliderX)
-    console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
+    // console.log('x:' + sliderX)
+    // console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
+    console.log(sharesRef.current.getBoundingClientRect())
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
