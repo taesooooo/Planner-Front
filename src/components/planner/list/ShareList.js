@@ -33,12 +33,7 @@ const HiddenBox = styled.div`
   /* width: calc(100% - 40px);
   padding: 0 20px; */
 
-  @media all and (min-width: 768px) {
-    /* width: 100%;
-    padding: 0; */
-    margin-left: 15px;
-  }
-  z-index: 1;
+ 
 
 `;
 
@@ -46,13 +41,13 @@ const Shares = styled.ul`
   width: 840px;
   height: 100%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 15px;
   /* padding: 0 20px 0 0; */
   display: inline-block;
   
   @media all and (min-width: 768px) {
     width: 100%;
-    /* padding: 0; */
+    padding: 0;
   }
 `;
 
@@ -189,7 +184,8 @@ const ShareList = () => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
     // scrollX = scrMoveX;
-
+    console.log('x:' + sliderX)
+    console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
