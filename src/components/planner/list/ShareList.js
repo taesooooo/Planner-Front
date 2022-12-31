@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   margin: 10px auto;
-  
+
   @media all and (min-width: 768px) {
     width: calc(100% - 40px);
     padding: 0 20px;
@@ -30,23 +30,18 @@ const HiddenBox = styled.div`
   margin: 0 auto;
   overflow: hidden;
   z-index: 1;
-  border :1px solid blue;
   /* width: calc(100% - 40px);
   padding: 0 20px; */
-
- 
-
 `;
 
 const Shares = styled.ul`
-border: 1px solid red;
   width: 750px;
   height: 100%;
   margin: 0 auto;
   padding: 0 15px;
   /* padding: 0 20px 0 0; */
   display: inline-block;
-  
+
   @media all and (min-width: 768px) {
     width: 100%;
     padding: 0;
@@ -107,7 +102,6 @@ const Date = styled.p`
   }
 `;
 
-
 const SimpleMap = styled.div`
   width: 100%;
   height: 120px;
@@ -121,26 +115,27 @@ const SimpleMap = styled.div`
   }
 `;
 
-const SharesScrollBox = styled.div`
+const ScrollBox = styled.div`
   width: calc(100% - 40px);
   height: 4px;
+  margin-top: 5px;
   border-radius: 10px;
-  /* margin: 0 auto; */
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition-duration: 4s;
   background-color: lightgray;
-  z-index: 1;
   overflow: hidden;
+  z-index: 1;
   @media all and (min-width: 768px) {
     display: none;
   }
 `;
 
-const SharesScroll = styled.div`
-  background-color: gray;
+const Scroll = styled.div`
   width: 70%;
   height: 100%;
+  background-color: gray;
   /* z-index: 0; */
 `;
 
@@ -158,8 +153,10 @@ const ShareList = () => {
   let sliderX = 0; // 슬라이더 x 좌표
   const TOTAL_SLIDE = 4;
 
-  // let scrMoveX = 0; 
-  // let scrollX = 0; 
+  let scrollMoveX = 0;
+
+  // let scrMoveX = 0;
+  // let scrollX = 0;
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
@@ -170,14 +167,21 @@ const ShareList = () => {
   // 슬라이드 마우스 이동
   const sliderMove = (e) => {
     if (isSlide) {
-      currentX = e.clientX;
+      currentX = e.clientX; 
       moveX = sliderX + currentX - startX;
-      // scrMoveX = scrollX + currentX - startX;
-
-      sharesRef.current.style.transform = ' translateX(' + moveX + 'px)';
+      
+      sharesRef.current.style.transform = 'translateX(' + moveX + 'px)';
       sharesRef.current.style.transitionDuration = '0s';
-      // scrollRef.current.style.transform = ' translateX(' + -scrMoveX + 'px)';
-      // scrollRef.current.style.transitionDuration = '0s';
+      
+      
+      scrollMoveX = sliderX + currentX - startX;
+      if(scrollMoveX > 0){
+        scrollMoveX = 0;
+      }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
+        scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+      }
+      scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
+      scrollRef.current.style.transitionDuration = '0s';
     }
   };
 
@@ -186,9 +190,7 @@ const ShareList = () => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
     // scrollX = scrMoveX;
-    // console.log('x:' + sliderX)
-    // console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
-    console.log(sharesRef.current.getBoundingClientRect())
+
     if (sliderX > 0) {
       sliderX = 0;
     } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
@@ -197,14 +199,15 @@ const ShareList = () => {
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
 
-    // if (scrollX > 0) {
-    //   scrollX = 0;
-    // } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
-    //   scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
-    // }
-    // scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
-    // scrollRef.current.style.transitionDuration = ' 1s';
-    
+    console.log(scrollMoveX)
+    if(scrollMoveX > 0){
+      scrollMoveX = 0;
+    }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
+      scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+    }
+    scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
+    scrollRef.current.style.transitionDuration = '1s';
+
     isSlide = false;
   };
 
@@ -308,9 +311,9 @@ const ShareList = () => {
             </ShareItem>
           </Shares>
         </HiddenBox>
-        <SharesScrollBox ref={scrollBoxRef}>
-          <SharesScroll ref={scrollRef} />
-        </SharesScrollBox>
+        <ScrollBox ref={scrollBoxRef}>
+          <Scroll ref={scrollRef} />
+        </ScrollBox>
       </Container>
     </ShareListBlock>
   );
