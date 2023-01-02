@@ -154,6 +154,7 @@ const ShareList = () => {
   const TOTAL_SLIDE = 4;
 
   let scrollMoveX = 0;
+  let scrollSize = 30*scrollBoxRef.current.clientWidth / 100;
 
   // let scrMoveX = 0;
   // let scrollX = 0;
@@ -173,12 +174,13 @@ const ShareList = () => {
       sharesRef.current.style.transform = 'translateX(' + moveX + 'px)';
       sharesRef.current.style.transitionDuration = '0s';
       
+      scrollMoveX = -(currentX/hiddenBoxRef.current.clientWidth*100);
       
-      scrollMoveX = sliderX + currentX - startX;
-      if(scrollMoveX > 0){
+      if(scrollMoveX < 0){
         scrollMoveX = 0;
-      }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
-        scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+      // }else if(scrollMoveX > (scrollBoxRef.current.clientWidth )){
+      }else if(scrollMoveX > (2000)){
+        scrollMoveX = (30*scrollBoxRef.current.clientWidth / 100)
       }
       scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
       scrollRef.current.style.transitionDuration = '0s';
@@ -199,14 +201,17 @@ const ShareList = () => {
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
 
+    // console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
     console.log(scrollMoveX)
-    if(scrollMoveX > 0){
-      scrollMoveX = 0;
-    }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
-      scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
-    }
-    scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
-    scrollRef.current.style.transitionDuration = '1s';
+    // console.log(scrollRef.current.getBoundingClientRect().left)
+
+    // if(scrollMoveX > 0){
+    //   scrollMoveX = 0;
+    // }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
+    //   scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+    // }
+    // scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
+    // scrollRef.current.style.transitionDuration = '1s';
 
     isSlide = false;
   };
