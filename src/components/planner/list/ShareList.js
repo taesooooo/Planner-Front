@@ -133,7 +133,7 @@ const ScrollBox = styled.div`
 `;
 
 const Scroll = styled.div`
-  width: 70%;
+  width: 50%;
   height: 100%;
   background-color: gray;
   /* z-index: 0; */
@@ -154,10 +154,6 @@ const ShareList = () => {
   const TOTAL_SLIDE = 4;
 
   let scrollMoveX = 0;
-  let scrollSize = 30*scrollBoxRef.current.clientWidth / 100;
-
-  // let scrMoveX = 0;
-  // let scrollX = 0;
 
   // 슬라이드 마우스 다운
   const sliderStart = (e) => {
@@ -168,21 +164,21 @@ const ShareList = () => {
   // 슬라이드 마우스 이동
   const sliderMove = (e) => {
     if (isSlide) {
-      currentX = e.clientX; 
+      currentX = e.clientX;
       moveX = sliderX + currentX - startX;
-      
+
       sharesRef.current.style.transform = 'translateX(' + moveX + 'px)';
       sharesRef.current.style.transitionDuration = '0s';
-      
-      scrollMoveX = -(currentX/hiddenBoxRef.current.clientWidth*100);
-      
-      if(scrollMoveX < 0){
+
+      scrollMoveX = -((moveX / -(hiddenBoxRef.current.clientWidth - sharesRef.current.clientWidth)) * 100);
+
+      if (scrollMoveX < 0) {
         scrollMoveX = 0;
-      // }else if(scrollMoveX > (scrollBoxRef.current.clientWidth )){
-      }else if(scrollMoveX > (2000)){
-        scrollMoveX = (30*scrollBoxRef.current.clientWidth / 100)
+      } else if (scrollMoveX > 100) {
+        scrollMoveX = 100;
       }
-      scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
+
+      scrollRef.current.style.transform = 'translateX(' + scrollMoveX + '%)';
       scrollRef.current.style.transitionDuration = '0s';
     }
   };
@@ -191,27 +187,14 @@ const ShareList = () => {
   const sliderEnd = (e) => {
     let itemSize = sharesRef.current.scrollWidth / TOTAL_SLIDE;
     sliderX = Math.round(moveX / itemSize) * itemSize;
-    // scrollX = scrMoveX;
 
     if (sliderX > 0) {
       sliderX = 0;
-    } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth) {
-      sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
+    } else if (sliderX < hiddenBoxRef.current.clientWidth - sharesRef.current.clientWidth) {
+      sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.clientWidth;
     }
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = ' 1s';
-
-    // console.log(hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth)
-    console.log(scrollMoveX)
-    // console.log(scrollRef.current.getBoundingClientRect().left)
-
-    // if(scrollMoveX > 0){
-    //   scrollMoveX = 0;
-    // }else if(scrollMoveX < hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth){
-    //   scrollMoveX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
-    // }
-    // scrollRef.current.style.transform = 'translateX(' + scrollMoveX + 'px)';
-    // scrollRef.current.style.transitionDuration = '1s';
 
     isSlide = false;
   };
@@ -225,14 +208,6 @@ const ShareList = () => {
     }
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
     sharesRef.current.style.transitionDuration = '0s';
-
-    // if (scrollX > 0) {
-    //   scrollX = 0;
-    // } else if (scrollX < scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth) {
-    //   scrollX = scrollRef.current.scrollWidth - hiddenBoxRef.current.clientWidth;
-    // }
-    // scrollRef.current.style.transform = ' translateX(' + -scrollX + 'px)';
-    // scrollRef.current.style.transitionDuration = ' 0s';
   };
 
   useEffect(() => {
