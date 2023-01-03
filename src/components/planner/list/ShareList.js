@@ -123,10 +123,10 @@ const ScrollBox = styled.div`
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition-duration: 4s;
   background-color: lightgray;
   overflow: hidden;
   z-index: 1;
+  opacity: 0;
   @media all and (min-width: 768px) {
     display: none;
   }
@@ -136,7 +136,6 @@ const Scroll = styled.div`
   width: 50%;
   height: 100%;
   background-color: gray;
-  /* z-index: 0; */
 `;
 
 const ShareList = () => {
@@ -168,7 +167,7 @@ const ShareList = () => {
       moveX = sliderX + currentX - startX;
 
       sharesRef.current.style.transform = 'translateX(' + moveX + 'px)';
-      sharesRef.current.style.transitionDuration = '0s';
+      sharesRef.current.style.transitionDuration = '0ms';
 
       scrollMoveX = -((moveX / -(hiddenBoxRef.current.clientWidth - sharesRef.current.clientWidth)) * 100);
 
@@ -177,9 +176,11 @@ const ShareList = () => {
       } else if (scrollMoveX > 100) {
         scrollMoveX = 100;
       }
+      scrollBoxRef.current.style.opacity = 1;
+      scrollBoxRef.current.style.transitionDuration = '400ms';
 
       scrollRef.current.style.transform = 'translateX(' + scrollMoveX + '%)';
-      scrollRef.current.style.transitionDuration = '0s';
+      scrollRef.current.style.transitionDuration = '0ms';
     }
   };
 
@@ -194,7 +195,9 @@ const ShareList = () => {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.clientWidth;
     }
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
-    sharesRef.current.style.transitionDuration = ' 1s';
+    sharesRef.current.style.transitionDuration = ' 1000ms';
+    scrollBoxRef.current.style.opacity = 0;
+    scrollBoxRef.current.style.transitionDuration = '2000ms';
 
     isSlide = false;
   };
@@ -207,7 +210,7 @@ const ShareList = () => {
       sliderX = hiddenBoxRef.current.clientWidth - sharesRef.current.scrollWidth;
     }
     sharesRef.current.style.transform = 'translateX(' + sliderX + 'px)';
-    sharesRef.current.style.transitionDuration = '0s';
+    sharesRef.current.style.transitionDuration = '0ms';
   };
 
   useEffect(() => {
