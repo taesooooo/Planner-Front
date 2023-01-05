@@ -51,6 +51,8 @@ const Shares = styled.ul`
 const TitleBox = styled.div`
   font-size: 1.3rem;
   margin-left: 20px;
+  font-weight: bolder;
+
   @media all and (min-width: 768px) {
     margin-left: 0;
   }

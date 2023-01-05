@@ -19,7 +19,6 @@ const Container = styled.div`
   }
   @media all and (min-width: 1280px) {
     width: 1024px;
-
   }
 `;
 
@@ -43,6 +42,7 @@ const TitleBox = styled.div`
 
 const Title = styled.p`
   font-size: 1.3rem;
+  font-weight: bold;
 `;
 
 const Button = styled.button`
@@ -117,7 +117,6 @@ const SimpleMap = styled.div`
 const PlannerList = () => {
   const hiddenBoxRef = useRef();
   const plannersRef = useRef();
-  const itemRef = useRef();
 
   let isSlide = false; // 슬라이더 이벤트 실행 조건
   let startX = 0; // 마우스 클릭한 x 좌표
@@ -198,7 +197,7 @@ const PlannerList = () => {
         </TitleBox>
         <HiddenBox ref={hiddenBoxRef}>
           <Planners ref={plannersRef}>
-            <PlannerItem ref={itemRef}>
+            <PlannerItem>
               <SimpleMap />
               <InfoBox>
                 <Name>1이세계를 향하여가나다라</Name>
