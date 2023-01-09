@@ -61,9 +61,7 @@ const Text = styled.div`
 const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
-
 `;
-
 
 const Button = styled.button`
   border-radius: 0.5rem;
@@ -83,7 +81,7 @@ const Button = styled.button`
 const EditButton = styled(Button)`
   width: 5rem;
   margin-top: 10px;
-`
+`;
 
 const EditItem = styled.div`
   border: 1px solid #cdd9ac;
@@ -99,7 +97,6 @@ const EditItemTitleBox = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 const StyledInput = styled.input`
   border: none;
