@@ -65,7 +65,7 @@ const SetButton = styled.button`
   cursor: pointer;
 `;
 
-const DropdownMenu = styled.ul`
+const DropDownMenu = styled.ul`
   border: 1px solid lightgray;
   display: none;
   position: absolute;
@@ -206,24 +206,27 @@ const InfoRoute = () => {
     };
   });
 
-  const [isDropdown, setIsDropdown] = useState(false);
+  const [isDropDown, setIsDropDown] = useState(false);
 
-  const onDropdown = () => {
-    if (isDropdown) {
-      setIsDropdown(false);
+  const onDropDown = () => {
+    if (isDropDown) {
+      setIsDropDown(false);
     } else {
-      setIsDropdown(true);
+      setIsDropDown(true);
     }
   };
 
-  const 
+  const menuRef = useRef();
+  const onDropUp = () => {
+    if (isDropDown) {
+      setIsDropDown(false);
+    }
+  };
 
   useEffect(() => {
-    window.addEventListener('click', () => {
-      setIsDropdown(false)
-    });
+    window.addEventListener('click', onDropUp);
     return () => {
-      window.removeEventListener('click', onDropdown);
+      window.removeEventListener('click', onDropUp);
     };
   });
 
@@ -233,15 +236,15 @@ const InfoRoute = () => {
         <RouteHeader>
           <h3>따수베어님의 플래너</h3>
           <Set>
-            <SetButton onClick={onDropdown}>
+            <SetButton onClick={onDropDown}>
               <FontAwesomeIcon icon={faGear} />
               <p>관리</p>
             </SetButton>
-            <DropdownMenu isDropDown={isDropdown}>
+            <DropDownMenu isDropDown={isDropDown} ref={menuRef}>
               <li>멤버 초대</li>
               <li>플래너 수정</li>
               <li>플래너 삭제</li>
-            </DropdownMenu>
+            </DropDownMenu>
           </Set>
         </RouteHeader>
         <FlexBox>
