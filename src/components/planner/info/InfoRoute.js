@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faBus } from '@fortawesome/free-solid-svg-icons'; // 버스
 import { faTaxi } from '@fortawesome/free-solid-svg-icons'; // 택시
@@ -9,6 +9,8 @@ import { faTaxi } from '@fortawesome/free-solid-svg-icons'; // 택시
 // import { faLocationDot } from '@fortawesome/free-solid-svg-icons'; // 여행지
 import { faBed } from '@fortawesome/free-solid-svg-icons'; // 숙소
 // import { faUtensils } from '@fortawesome/free-solid-svg-icons'; // 식당
+import { faGear } from '@fortawesome/free-solid-svg-icons'; // 숙소
+
 import InfoDatination from './InfoDatination';
 import InfoMap from './InfoMap';
 import { useEffect, useRef } from 'react';
@@ -17,7 +19,7 @@ import { useState } from 'react';
 const InfoRouteBlock = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #f1eee0;
+  background-color: #f5f5f5;
   padding: 10px 0 30px;
 `;
 
@@ -36,6 +38,59 @@ const Container = styled.div`
   }
   @media all and (min-width: 1280px) {
     width: 1024px;
+  }
+`;
+
+const RouteHeader = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Set = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
+const SetButton = styled.button`
+  width: 4rem;
+  height: 2rem;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #cdd9ac;
+  display: flex;
+  margin-left: 10px;
+  font-size: 15px;
+  justify-content: space-evenly;
+  cursor: pointer;
+`;
+
+const DropdownMenu = styled.ul`
+  border: 1px solid lightgray;
+  display: none;
+  position: absolute;
+  z-index: 10;
+  width: 8rem;
+  flex-direction: column;
+  padding: 0;
+  background-color: white;
+  border-radius: 5px;
+  top: 20px;
+  left: 10px;
+  font-size: 0.8rem;
+  box-shadow: 3px 3px 7px 1px rgb(0, 0, 0, 30%);
+  ${(props) =>
+    props.isDropDown &&
+    css`
+      display: flex;
+    `}
+
+  li {
+    padding: 5px 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: #cdd9ac;
+    }
   }
 `;
 
@@ -151,10 +206,44 @@ const InfoRoute = () => {
     };
   });
 
+  const [isDropdown, setIsDropdown] = useState(false);
+
+  const onDropdown = () => {
+    if (isDropdown) {
+      setIsDropdown(false);
+    } else {
+      setIsDropdown(true);
+    }
+  };
+
+  const 
+
+  useEffect(() => {
+    window.addEventListener('click', () => {
+      setIsDropdown(false)
+    });
+    return () => {
+      window.removeEventListener('click', onDropdown);
+    };
+  });
+
   return (
     <InfoRouteBlock>
       <Container>
-        <h3>따수베어님의 플래너</h3>
+        <RouteHeader>
+          <h3>따수베어님의 플래너</h3>
+          <Set>
+            <SetButton onClick={onDropdown}>
+              <FontAwesomeIcon icon={faGear} />
+              <p>관리</p>
+            </SetButton>
+            <DropdownMenu isDropDown={isDropdown}>
+              <li>멤버 초대</li>
+              <li>플래너 수정</li>
+              <li>플래너 삭제</li>
+            </DropdownMenu>
+          </Set>
+        </RouteHeader>
         <FlexBox>
           <InfoMap />
           <RouteBox>

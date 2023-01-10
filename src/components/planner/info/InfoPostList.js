@@ -7,9 +7,9 @@ import airplaneNight from '../../../lib/img/airplane-night.jpg';
 const InfoPostListBlock = styled.div`
   width: 100%;
   height: 550px;
-  background-color: #f1eee0;
+  background-color: #f5f5f5;
   padding-top: 30px;
-  `;
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -27,17 +27,15 @@ const Container = styled.div`
   }
 `;
 
-
 const PostListBlock = styled.div`
   width: 65%;
   min-width: 400px;
   height: 100%;
   /* height: calc(100% - 1rem); */
-  border: 0.2rem solid #CDD9AC;
+  border: 0.2rem solid #cdd9ac;
   border-radius: 10px;
   background-color: white;
-
-  `;
+`;
 
 const PostListHeader = styled.div`
   display: flex;
@@ -50,13 +48,13 @@ const PostListHeader = styled.div`
     css`
       box-shadow: 0px 3px 7px 1px rgb(0, 0, 0, 30%);
     `}
-  `;
+`;
 
 const PostList = styled.div`
-height: calc(100% - 5rem);
-overflow-y: auto;
-padding: 0 1rem;
-&::-webkit-scrollbar {
+  height: calc(100% - 5rem);
+  overflow-y: auto;
+  padding: 0 1rem;
+  &::-webkit-scrollbar {
     display: none;
   }
 `;
@@ -64,7 +62,7 @@ padding: 0 1rem;
 const Button = styled.button`
   border-radius: 0.5rem;
   border: none;
-  background-color: #9AAD67;
+  background-color: #9aad67;
   color: white;
   width: 5rem;
   height: 2rem;
@@ -100,7 +98,7 @@ const Ad = styled.div`
     text-align: center;
     font-size: 0.9rem;
     @media all and (min-width: 960px) {
-    font-size: 1rem;
+      font-size: 1rem;
     }
   }
   @media all and (min-width: 768px) {
@@ -126,10 +124,9 @@ const Img = styled.img`
  * 4. postItem의 max버튼 => postItem의 text만큼 높이가 변경됨.
  */
 const InfoPostList = () => {
-  const Total = [1, 2, 3,4];
+  const Total = [1, 2, 3, 4];
   const [isChange, setIsChange] = useState(false);
   const adRef = useRef();
-
 
   const onChangeTrue = () => {
     setIsChange(true);
@@ -140,14 +137,14 @@ const InfoPostList = () => {
 
   const [isShadow, setIsShadow] = useState(false);
   const listRef = useRef();
-  
+
   const handleShadow = () => {
     if (listRef.current.scrollTop === 0) {
       setIsShadow(false);
     } else {
       setIsShadow(true);
-        }
-};
+    }
+  };
 
   useEffect(() => {
     let refAd = adRef.current;
@@ -161,43 +158,38 @@ const InfoPostList = () => {
       refAd.removeEventListener('mouseover', onChangeTrue);
       refAd.removeEventListener('mouseout', onChangeFalse);
       refList.removeEventListener('scroll', handleShadow);
-
     };
   });
 
-  
-  
   return (
     <InfoPostListBlock>
       <Container>
-
-      <PostListBlock>
-        <PostListHeader isShadow={isShadow}>
-          <h3>Memo</h3>
-          <Button>ADD</Button>
-        </PostListHeader>
-        <PostList ref={listRef}>
-          {Total.map((i) => {
-            return <InfoPostItem index={i} key={i} />;
-          })}
-        </PostList>
-      </PostListBlock>
-      {!isChange ? (
-        <Ad ref={adRef}>
-          <Img src={airplaneDay} alt="airplane-day" />
-          <div>
-            바쁜 일정 중에 잊는 것들이 있을 수가 있어요. <br />
-            여행에 필요한 정보들을 기록해 보세요.
-          </div>
-        </Ad>
-      ) : (
-        <Ad ref={adRef}>
-          <Img src={airplaneNight} alt="airplane-night" />
-          <div>한국다봄을 앱에서도 사용해 보세요.</div>
-        </Ad>
-      )}
+        <PostListBlock>
+          <PostListHeader isShadow={isShadow}>
+            <h3>Memo</h3>
+            <Button>ADD</Button>
+          </PostListHeader>
+          <PostList ref={listRef}>
+            {Total.map((i) => {
+              return <InfoPostItem index={i} key={i} />;
+            })}
+          </PostList>
+        </PostListBlock>
+        {!isChange ? (
+          <Ad ref={adRef}>
+            <Img src={airplaneDay} alt="airplane-day" />
+            <div>
+              바쁜 일정 중에 잊는 것들이 있을 수가 있어요. <br />
+              여행에 필요한 정보들을 기록해 보세요.
+            </div>
+          </Ad>
+        ) : (
+          <Ad ref={adRef}>
+            <Img src={airplaneNight} alt="airplane-night" />
+            <div>한국다봄을 앱에서도 사용해 보세요.</div>
+          </Ad>
+        )}
       </Container>
-      
     </InfoPostListBlock>
   );
 };

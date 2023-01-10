@@ -6,11 +6,10 @@ import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const EditListBlock = styled.div`
-  width: 300px;
+  width: 350px;
   height: 750px;
-  background-color: #f1eee0;
-  float:left;
-
+  background-color: #f5f5f5;
+  float: left;
 `;
 
 const MenuList = styled.div`

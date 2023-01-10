@@ -7,17 +7,17 @@ import EditRouteList from './EditRouteList';
 
 const EditRouteBlock = styled.div`
   width: 370px;
-  background-color: #f1eee0;
+  background-color: #f5f5f5;
   height: 750px;
-  float:left;
+  float: left;
 `;
 
 const InfoForm = styled.form`
- padding: 10px 15px;
-    width: calc(100% - 30px);
+  padding: 10px 15px;
+  width: calc(100% - 30px);
   display: flex;
   flex-direction: column;
-  background-color: #CDD9AC;
+  background-color: #cdd9ac;
   input::placeholder {
     color: lightgray;
   }
@@ -84,7 +84,7 @@ const People = styled.input`
   border: none;
   border-radius: 10px;
   padding: 0 10px;
-  
+
   &:focus {
     outline: none;
   }
@@ -115,8 +115,6 @@ const EditRoute = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
 
- 
-
   return (
     <EditRouteBlock>
       <InfoForm>
@@ -138,12 +136,13 @@ const EditRoute = () => {
           <Funds placeholder="여행 자금" />
           <People placeholder="인원" />
           <Category required>
-            <option value="" disabled selected>선택</option>
+            <option value="" disabled selected>
+              선택
+            </option>
             <option value="alone">혼자</option>
             <option value="couple">연인</option>
             <option value="friend">친구</option>
             <option value="family">가족</option>
-            
           </Category>
         </FlexDiv>
       </InfoForm>

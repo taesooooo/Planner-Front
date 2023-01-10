@@ -201,7 +201,7 @@ const InfoPostItem = ({ index }) => {
               </div>
             </HeaderInfo>
             <ButtonBox>
-              <Button onClick={onMax}>Max</Button>
+              {isMax ? <Button onClick={onMax}>Min</Button> : <Button onClick={onMax}>Max</Button>}
               <Button onClick={onEdit}>Edit</Button>
               <Button>Delete</Button>
             </ButtonBox>
