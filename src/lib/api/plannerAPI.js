@@ -5,7 +5,7 @@ const baseUrl = '/api/planners';
 
 // 다른 사용자들의 플래너리스트 조회
 export const loadSharePlannerList = ({ type, ...queryString }) => {
-    return client.get(`${baseUrl}/${qs.stringify(queryString, { addQueryPrefix: true })}`, { ...queryString });
+    return client.get(`${baseUrl}?${qs.stringify(queryString, { addQueryPrefix: true })}`, { ...queryString });
 };
 
 // 플래너정보 조회
