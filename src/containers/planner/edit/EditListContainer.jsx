@@ -15,6 +15,11 @@ import {
     changePlannerFieldAction,
     createLocationAction,
     plannerInitializePropertyAction,
+    findRouteMapAction,
+    createLocationRouteAction,
+    updateLocationRouteAction,
+    FIND_ROUTE_MAP_TYPE,
+    FIND_ROUTE_MAP_SUCCESS_TYPE,
 } from '../../../modules/plannerModule';
 import {
     loadDetailSpotAction,
@@ -29,6 +34,7 @@ import {
     spotInitializeAction,
     changeSpotDataAction,
 } from '../../../modules/spotModule';
+// import { findRouteMapAction } from '../../../modules/mapModule';
 
 const EditListContainer = () => {
     const dispatch = useDispatch();
@@ -45,25 +51,31 @@ const EditListContainer = () => {
         likeList,
         loading,
         mapData,
-    } = useSelector(({ plannerReducer, spotReducer, accountReducer, authReducer, loadingReducer }) => ({
-        account: authReducer.account,
-        planner: plannerReducer.planner,
-        plannerData: plannerReducer.plannerData,
-        keywordData: plannerReducer.keywordData,
-        mapData: plannerReducer.mapData,
-        spots: spotReducer.spots,
-        areas: spotReducer.areas,
-        spotData: spotReducer.spotData,
-        detail: spotReducer.detail,
-        contentTypeList: spotReducer.contentTypeList,
-        likeList: accountReducer.likeList,
-        loading: {
-            areasLoading: loadingReducer[LOAD_AREAS_TYPE],
-            spotLoading: loadingReducer[LOAD_SPOTS_TYPE],
-            searchSpotLoading: loadingReducer[SEARCH_SPOT_TYPE],
-            likeSpotLoading: loadingReducer[ACCOUNT_LIKE_SPOT_LIST_LOAD_TYPE],
-        },
-    }));
+        requestState,
+    } = useSelector(
+        ({ plannerReducer, spotReducer, accountReducer, authReducer, loadingReducer, requestStateReducer }) => ({
+            account: authReducer.account,
+            planner: plannerReducer.planner,
+            plannerData: plannerReducer.plannerData,
+            keywordData: plannerReducer.keywordData,
+            mapData: plannerReducer.mapData,
+            spots: spotReducer.spots,
+            areas: spotReducer.areas,
+            spotData: spotReducer.spotData,
+            detail: spotReducer.detail,
+            contentTypeList: spotReducer.contentTypeList,
+            likeList: accountReducer.likeList,
+            loading: {
+                areasLoading: loadingReducer[LOAD_AREAS_TYPE],
+                spotLoading: loadingReducer[LOAD_SPOTS_TYPE],
+                searchSpotLoading: loadingReducer[SEARCH_SPOT_TYPE],
+                likeSpotLoading: loadingReducer[ACCOUNT_LIKE_SPOT_LIST_LOAD_TYPE],
+            },
+            requestState: {
+                findRouteMapSuccess: requestStateReducer[FIND_ROUTE_MAP_TYPE],
+            },
+        }),
+    );
 
     const { plannerId, planId } = { ...plannerData };
     const { accountId } = { ...account };
@@ -73,12 +85,14 @@ const EditListContainer = () => {
     const numOfRows = 12;
     const { navList } = { ...mapData };
 
+    const [locationInfo, setLocationInfo] = useState(null);
+
     // 로케이션 추가
     const onCreateLocation = (spot) => {
         if (accountId === planner.accountId) {
             const { title, contentId, firstImage, firstImage2, addr1, mapx, mapy } = spot;
 
-            const queryString = {
+            const locationInfo = {
                 plannerId,
                 locationName: title,
                 locationContentId: contentId,
@@ -90,7 +104,7 @@ const EditListContainer = () => {
                 planId,
             };
 
-            dispatch(createLocationAction(queryString));
+            dispatch(createLocationAction(locationInfo));
         }
     };
 
@@ -244,6 +258,55 @@ const EditListContainer = () => {
         dispatch(changePlannerDataAction({ property: 'pType', value: '' }));
     }, []);
 
+    const handleFindRoute = (location) => {
+        const { mapx, mapy } = { ...location };
+
+        const plannerId = plannerData.plannerId;
+        const planId = plannerData.planId;
+        const plan = planner.plans.find((plan) => plan.planId == planId);
+        const planLocationIndex = plan.planLocations.length - 1;
+        const planLocation = plan.planLocations[planLocationIndex];
+        const startCoordinate = planLocation.locationMapy + '/' + planLocation.locationMapx;
+        const endCoordinate = mapy + '/' + mapx;
+
+        const planInfo = {
+            planId,
+            routeInfoList: [
+                {
+                    planId,
+                    startIndex: planLocationIndex,
+                    endIndex: plan.planLocations.length,
+                    startCoordinate,
+                    endCoordinate,
+                },
+            ],
+        };
+
+        dispatch(findRouteMapAction(planInfo));
+    };
+
+    useEffect(() => {
+        if (requestState.findRouteMapSuccess) {
+            const plannerId = plannerData.plannerId;
+            const planId = plannerData.planId;
+            const plan = planner.plans.find((plan) => plan.planId == planId);
+            const startIndex = plan.planLocations.length - 2;
+            const endIndex = startIndex + 1;
+            const planRoute = plan.planLocationRoutes.find(
+                (route) => route.startIndex === startIndex && route.endIndex === endIndex,
+            );
+
+            const routeInfo = {
+                planId,
+                startIndex,
+                endIndex,
+                routeList: planRoute.routeList || [],
+            };
+
+            dispatch(createLocationRouteAction(plannerId, planId, routeInfo));
+        }
+    }, [requestState.findRouteMapSuccess]);
+
     return (
         <EditList
             plannerData={plannerData}
@@ -272,6 +335,7 @@ const EditListContainer = () => {
             handleCleanKeyword={handleCleanKeyword}
             onClickDateSchedule={onClickDateSchedule}
             onToggleWindowNavList={onToggleWindowNavList}
+            onFindRoute={handleFindRoute}
         />
     );
 };

@@ -11,6 +11,8 @@ import reviewReducer, { reviewSaga } from './reviewModule';
 import accountReducer, { accountSaga } from './accountModule';
 import invitationReducer, { invitationSaga } from './invitationModule';
 import notificationReducer, { notificationSaga } from './notificationModule';
+import mapReducer, { mapSaga } from './mapModule';
+import requestStateReducer from './requestStateModule';
 
 const rootPersistConfig = {
     key: 'root',
@@ -25,6 +27,8 @@ const rootPersistConfig = {
         'reviewReducer',
         'invitationReducer',
         'notificationReducer',
+        'mapReducer',
+        'requestStateReducer'
     ],
 };
 
@@ -49,6 +53,8 @@ const rootReducer = combineReducers({
     reviewReducer,
     invitationReducer,
     notificationReducer,
+    mapReducer,
+    requestStateReducer
 });
 
 export function* rootSaga() {
@@ -60,6 +66,7 @@ export function* rootSaga() {
         spotSaga(),
         invitationSaga(),
         notificationSaga(),
+        mapSaga()
     ]);
 }
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

@@ -320,6 +320,7 @@ const EditRoute = ({
     onClickTutorialModal,
     onClickAllSchedule,
     onToggleWindowNavRoute,
+    onUpdateLocationRoute,
 }) => {
     const { title, creator, updateDate } = { ...planner };
     const [dropDown, setDropDown] = useState(false);
@@ -446,6 +447,7 @@ const EditRoute = ({
                                     onDeleteElement={onDeleteElement}
                                     onChangeStyle={onChangeStyle}
                                     setUpdatePlans={setUpdatePlans}
+                                    onUpdateLocationRoute={onUpdateLocationRoute}
                                 />
                             </RouteBox>
                         )}

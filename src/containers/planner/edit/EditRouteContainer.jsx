@@ -23,6 +23,12 @@ import {
     UPDATE_LOCATION_TYPE,
     UPDATE_PLANNER_TYPE,
     UPDATE_PLAN_TYPE,
+    deleteLocationRouteAction,
+    updateLocationRouteAction,
+    findRouteMapAction,
+    findAllRouteMapAction,
+    FIND_ALL_ROUTE_MAP_TYPE,
+    DELETE_PLAN_LOCATION_ROUTE_TYPE,
 } from '../../../modules/plannerModule';
 
 const EditRouteContainer = () => {
@@ -30,8 +36,8 @@ const EditRouteContainer = () => {
     const history = useHistory();
     const params = useParams();
 
-    const { planner, plan, plannerData, modal, account, loading, mapData } = useSelector(
-        ({ authReducer, plannerReducer, loadingReducer }) => ({
+    const { planner, plan, plannerData, modal, account, loading, mapData, requestState } = useSelector(
+        ({ authReducer, plannerReducer, loadingReducer, requestStateReducer }) => ({
             planner: plannerReducer.planner,
             plan: plannerReducer.plan,
             plannerData: plannerReducer.plannerData,
@@ -48,6 +54,11 @@ const EditRouteContainer = () => {
                 updatePlanLoading: loadingReducer[UPDATE_PLAN_TYPE],
                 updatePlannerLoading: loadingReducer[UPDATE_PLANNER_TYPE],
                 plannerLoading: loadingReducer[LOAD_PLANNER_TYPE],
+            },
+            requestState: {
+                deleteLocationState: requestStateReducer[DELETE_LOCATION_TYPE],
+                deleteLocationRouteState: requestStateReducer[DELETE_PLAN_LOCATION_ROUTE_TYPE],
+                allRouteMapLoading: requestStateReducer[FIND_ALL_ROUTE_MAP_TYPE],
             },
         }),
     );
@@ -230,16 +241,40 @@ const EditRouteContainer = () => {
                 planId,
                 index,
             };
+
             dispatch(updateLocationAction(queryString));
         }
     };
 
     // 로케이션 삭제
-    const onDeleteLocation = (locationId) => {
+    const onDeleteLocation = (index, locationId) => {
         if (accountId === planner.accountId) {
             dispatch(deleteLocationAction({ plannerId, locationId, planId }));
+
+            const plan = planner.plans.find((p) => p.planId === planId);
+            if (plan) {
+                if (plan.planLocations.length <= 2) {
+                    // 마지막 로케이션을 삭제하는 경우 마지막 루트 삭제
+                    dispatch(deleteLocationRouteAction(plannerId, planId, plan.planLocationRoutes[0].id));
+                }
+                const planLocationRoute = plan.planLocationRoutes.find((route) => route.startIndex === index);
+                if (planLocationRoute) {
+                    dispatch(deleteLocationRouteAction(plannerId, planId, planLocationRoute.id));
+                }
+            }
         }
     };
+
+    useEffect(() => {
+        if (requestState.deleteLocationRouteState) {
+            const plan = planner.plans.find((p) => p.planId === planId);
+
+            // 로케이션이 2개 이상인 경우만 루트 최신화
+            if (plan && plan.planLocations.length > 1) {
+                handleUpdateLocationRoute();
+            }
+        }
+    }, [requestState.deleteLocationRouteState]);
 
     // planner 로드
     useEffect(() => {
@@ -283,6 +318,46 @@ const EditRouteContainer = () => {
             dispatch(updateLocationAction(queryString));
         }
     };
+
+    // 로캐이션 순서 변경 후 루트 최신화
+    const handleUpdateLocationRoute = () => {
+        const plan = plans.find((p) => p.planId === planId);
+        const planInfo = {
+            planId,
+            routeInfoList: [],
+        };
+
+        if (plan) {
+            for (let i = 0; i < plan.planLocations.length - 1; i++) {
+                const location = plan.planLocations[i];
+                const nextLocation = plan.planLocations[i + 1];
+                const startIndex = i;
+                const endIndex = i + 1;
+                const startCoordinate = `${location.locationMapy}/${location.locationMapx}`;
+                const endCoordinate = `${nextLocation.locationMapy}/${nextLocation.locationMapx}`;
+                const routeInfo = {
+                    planId,
+                    startIndex,
+                    endIndex,
+                    startCoordinate,
+                    endCoordinate,
+                };
+
+                planInfo.routeInfoList.push(routeInfo);
+            }
+
+            dispatch(findAllRouteMapAction(planInfo));
+        }
+    };
+
+    useEffect(() => {
+        if (requestState.allRouteMapLoading) {
+            const plan = plans.find((p) => p.planId === planId);
+            plan.planLocationRoutes.forEach((route) => {
+                dispatch(updateLocationRouteAction(plannerId, planId, route.id, route));
+            });
+        }
+    }, [requestState.allRouteMapLoading]);
 
     // 멤버모달 토글
     const onToggleMemberModal = () => {
@@ -391,6 +466,7 @@ const EditRouteContainer = () => {
             onClickTutorialModal={onClickTutorialModal}
             onClickAllSchedule={onClickAllSchedule}
             onToggleWindowNavRoute={onToggleWindowNavRoute}
+            onUpdateLocationRoute={handleUpdateLocationRoute}
         />
     );
 };

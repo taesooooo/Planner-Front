@@ -184,6 +184,7 @@ const EditList = ({
     onChangeLikeKeyword,
     onClickDateSchedule,
     onToggleWindowNavList,
+    onFindRoute,
 }) => {
     const [resizeMobileNav, setResizeMobileNav] = useState(false);
     const [resizeWindowNav, setResizeWindowNav] = useState(false);
@@ -295,6 +296,7 @@ const EditList = ({
                                                     onClick={() => {
                                                         handleCreateLocation(s);
                                                         onClickDateSchedule();
+                                                        onFindRoute(s);
                                                     }}
                                                     icon={faPlus}
                                                 />

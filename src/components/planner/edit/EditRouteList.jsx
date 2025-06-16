@@ -269,6 +269,7 @@ const EditRouteList = ({
     onDeleteElement,
     onChangeStyle,
     setUpdatePlans,
+    onUpdateLocationRoute,
 }) => {
     const transIconList = [faPlane, faTrainSubway, faBus, faTaxi, faBicycle, faPersonWalking];
     const transList = [
@@ -284,6 +285,7 @@ const EditRouteList = ({
     const [hoveredNameId, setHoveredNameId] = useState(null);
     const containerRef = useRef();
     const scrollTop = useRef();
+    const dragItem = useRef({ item: null, index: null });
 
     const handleOpen = (setItemId, id) => {
         setItemId(id);
@@ -321,7 +323,7 @@ const EditRouteList = ({
     });
 
     const onUpdateSortIndex = (index) => {
-        onUpdateLocation(index);
+        // onUpdateLocation(index);
         setUpdatePlans(index);
     };
 
@@ -338,7 +340,10 @@ const EditRouteList = ({
                     const items = p.planLocations;
                     return (
                         <RouteList
-                            onDrop={(e) => dragFunction.onDrop({ e, items, onUpdateSortIndex })}
+                            onDrop={(e) => {
+                                dragFunction.onDrop({ e, items, onUpdateSortIndex });
+                                onUpdateLocationRoute(dragItem.current);
+                            }}
                             onDragOver={(e) => dragFunction.onDragOver(e)}
                             aria-current={p.planId === plannerData.planId ? 'cur' : null}
                             key={p.planId}
@@ -358,6 +363,7 @@ const EditRouteList = ({
                                             key={i}
                                             draggable
                                             onDragStart={(e) => {
+                                                dragItem.current = { item, index: i };
                                                 dragFunction.onDragStart({
                                                     e,
                                                     item,
@@ -414,12 +420,14 @@ const EditRouteList = ({
                                                 />
                                                 <TextInfo>
                                                     <Name>{locationName}</Name>
-                                                    <Address>{locationAddr.split(' ')[0]}</Address>
+                                                    <Address>
+                                                        {locationAddr != null ? locationAddr.split(' ')[0] : ''}
+                                                    </Address>
                                                 </TextInfo>
                                             </SpotItem>
                                             <DeleteButton
                                                 onClick={() => {
-                                                    onDeleteLocation(locationId);
+                                                    onDeleteLocation(i, locationId);
                                                 }}
                                             >
                                                 <DeleteIcon icon={faCircleXmark} />

@@ -148,6 +148,7 @@ const EditMap = ({
     const mapRef = useRef(null);
     const [map, setMap] = useState();
     const { kakao } = window;
+    const routeLineRef = useRef(null);
 
     // 지도 생성
     useEffect(() => {
@@ -362,7 +363,7 @@ const EditMap = ({
 
                     kakao.maps.event.addListener(map, 'click', removeInfowindow());
 
-                    linePath = [...linePath, new kakao.maps.LatLng(locationMapy, locationMapx)];
+                    // linePath = [...linePath, new kakao.maps.LatLng(locationMapy, locationMapx)];
                 }
             }
 
@@ -375,11 +376,11 @@ const EditMap = ({
             });
 
             if (line.current) {
-                line.current.setMap(null);
+                // line.current.setMap(null);
             }
 
             line.current = polyline;
-            polyline.setMap(map);
+            // polyline.setMap(map);
 
             markerArr.current.forEach((marker) => marker.setMap(null));
             newMarkerArr.current.forEach((marker) => marker.setMap(map));
@@ -414,6 +415,35 @@ const EditMap = ({
         showSpotMarker();
         showDateRouteMarker();
     }, [showSpotMarker, showDateRouteMarker]);
+
+    // 일정 루트 그리기
+    useEffect(() => {
+        const path = [];
+        for (let i = 0; i < planner.plans.length; i++) {
+            const planLocationRoutes = planner.plans[i].planLocationRoutes;
+            for (let j = 0; j < planLocationRoutes.length; j++) {
+                const routeList = planLocationRoutes[j].routeList;
+                for (let k = 0; k < routeList.length; k++) {
+                    const { latitude, longitude } = routeList[k];
+                    path.push(new kakao.maps.LatLng(latitude, longitude));
+                }
+            }
+        }
+
+        const priviouseRouteLine = routeLineRef.current;
+        routeLineRef.current = new kakao.maps.Polyline({
+            path: path,
+            strokeWeight: 3,
+            strokeColor: 'skyblue',
+            strokeOpacity: 1,
+            strokeStyle: 'solid',
+        });
+
+        if (priviouseRouteLine) {
+            priviouseRouteLine.setMap(null);
+        }
+        routeLineRef.current.setMap(map);
+    }, [planner.plans]);
 
     // 지도 중심 좌표 얻는 함수
     const [centerCoord, setCenterCoord] = useState();
