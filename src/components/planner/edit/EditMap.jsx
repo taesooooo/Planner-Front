@@ -419,12 +419,13 @@ const EditMap = ({
     // 일정 루트 그리기
     useEffect(() => {
         const path = [];
-        for (let i = 0; i < planner.plans.length; i++) {
-            const planLocationRoutes = planner.plans[i].planLocationRoutes;
-            for (let j = 0; j < planLocationRoutes.length; j++) {
-                const routeList = planLocationRoutes[j].routeList;
-                for (let k = 0; k < routeList.length; k++) {
-                    const { latitude, longitude } = routeList[k];
+        const plan = planner.plans.find((p) => p.planId === plannerData.planId);
+        if (plan) {
+            const planLocationRoutes = plan.planLocationRoutes;
+            for (let i = 0; i < planLocationRoutes.length; i++) {
+                const routeList = planLocationRoutes[i].routeList;
+                for (let j = 0; j < routeList.length; j++) {
+                    const { latitude, longitude } = routeList[j];
                     path.push(new kakao.maps.LatLng(latitude, longitude));
                 }
             }
