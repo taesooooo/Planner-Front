@@ -190,7 +190,7 @@ const EditRouteContainer = () => {
     const [curPlan, setCurPlan] = useState();
     const onUpdatePlan = (index) => {
         if (accountId === planner.accountId) {
-            const queryString = { plannerId, planId: curPlan.planId, planDate: curPlan.planDate, index };
+            const queryString = { plannerId, planId: curPlan.planId, planDate: curPlan.planDate, planIndex: index };
             dispatch(updatePlanAction(queryString));
         }
     };
@@ -207,7 +207,7 @@ const EditRouteContainer = () => {
                     if (i > 0) {
                         planDate = letsFormat(date.setDate(date.getDate() + 1));
                     }
-                    const queryString = { plannerId, planId: plans[i].planId, planDate, index: 1024 * (i + 1) };
+                    const queryString = { plannerId, planId: plans[i].planId, planDate, planIndex: 1024 * (i + 1) };
                     dispatch(updatePlanAction(queryString));
                 }
             }

@@ -166,12 +166,12 @@ export const updateMemoAction = ({ plannerId, memoId, title, content }) => ({
 });
 export const deleteMemoAction = ({ plannerId, memoId }) => ({ type: DELETE_MEMO_TYPE, plannerId, memoId });
 export const createPlanAction = ({ plannerId, planDate }) => ({ type: CREATE_PLAN_TYPE, plannerId, planDate });
-export const updatePlanAction = ({ planId, plannerId, planDate, index }) => ({
+export const updatePlanAction = ({ planId, plannerId, planDate, planIndex }) => ({
     type: UPDATE_PLAN_TYPE,
     plannerId,
     planDate,
     planId,
-    index,
+    planIndex,
 });
 export const deletePlanAction = ({ plannerId, planId }) => ({ type: DELETE_PLAN_TYPE, plannerId, planId });
 export const inviteMemberAction = ({ plannerId, members }) => ({ type: INVITE_MEMBER_TYPE, plannerId, members });
