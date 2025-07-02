@@ -88,7 +88,7 @@ const Auth = ({ loading, type, form, onChange, onSubmit, authError }) => {
                     <LabelTextBox
                         type="email"
                         name="email"
-                        placeholder="이메일"
+                        placeholder="테스트 아이디 -> test@naver.com"
                         label="아이디"
                         onChange={onChange}
                         value={form.email}
@@ -98,7 +98,7 @@ const Auth = ({ loading, type, form, onChange, onSubmit, authError }) => {
                     <LabelTextBox
                         type="password"
                         name="password"
-                        placeholder="비밀번호"
+                        placeholder="테스트 비빌번호 -> testtest!"
                         label="비밀번호"
                         onChange={onChange}
                         value={form.password}
