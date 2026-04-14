@@ -60,7 +60,7 @@ const PlannerInfo = ({
     const [modal, setModal] = useState(false);
 
     const handlePlannerSelectClick = () => {
-        if (viewMode) {
+        if (viewMode && selectPlanner != null && Object.keys(selectPlanner).length !== 0) {
             onPlannerInfoClick(selectPlanner.plannerId);
         } else {
             setModal(true);

@@ -34,7 +34,11 @@ const ReviewWriteEditContainer = ({ location, history }) => {
             },
             account: authReducer.account,
             review: reviewReducer.review,
-            selectPlanner: isEdit ? plannerReducer.planner : reviewReducer.selectPlanner,
+            selectPlanner: isEdit
+                ? reviewReducer.selectPlanner != null && Object.keys(reviewReducer.selectPlanner).length !== 0
+                    ? reviewReducer.selectPlanner
+                    : plannerReducer.planner
+                : plannerReducer.planner,
             newFileList: reviewReducer.newFileList,
             newReviewId: reviewReducer.newReviewId,
             plannerList: {
