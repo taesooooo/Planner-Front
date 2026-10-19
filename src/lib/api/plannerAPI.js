@@ -5,7 +5,7 @@ const baseUrl = '/api/planners';
 
 // 다른 사용자들의 플래너리스트 조회
 export const loadSharePlannerList = ({ type, ...queryString }) => {
-    return client.get(`${baseUrl}/${qs.stringify(queryString, { addQueryPrefix: true })}`, { ...queryString });
+    return client.get(`${baseUrl}${qs.stringify(queryString, { addQueryPrefix: true })}`, { ...queryString });
 };
 
 // 플래너정보 조회
@@ -79,7 +79,7 @@ export const deleteMember = ({ plannerId, nickName }) => {
 };
 
 // 여행지 생성
-export const createLocation = ({ type, plannerId, planId, ...queryString }) => {
+export const createLocation = ({ type, plannerId, planId, info, ...queryString }) => {
     return client.post(`${baseUrl}/${plannerId}/plans/${planId}/plan-locations`, {
         plannerId,
         planId,
@@ -105,3 +105,20 @@ export const deleteLocation = ({ plannerId, locationId, planId }) => {
         planId,
     });
 };
+
+export const createLocationRoute = ({ plannerId, planId, routeInfo }) => {
+    return client.post(`${baseUrl}/${plannerId}/plans/${planId}/location-routes`, {
+        planId,
+        ...routeInfo,
+    });
+};
+
+export const updateLocationRoute = ({ plannerId, planId, locationRouteId, routeInfo }) => {
+    return client.patch(`${baseUrl}/${plannerId}/plans/${planId}/location-routes/${locationRouteId}`, {
+        ...routeInfo,
+    });
+};
+
+export const deleteLocationRoute = ({ plannerId, planId, locationRouteId }) => {
+    return client.delete(`${baseUrl}/${plannerId}/plans/${planId}/location-routes/${locationRouteId}`);
+}

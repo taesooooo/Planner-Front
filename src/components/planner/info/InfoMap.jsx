@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import circleImg from '../../../lib/images/circle.png';
+import locationImg from '../../../lib/images/location.png';
 
 const MapBlock = styled.div`
     width: 60%;
@@ -229,7 +230,7 @@ const InfoMap = ({ planner, loading, allSchedule, onToggleLikePlanner, onClickTo
                     newMarkerArr.current.push(marker);
 
                     // 마커에 인포윈도우 생성 및 켜기 이벤트 등록
-                    kakao.maps.event.addListener(marker, 'click', addInfowindow(marker, locationName));
+                    kakao.maps.event.addListener(marker, 'click', addInfowindow(marker, planLocations[j]));
 
                     // 맵에 인포윈도우 끄기 이벤트 등록
                     kakao.maps.event.addListener(map, 'click', removeInfowindow());
@@ -262,9 +263,16 @@ const InfoMap = ({ planner, loading, allSchedule, onToggleLikePlanner, onClickTo
             markerArr.current = newMarkerArr.current;
 
             // 인포윈도우 생성 함수
-            function addInfowindow(marker, title) {
+            function addInfowindow(marker, location) {
                 return () => {
-                    infowindow.setContent(`<div style="padding:5px;">${title}</div>`);
+                    const { locationName, image } = location;
+                    const content = `
+                        <div style="width: 250px; padding: 12px; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                            ${image ? `<img src="${image}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 6px; margin-bottom: 8px;" />` : ''}
+                            <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px;">${locationName}</div>
+                        </div>
+                    `;
+                    infowindow.setContent(content);
                     infowindow.open(map, marker);
                 };
             }
@@ -277,89 +285,159 @@ const InfoMap = ({ planner, loading, allSchedule, onToggleLikePlanner, onClickTo
         }
     };
 
-    const showDateRouteMarker = useCallback(() => {
-        if (map && plans && mapRef.current) {
-            let infowindow = new kakao.maps.InfoWindow({ removable: true });
-            let linePath = [];
-            let markerPosition;
-            let imageSize;
-            let markerImage;
-            let marker;
-            let polyline;
-
-            newMarkerArr.current = [];
-
-            let foundPlan;
-            for (let i = 0; i < plans.length; i++) {
-                foundPlan = plans.find((plan) => plan.planId === plannerData.planId);
+    // 일정 루트 지도 표시
+    const showDateRouteMarker = useCallback(
+        (allRoute) => {
+            if (map && plans && mapRef.current) {
+                showMaker(allRoute);
+                showRoute(allRoute);
             }
-            if (foundPlan) {
-                for (let j = 0; j < foundPlan.planLocations.length; j++) {
-                    const { locationMapx, locationMapy, locationName } = foundPlan.planLocations[j];
+        },
+        [
+            kakao.maps.LatLng,
+            kakao.maps.Polyline,
+            kakao.maps.InfoWindow,
+            kakao.maps.event,
+            kakao.maps.Marker,
+            kakao.maps.MarkerImage,
+            kakao.maps.Size,
+            map,
+            plans,
+            plannerData.planId,
+        ],
+    );
 
-                    markerPosition = new kakao.maps.LatLng(locationMapy, locationMapx);
-                    imageSize = new kakao.maps.Size(10, 10);
+    const showMaker = (allMarker) => {
+        let infowindow = new kakao.maps.InfoWindow({ removable: true });
+        const plan = planner.plans.find((plan) => plan.planId === plannerData.planId);
 
-                    markerImage = new kakao.maps.MarkerImage(circleImg, imageSize);
+        newMarkerArr.current = [];
 
-                    marker = new kakao.maps.Marker({
-                        position: markerPosition,
-                        clickable: true,
-                        image: markerImage,
-                    });
-                    newMarkerArr.current.push(marker);
+        const makeMarker = (location) => {
+            const { locationMapx, locationMapy } = location;
+            const markerPosition = new kakao.maps.LatLng(locationMapy, locationMapx);
+            const imageSize = new kakao.maps.Size(26, 26);
 
-                    kakao.maps.event.addListener(marker, 'click', addInfowindow(marker, locationName));
+            const markerImage = new kakao.maps.MarkerImage(locationImg, imageSize);
 
-                    kakao.maps.event.addListener(map, 'click', removeInfowindow());
-
-                    linePath = [...linePath, new kakao.maps.LatLng(locationMapy, locationMapx)];
-                }
-            }
-
-            polyline = new kakao.maps.Polyline({
-                path: linePath,
-                strokeWeight: 3,
-                strokeColor: 'gray',
-                strokeOpacity: 0.5,
-                strokeStyle: 'solid',
+            const marker = new kakao.maps.Marker({
+                position: markerPosition,
+                clickable: true,
+                image: markerImage,
             });
 
-            if (line.current) {
-                line.current.setMap(null);
+            kakao.maps.event.addListener(marker, 'click', addInfowindow(marker, location));
+
+            kakao.maps.event.addListener(map, 'click', removeInfowindow());
+
+            return marker;
+        };
+
+        if (allMarker) {
+            for (let i = 0; i < plans.length; i++) {
+                const { planLocations } = plans[i];
+                for (let j = 0; j < planLocations.length; j++) {
+                    const marker = makeMarker(planLocations[j]);
+                    newMarkerArr.current.push(marker);
+                }
             }
-
-            line.current = polyline;
-            polyline.setMap(map);
-
-            markerArr.current.forEach((marker) => marker.setMap(null));
-            newMarkerArr.current.forEach((marker) => marker.setMap(map));
-            markerArr.current = newMarkerArr.current;
-
-            function addInfowindow(marker, title) {
-                return () => {
-                    infowindow.setContent(`<div style="padding:5px;">${title}</div>`);
-                    infowindow.open(map, marker);
-                };
-            }
-            function removeInfowindow() {
-                return () => {
-                    infowindow.close();
-                };
+        } else {
+            if (plan) {
+                const planLocations = plan.planLocations;
+                for (let i = 0; i < planLocations.length; i++) {
+                    const marker = makeMarker(planLocations[i]);
+                    newMarkerArr.current.push(marker);
+                }
             }
         }
-    }, [
-        kakao.maps.LatLng,
-        kakao.maps.Polyline,
-        kakao.maps.InfoWindow,
-        kakao.maps.event,
-        kakao.maps.Marker,
-        kakao.maps.MarkerImage,
-        kakao.maps.Size,
-        map,
-        plans,
-        plannerData.planId,
-    ]);
+
+        markerArr.current.forEach((marker) => marker.setMap(null));
+        newMarkerArr.current.forEach((marker) => marker.setMap(map));
+        markerArr.current = newMarkerArr.current;
+
+        const overlay = new kakao.maps.CustomOverlay({
+            map: map,
+            position: new kakao.maps.LatLng(37.5665, 126.978),
+            content: '',
+        });
+
+        function addInfowindow(marker, location) {
+            return () => {
+                const { locationName, locationImage, locationAddr } = location;
+                const content = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); min-width: 280px;">
+                    ${locationImage ? `<img src="${locationImage}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0;" />` : ''}
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 14px; font-weight: 600; color: #333; word-break: break-word; line-height: 1.4;">${locationName}</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 4px;">${locationAddr}</div>
+                    </div>
+                </div>
+                `;
+
+                overlay.setContent(content);
+                overlay.setPosition(marker.getPosition());
+                overlay.setMap(map);
+            };
+        }
+
+        function removeInfowindow() {
+            return () => {
+                // infowindow.close();
+                overlay.setMap(null);
+            };
+        }
+    };
+
+    const showRoute = (allRoute) => {
+        const pathList = [];
+        if (allRoute) {
+            for (let i = 0; i < plans.length; i++) {
+                const path = [];
+                const planLocationRoutes = plans[i].planLocationRoutes;
+                for (let j = 0; j < planLocationRoutes.length; j++) {
+                    const routeList = planLocationRoutes[j].routeList;
+                    for (let k = 0; k < routeList.length; k++) {
+                        const { latitude, longitude } = routeList[k];
+                        path.push(new kakao.maps.LatLng(latitude, longitude));
+                    }
+                }
+
+                pathList.push(path);
+            }
+        } else {
+            const plan = planner.plans.find((plan) => plan.planId === plannerData.planId);
+            if (plan) {
+                const path = [];
+                const planLocationRoutes = plan.planLocationRoutes;
+                for (let i = 0; i < planLocationRoutes.length; i++) {
+                    const routeList = planLocationRoutes[i].routeList;
+                    for (let j = 0; j < routeList.length; j++) {
+                        const { latitude, longitude } = routeList[j];
+                        path.push(new kakao.maps.LatLng(latitude, longitude));
+                    }
+                }
+
+                pathList.push(path);
+            }
+        }
+
+        const polylineList = pathList.map((path) => {
+            return new kakao.maps.Polyline({
+                path: path,
+                strokeWeight: 5,
+                strokeColor: '#5c90ff',
+                strokeOpacity: 1,
+                strokeStyle: 'solid',
+            });
+        });
+
+        if (line.current) {
+            line.current.forEach((line) => line.setMap(null));
+        }
+
+        line.current = polylineList;
+        polylineList.forEach((polyline) => polyline.setMap(map));
+    };
 
     useEffect(() => {
         showDateRouteMarker();
@@ -370,7 +448,7 @@ const InfoMap = ({ planner, loading, allSchedule, onToggleLikePlanner, onClickTo
             showDateRouteMarker(false);
             onClickToggleScheduleView(false);
         } else {
-            showAllRouteMarker();
+            showDateRouteMarker(true);
             onClickToggleScheduleView(true);
         }
     };

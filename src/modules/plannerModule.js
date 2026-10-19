@@ -1,4 +1,5 @@
 import * as plannerAPI from '../lib/api/plannerAPI';
+import * as mapAPI from '../lib/api/mapAPI';
 import { takeLatest, takeEvery } from 'redux-saga/effects';
 import createSaga from '../lib/createSaga';
 
@@ -79,6 +80,24 @@ const CHANGE_MODAL_DATA_TYPE = 'planner/CHANGE_MODAL_DATA_TYPE';
 const CHANGE_PLANNER_FIELD_TYPE = 'planner/CHANGE_PLANNER_FIELD';
 const PLANNER_VALIDATE_TYPE = 'planner/PLANNER_VALIDATE';
 
+export const FIND_ROUTE_MAP_TYPE = 'map/FIND_ROUTE_MAP';
+export const FIND_ROUTE_MAP_SUCCESS_TYPE = 'map/FIND_ROUTE_MAP_SUCCESS';
+const FIND_ROUTE_MAP_FAILURE_TYPE = 'map/FIND_ROUTE_MAP_FAILURE';
+
+export const FIND_ALL_ROUTE_MAP_TYPE = 'map/FIND_ALL_ROUTE_MAP';
+export const FIND_ALL_ROUTE_MAP_SUCCESS_TYPE = 'map/FIND_ALL_ROUTE_MAP_SUCCESS';
+const FIND_ALL_ROUTE_MAP_FAILURE_TYPE = 'map/FIND_ALL_ROUTE_MAP_FAILURE';
+
+export const CREATE_PLAN_LOCATION_ROUTE_TYPE = 'planner/CREATE_PLAN_LOCATION_ROUTE';
+export const CREATE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE = 'planner/CREATE_PLAN_LOCATION_ROUTE_SUCCESS';
+const CREATE_PLAN_LOCATION_ROUTE_FAILURE_TYPE = 'planner/CREATE_PLAN_LOCATION_ROUTE_FAILURE';
+export const UPDATE_PLAN_LOCATION_ROUTE_TYPE = 'planner/UPDATE_PLAN_LOCATION_ROUTE';
+export const UPDATE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE = 'planner/UPDATE_PLAN_LOCATION_ROUTE_SUCCESS';
+const UPDATE_PLAN_LOCATION_ROUTE_FAILURE_TYPE = 'planner/UPDATE_PLAN_LOCATION_ROUTE_FAILURE';
+export const DELETE_PLAN_LOCATION_ROUTE_TYPE = 'planner/DELETE_PLAN_LOCATION_ROUTE';
+const DELETE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE = 'planner/DELETE_PLAN_LOCATION_ROUTE_SUCCESS';
+const DELETE_PLAN_LOCATION_ROUTE_FAILURE_TYPE = 'planner/DELETE_PLAN_LOCATION_ROUTE_FAILURE_TYPE';
+
 export const createPlannerAction = ({
     accountId,
     creator,
@@ -147,12 +166,12 @@ export const updateMemoAction = ({ plannerId, memoId, title, content }) => ({
 });
 export const deleteMemoAction = ({ plannerId, memoId }) => ({ type: DELETE_MEMO_TYPE, plannerId, memoId });
 export const createPlanAction = ({ plannerId, planDate }) => ({ type: CREATE_PLAN_TYPE, plannerId, planDate });
-export const updatePlanAction = ({ planId, plannerId, planDate, index }) => ({
+export const updatePlanAction = ({ planId, plannerId, planDate, planIndex }) => ({
     type: UPDATE_PLAN_TYPE,
     plannerId,
     planDate,
     planId,
-    index,
+    planIndex,
 });
 export const deletePlanAction = ({ plannerId, planId }) => ({ type: DELETE_PLAN_TYPE, plannerId, planId });
 export const inviteMemberAction = ({ plannerId, members }) => ({ type: INVITE_MEMBER_TYPE, plannerId, members });
@@ -178,6 +197,16 @@ export const createLocationAction = ({
     locationMapy,
     locationTransportation,
     planId,
+    info: {
+        locationName,
+        locationContentId,
+        locationImage,
+        locationAddr,
+        locationMapx,
+        locationMapy,
+        locationTransportation,
+        planId,
+    }
 });
 export const updateLocationAction = ({
     plannerId,
@@ -190,8 +219,8 @@ export const updateLocationAction = ({
     locationMapy,
     locationTransportation,
     planId,
-    index,
-}) => ({
+    locationIndex,
+}, sub) => ({
     type: UPDATE_LOCATION_TYPE,
     plannerId,
     locationId,
@@ -203,13 +232,23 @@ export const updateLocationAction = ({
     locationMapy,
     locationTransportation,
     planId,
-    index,
+    locationIndex,
+    sub,
+    info: {
+        planId,
+        locationId,
+        locationTransportation
+    }
 });
 export const deleteLocationAction = ({ plannerId, locationId, planId }) => ({
     type: DELETE_LOCATION_TYPE,
     plannerId,
     locationId,
     planId,
+    info: {
+        planId,
+        locationId,
+    }
 });
 
 export const changeMapDataAction = ({ property, value }) => ({ type: CHANGE_MAP_DATA_TYPE, property, value });
@@ -242,6 +281,46 @@ export const plannerValidateFieldAction = (validState) => ({
     validState,
 });
 
+export const findRouteMapAction = (planInfo, sub) => ({
+    type: FIND_ROUTE_MAP_TYPE,
+    info: planInfo,
+    sub
+});
+
+export const findAllRouteMapAction = (planInfo, sub) => ({
+    type: FIND_ALL_ROUTE_MAP_TYPE,
+    info: planInfo,
+    sub
+});
+
+export const createLocationRouteAction = (plannerId, planId, routeInfo) => ({
+    type: CREATE_PLAN_LOCATION_ROUTE_TYPE,
+    plannerId,
+    planId,
+    routeInfo,
+    info: routeInfo
+});
+
+export const updateLocationRouteAction = (plannerId, planId, locationRouteId, routeInfo) => ({
+    type: UPDATE_PLAN_LOCATION_ROUTE_TYPE,
+    plannerId,
+    planId,
+    locationRouteId,
+    routeInfo,
+    info: routeInfo
+});
+
+export const deleteLocationRouteAction = (plannerId, planId, locationRouteId) => ({
+    type: DELETE_PLAN_LOCATION_ROUTE_TYPE,
+    plannerId,
+    planId,
+    locationRouteId,
+    info: {
+        planId,
+        locationRouteId
+    }
+});
+
 const createPlannerSaga = createSaga(CREATE_PLANNER_TYPE, plannerAPI.createPlanner);
 const updatePlannerSaga = createSaga(UPDATE_PLANNER_TYPE, plannerAPI.updatePlanner);
 const loadSharePlannerListSaga = createSaga(LOAD_SHARE_PLANNER_LIST_TYPE, plannerAPI.loadSharePlannerList);
@@ -259,6 +338,11 @@ const deleteMemberSaga = createSaga(DELETE_MEMBER_TYPE, plannerAPI.deleteMember)
 const createLocationSaga = createSaga(CREATE_LOCATION_TYPE, plannerAPI.createLocation);
 const updateLocationSaga = createSaga(UPDATE_LOCATION_TYPE, plannerAPI.updateLocation);
 const deleteLocationSaga = createSaga(DELETE_LOCATION_TYPE, plannerAPI.deleteLocation);
+const findRouteMapSaga = createSaga(FIND_ROUTE_MAP_TYPE, mapAPI.findRouteMap);
+const findAllRouteMapSaga = createSaga(FIND_ALL_ROUTE_MAP_TYPE, mapAPI.findRouteMap);
+const createLocationRouteSaga = createSaga(CREATE_PLAN_LOCATION_ROUTE_TYPE, plannerAPI.createLocationRoute);
+const updateLocationRouteSaga = createSaga(UPDATE_PLAN_LOCATION_ROUTE_TYPE, plannerAPI.updateLocationRoute);
+const deleteLocationRouteSaga = createSaga(DELETE_PLAN_LOCATION_ROUTE_TYPE, plannerAPI.deleteLocationRoute);
 
 export function* plannerSaga() {
     yield takeLatest(CREATE_PLANNER_TYPE, createPlannerSaga);
@@ -278,6 +362,11 @@ export function* plannerSaga() {
     yield takeLatest(CREATE_LOCATION_TYPE, createLocationSaga);
     yield takeLatest(UPDATE_LOCATION_TYPE, updateLocationSaga);
     yield takeLatest(DELETE_LOCATION_TYPE, deleteLocationSaga);
+    yield takeLatest(FIND_ROUTE_MAP_TYPE, findRouteMapSaga);
+    yield takeLatest(FIND_ALL_ROUTE_MAP_TYPE, findAllRouteMapSaga);
+    yield takeLatest(CREATE_PLAN_LOCATION_ROUTE_TYPE, createLocationRouteSaga);
+    yield takeEvery(UPDATE_PLAN_LOCATION_ROUTE_TYPE, updateLocationRouteSaga);
+    yield takeLatest(DELETE_PLAN_LOCATION_ROUTE_TYPE, deleteLocationRouteSaga);
 }
 
 const initialState = {
@@ -467,25 +556,122 @@ function plannerReducer(state = initialState, action) {
             };
 
         case CREATE_LOCATION_SUCCESS_TYPE:
+            // return {
+            //     ...state,
+            //     plannerData: {
+            //         ...state.plannerData,
+            //     },
+            // };
             return {
                 ...state,
-                plannerData: {
-                    ...state.plannerData,
-                },
-            };
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) =>
+                        plan.planId === action.info.planId ? {
+                            ...plan,
+                            planLocations: plan.planLocations.concat({
+                                ...action.info,
+                                locationId: action.payload.data,
+                            })
+                        } : plan)
+                }
+            }
         case UPDATE_LOCATION_SUCCESS_TYPE:
             return {
                 ...state,
-                plannerData: {
-                    ...state.plannerData,
-                },
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocations: plan.planLocations.map((location) => location.locationId === action.info.locationId ? {
+                            ...location,
+                            locationTransportation: action.info.locationTransportation
+                        } : location)
+                    } : plan)
+                }
             };
         case DELETE_LOCATION_SUCCESS_TYPE:
             return {
                 ...state,
-                plannerData: {
-                    ...state.plannerData,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocations: plan.planLocations.filter((location) => location.locationId !== action.info.locationId),
+                    } : plan)
+                }
+            };
+        case FIND_ROUTE_MAP_SUCCESS_TYPE:
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) =>
+                        plan.planId === action.info.planId ? {
+                            ...plan,
+                            planLocationRoutes: plan.planLocationRoutes.concat(action.info.routeInfoList.map((info, index) => ({
+                                planId: info.planId,
+                                startIndex: info.startIndex,
+                                endIndex: info.endIndex,
+                                routeList: action.payload.data[index].routeList
+                            })))
+                        } : plan)
+                }
+            }
+        case FIND_ALL_ROUTE_MAP_SUCCESS_TYPE:
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocationRoutes: plan.planLocationRoutes.map((route, index) => ({
+                            ...route,
+                            startIndex: action.info.routeInfoList[index].startIndex,
+                            endIndex: action.info.routeInfoList[index].endIndex,
+                            routeList: action.payload.data[index].routeList
+                        })),
+                    } : plan),
                 },
+            }
+        case CREATE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE:
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) =>
+                        plan.planId === action.info.planId ? {
+                            ...plan,
+                            planLocationRoutes: plan.planLocationRoutes.map((route) => route.startIndex === action.info.startIndex && route.endIndex === action.info.endIndex ? {
+                                ...route,
+                                id: action.payload.data,
+                            } : route)
+                        } : plan)
+                },
+            };
+        case UPDATE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE:
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocationRoutes: plan.planLocationRoutes.map((route) => route.id === action.info.locationRouteId ? {
+                            ...route, ...action.info
+                        } : route),
+                    } : plan),
+                },
+            };
+        case DELETE_PLAN_LOCATION_ROUTE_SUCCESS_TYPE:
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocationRoutes: plan.planLocationRoutes.filter((route) => route.id !== action.info.locationRouteId),
+                    } : plan)
+                }
             };
         case CHANGE_MAP_DATA_TYPE:
             return {

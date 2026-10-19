@@ -1,5 +1,6 @@
-import { call, put } from 'redux-saga/effects';
+import { all, call, put } from 'redux-saga/effects';
 import { loadingFinishAction, loadingStartAction } from '../modules/loadingModule';
+import { setRequestSuccess } from '../modules/requestStateModule';
 
 export default function createSaga(type, request) {
     return function* (action) {
@@ -12,8 +13,15 @@ export default function createSaga(type, request) {
             yield put({
                 type: success,
                 payload: response.data,
-                response: response
+                response: response,
+                info: action.info
             });
+
+            if (action.sub != null && action.sub.onSuccess != null) {
+                yield put(action.sub.onSuccess(response.data));
+            }
+
+            yield put(setRequestSuccess(type, true));
         }
         catch (e) {
             if (e.code == 'ERR_CANCELED') {
@@ -22,13 +30,17 @@ export default function createSaga(type, request) {
                 });
             }
             else {
-                yield put({
-                    type: failure,
-                    payload: e.response.data,
-                    response: e.response
-                });
+                console.error(e);
+                // yield put({
+                //     type: failure,
+                //     payload: e.response.data,
+                //     response: e.response,
+                //     info: action.info
+                // });
             }
+            yield put(setRequestSuccess(type, false));
         }
         yield put(loadingFinishAction(type));
+        yield put(setRequestSuccess(type, false));
     }
 }

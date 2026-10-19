@@ -15,8 +15,8 @@ export const loadReview = ({ reviewId }) => {
     return client.get(`${basePath}/${reviewId}`);
 };
 
-export const updateReview = ({ reviewId, title, content, fileList }) => {
-    return client.patch(`${basePath}/${reviewId}`, { reviewId, title, content, fileNames: fileList });
+export const updateReview = ({ reviewId, title, PlannerId, content, fileList }) => {
+    return client.patch(`${basePath}/${reviewId}`, { reviewId, title, plannerId: PlannerId, content, fileNames: fileList });
 };
 
 export const deleteReview = ({ reviewId }) => {
