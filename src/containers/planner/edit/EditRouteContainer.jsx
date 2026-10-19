@@ -300,7 +300,7 @@ const EditRouteContainer = () => {
                 locationAddr,
                 locationMapx,
                 locationMapy,
-                index,
+                locationIndex,
             } = locationData;
             const queryString = {
                 plannerId,
@@ -313,7 +313,7 @@ const EditRouteContainer = () => {
                 locationMapy,
                 locationTransportation: trans,
                 planId,
-                index,
+                locationIndex,
             };
             dispatch(updateLocationAction(queryString));
         }

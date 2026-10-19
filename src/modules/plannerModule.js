@@ -219,7 +219,7 @@ export const updateLocationAction = ({
     locationMapy,
     locationTransportation,
     planId,
-    index,
+    locationIndex,
 }, sub) => ({
     type: UPDATE_LOCATION_TYPE,
     plannerId,
@@ -232,8 +232,13 @@ export const updateLocationAction = ({
     locationMapy,
     locationTransportation,
     planId,
-    index,
-    sub
+    locationIndex,
+    sub,
+    info: {
+        planId,
+        locationId,
+        locationTransportation
+    }
 });
 export const deleteLocationAction = ({ plannerId, locationId, planId }) => ({
     type: DELETE_LOCATION_TYPE,
@@ -572,7 +577,19 @@ function plannerReducer(state = initialState, action) {
                 }
             }
         case UPDATE_LOCATION_SUCCESS_TYPE:
-            return state;
+            return {
+                ...state,
+                planner: {
+                    ...state.planner,
+                    plans: state.planner.plans.map((plan) => plan.planId === action.info.planId ? {
+                        ...plan,
+                        planLocations: plan.planLocations.map((location) => location.locationId === action.info.locationId ? {
+                            ...location,
+                            locationTransportation: action.info.locationTransportation
+                        } : location)
+                    } : plan)
+                }
+            };
         case DELETE_LOCATION_SUCCESS_TYPE:
             return {
                 ...state,

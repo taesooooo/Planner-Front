@@ -296,11 +296,15 @@ const EditListContainer = () => {
                 (route) => route.startIndex === startIndex && route.endIndex === endIndex,
             );
 
+            if (planRoute.routeList.length === 0) {
+                return;
+            }
+
             const routeInfo = {
                 planId,
                 startIndex,
                 endIndex,
-                routeList: planRoute.routeList || [],
+                routeList: planRoute.routeList,
             };
 
             dispatch(createLocationRouteAction(plannerId, planId, routeInfo));
